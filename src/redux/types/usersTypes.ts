@@ -1,0 +1,11 @@
+const usersTypes = {
+    GET_USERS: 'GET_USERS',
+    GET_USER: 'GET_USER',
+    UPDATE_USER: 'UPDATE_USER',
+    CHANGE_USER_PASSWORD: 'CHANGE_USER_PASSWORD',
+
+    GET_GROUPS: 'GET_GROUPS',
+    GET_EVENTS: 'GET_EVENTS',
+}
+
+export default usersTypes;

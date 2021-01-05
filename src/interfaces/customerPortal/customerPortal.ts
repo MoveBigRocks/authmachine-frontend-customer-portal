@@ -1,0 +1,20 @@
+export interface CustomerPortalProps {
+    auth: () => void,
+    user: {
+        username?: string | null,
+        id: number | null,
+        avatar?: string | null,
+        isAuthenticated: boolean
+    },
+    loading: boolean,
+    eventsExists: boolean,
+    match: {
+        path: string,
+    }
+    getFeaturesList: () => void,
+}
+
+export interface CustomerPortalState {
+    collapsed: boolean,
+    selectedMenuItems: string[],
+}

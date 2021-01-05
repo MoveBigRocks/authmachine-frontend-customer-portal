@@ -1,0 +1,29 @@
+.address-info {
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  padding: 14px 16px;
+  position: relative;
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    button {
+      width: calc(50% - 5px);
+    }
+  }
+  .text-info {
+    margin-bottom: 5px;
+  }
+  .formatted {
+    color: #1890ff;
+    margin-bottom: 10px;
+    text-decoration: underline dashed;
+    display: block;
+    font-size: 13px;
+  }
+}

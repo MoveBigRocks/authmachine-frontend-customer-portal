@@ -1,0 +1,15 @@
+.my-profile-edit {
+  button, input {
+    border-radius: 4px;
+  }
+  .avatar-container {
+    .description {
+      color: #b1b1bf;
+      font-size: 13px;
+    }
+  }
+  .address-info-container {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}

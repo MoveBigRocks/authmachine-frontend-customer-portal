@@ -1,0 +1,36 @@
+.site-item {
+  transition: .3s ease;
+  border-radius: 3px;
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 3px;
+  }
+  h4 {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  &:hover {
+    box-shadow: 0 2px 4px 0 rgba(33, 33, 33, 0.075);
+    cursor: pointer;
+    .right-arrow {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  .right-arrow {
+    position: absolute;
+    right: 24px;
+    font-size: 16px;
+    top: calc((98px / 2) - 8px);
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s ease;
+    color: #a7a7a7;
+  }
+}

@@ -1,0 +1,46 @@
+.edit-btn {
+  padding: 8px 18px;
+  font-size: 16px;
+  height: auto;
+  border-radius: 3px;
+  border-color: #e2e2e2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+
+  svg {
+    font-size: 20px;
+    path {
+      color: #999;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+  }
+  &:hover {
+    svg {
+      path {
+        color: #40a9ff;
+      }
+    }
+  }
+}
+.my-profile {
+  .details-table {
+    font-size: 15px;
+
+    > .ant-col {
+      border-bottom: 1px solid #ededf2;
+      padding: 12px 0;
+
+      .ant-row {
+        .ant-col {
+          &:first-of-type {
+            color: #8e8e8e;
+          }
+        }
+      }
+    }
+  }
+}
