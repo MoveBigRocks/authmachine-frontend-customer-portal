@@ -22,8 +22,8 @@ import ChangePassword from "../../pages/ChangePassword/ChangePassword";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
-import {CustomerPortalProps} from "../../interfaces/customerPortal/customerPortal";
 import { AppProps, AppState } from "../../interfaces/app";
+import {Helmet} from "react-helmet";
 
 const {Header, Sider, Content} = Layout;
 
@@ -36,7 +36,7 @@ const links = {
 };
 
 class App extends React.Component<AppProps, AppState> {
-    constructor(props: CustomerPortalProps) {
+    constructor(props: AppProps) {
         super(props)
         this.state = {
             collapsed: false,
@@ -69,12 +69,15 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     render() {
-        const {loading, user, eventsExists} = this.props;
+        const {loading, user, eventsExists, pageTitle} = this.props;
         const {collapsed, selectedMenuItems} = this.state;
 
         return (
             <Router history={history}>
                 <div className="customer-portal">
+                    <Helmet>
+                        <title>{pageTitle}</title>
+                    </Helmet>
                     <Spin tip="Loading..." spinning={loading}>
                         <Layout>
                             <Header className="bg-white logo-header" style={{width: "100%"}}>
@@ -156,6 +159,7 @@ const mapStateToProps = (state: RootState) => {
         user: state.user,
         loading: state.main.loading,
         eventsExists: state.user.eventsExists,
+        pageTitle: state.main.pageTitle,
     }
 };
 

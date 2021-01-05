@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
 import {RootState} from "../../redux/reducer";
 import {Typography, Select, DatePicker, Pagination, Table} from "antd";
 import {RecentActivityProps} from "../../interfaces/customerPortal/recentActivity";
 import {eventActions} from "../../redux/actions/eventActions";
 import helpers from "../../helpers";
+import "./RecentActivity.scss";
+import {mainActions} from "../../redux/actions/mainActions";
 
 const eventTypes = [
     {value: "all", title: "All events"},
@@ -42,17 +43,16 @@ const getTableColumns = () => {
     ];
 };
 
-export const RecentActivity = ({events, page, pageSize, total, getEvents}: RecentActivityProps) => {
+export const RecentActivity = ({events, page, pageSize, total, getEvents, setPageTitle}: RecentActivityProps) => {
     const [eventType, setEventType] = useState<string>("all");
     const [date, setDate] = useState<null | string[]>(null);
 
     useEffect(() => getEvents({}), [getEvents]);
 
+    useEffect(() => setPageTitle("Recent Activity"), [setPageTitle]);
+
     return (
         <div className="recent-activity">
-            <Helmet>
-                <title>Recent Activity</title>
-            </Helmet>
             <Typography.Title level={4} style={{marginBottom: "1.5rem"}}>Recent Activity</Typography.Title>
             Event:
             <Select
@@ -126,6 +126,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     getEvents: eventActions.getEvents,
+    setPageTitle: mainActions.setPageTitle,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecentActivity);

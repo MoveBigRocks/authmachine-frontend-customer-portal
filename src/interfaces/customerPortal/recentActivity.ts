@@ -6,4 +6,5 @@ export interface RecentActivityProps {
     page: number,
     pageSize: number,
     getEvents: (data: getEventsData) => void,
+    setPageTitle: (pageTitle: string) => void,
 }

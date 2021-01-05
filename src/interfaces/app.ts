@@ -8,9 +8,7 @@ export interface AppProps {
     },
     loading: boolean,
     eventsExists: boolean,
-    match: {
-        path: string,
-    }
+    pageTitle: string,
     getFeaturesList: () => void,
 }
 

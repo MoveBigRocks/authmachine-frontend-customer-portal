@@ -6,6 +6,7 @@ export interface MyProfileProps {
         path: string,
     },
     getUser: (id: string) => void,
+    setPageTitle: (pageTitle: string) => void,
 }
 
 export interface MyProfileEditProps {

@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
 import {RootState} from "../../redux/reducer";
 import {Link} from "react-router-dom";
 import {Row, Col, Avatar, Typography, Button} from "antd";
@@ -9,6 +8,7 @@ import {usersActions} from "../../redux/actions/usersActions";
 import {EditFilled, UserOutlined} from "@ant-design/icons";
 import "./MyProfile.scss";
 import {UserInterface} from "../../interfaces/user";
+import {mainActions} from "../../redux/actions/mainActions";
 
 const getUserLocation = (user: UserInterface | null) => {
     if (user?.addresses) {
@@ -25,16 +25,13 @@ const getUserLocation = (user: UserInterface | null) => {
     }
 }
 
-export const MyProfile = ({user, getUser}: MyProfileProps) => {
-    useEffect(() => {
-        getUser("me")
-    }, [getUser]);
+export const MyProfile = ({user, getUser, setPageTitle}: MyProfileProps) => {
+    useEffect(() => getUser("me"), [getUser]);
+
+    useEffect(() => setPageTitle("My Profile"), [setPageTitle])
 
     return (
         <div className="my-profile">
-            <Helmet>
-                <title>My Profile</title>
-            </Helmet>
             <Row className="d-flex-justify">
                 <div className="d-flex-center">
                     {user?.avatar
@@ -82,6 +79,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     getUser: usersActions.getUser,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

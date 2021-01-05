@@ -1,23 +1,20 @@
 import React, { useEffect } from "react";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
 import {RootState} from "../../redux/reducer";
 import {SitesEnabledProps} from "../../interfaces/customerPortal/sitesEnabled";
 import SiteItem from "../../components/customerPortal/SiteItem/SiteItem";
 import { Row, Col } from "antd";
 import {applicationActions} from "../../redux/actions/applicationActions";
+import {mainActions} from "../../redux/actions/mainActions";
 
-export const SitesEnabled = ({applications, getApplications}: SitesEnabledProps) => {
+export const SitesEnabled = ({applications, getApplications, setPageTitle}: SitesEnabledProps) => {
 
-    useEffect(() => {
-        getApplications()
-    }, [getApplications]);
+    useEffect(() => getApplications(), [getApplications]);
+
+    useEffect(() => setPageTitle("Sites Enabled"), [setPageTitle]);
 
     return (
         <>
-            <Helmet>
-                <title>AuthMachine</title>
-            </Helmet>
             <p style={{fontSize: 18}}>Sites where you can authenticate using AuthMachine:</p>
             <Row gutter={16}>
                 {applications.map((s) => (
@@ -39,6 +36,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     getApplications: applicationActions.getApplications,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SitesEnabled);
