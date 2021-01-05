@@ -51,7 +51,7 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 features: action.data,
-                eventsExists: action.data.includes('events')
+                eventsExists: action.data.includes("events")
             }
         default:
             return state;

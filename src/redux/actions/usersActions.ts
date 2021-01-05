@@ -193,6 +193,42 @@ const changeUserPassword = (userId: string, password: string) => {
     }
 }
 
+const changeCurrentUserPassword = (oldPassword: string, newPassword: string) => {
+    let query = `
+        mutation {
+          userChangeCurrentPassword(oldPassword: "${oldPassword}", newPassword: "${newPassword}") {
+            status,
+            message
+          }
+        }`;
+
+    return (dispatch: AppDispatch) => {
+        mainActions.loading(true, dispatch);
+        const changeUserDispatch = (operationStatus: boolean) =>
+            dispatch({
+                type: usersTypes.CHANGE_USER_PASSWORD,
+                operationStatus
+            });
+        changeUserDispatch(false);
+
+        request.postWithErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {userChangeCurrentPassword} = result.data;
+                let operationStatus = true;
+                if (userChangeCurrentPassword.status) {
+                    alertActions.success("The password was updated successfully");
+                } else {
+                    operationStatus = false;
+                    alertActions.error(userChangeCurrentPassword.message);
+                }
+                changeUserDispatch(operationStatus);
+            },
+            () => changeUserDispatch(false));
+    }
+}
+
 const getUser = (userId: string) => {
     return (dispatch: AppDispatch) => {
         let query = `query {
@@ -302,4 +338,5 @@ export const usersActions = {
     getGroups,
     getEvents,
     changeUserPassword,
+    changeCurrentUserPassword,
 };

@@ -7,7 +7,7 @@ import { Row, Col } from "antd";
 import {applicationActions} from "../../redux/actions/applicationActions";
 import {mainActions} from "../../redux/actions/mainActions";
 
-export const SitesEnabled = ({applications, getApplications, setPageTitle}: SitesEnabledProps) => {
+const SitesEnabled = ({applications, getApplications, setPageTitle}: SitesEnabledProps) => {
 
     useEffect(() => getApplications(), [getApplications]);
 

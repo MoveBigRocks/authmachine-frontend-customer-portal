@@ -1,69 +1,103 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
-import {withRouter} from "react-router-dom";
-import {eventActions} from "../../redux/actions/eventActions";
-import {ChangePasswordState, ChangePasswordProps} from "../../interfaces/customerPortal/changePassword";
-import {Typography, Form, Input, Button} from "antd";
+import {ChangePasswordProps} from "../../interfaces/customerPortal/changePassword";
+import {Typography, Form, Input, Button, Col, Row} from "antd";
 import {PasswordInput} from "antd-password-input-strength";
+import {mainActions} from "../../redux/actions/mainActions";
+import {usersActions} from "../../redux/actions/usersActions";
+import {RootState} from "../../redux/reducer";
 
 const {Password} = Input;
 
-class ChangePassword extends React.Component<ChangePasswordProps, ChangePasswordState> {
+const passwordInputSettings = {
+    height: 5,
+    alwaysVisible: true,
+    colorScheme: {
+        levels: Array(5).fill("#1890ff"),
+        noLevel: "lightgrey",
+    },
+};
 
-    constructor(props: ChangePasswordProps) {
-        super(props);
-        this.state = {
-            oldPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        }
-    }
+const ChangePassword = ({setPageTitle, changePassword, status}: ChangePasswordProps) => {
+    const [form] = Form.useForm();
 
-    componentDidMount() {
+    const [oldPass, setOldPass] = useState("");
+    const [newPass, setNewPass] = useState("");
+    const [confirmPass, setConfirmPass] = useState("");
 
-    }
+    const onFinish = () => changePassword(oldPass, newPass);
 
+    useEffect(() => setPageTitle("Change Password"), [setPageTitle]);
 
-    render() {
+    useEffect(() => {
+        if (status) form.resetFields();
+    }, [status, form]);
 
-        return (
-            <>
-                <Helmet>
-                    <title>Change Password</title>
-                </Helmet>
-                <Typography.Title level={4} style={{marginBottom: "1.5rem"}}>Change Password</Typography.Title>
-                <Form layout="vertical">
-                    <Form.Item label="Old Password" name="oldPassword">
-                        <Password placeholder="Enter old password" />
-                    </Form.Item>
-                    <Form.Item label="New Password" name="newPassword">
-                        <PasswordInput settings={{height: 6, alwaysVisible: true, colorScheme: {levels: ["#ff4033", "#fe940d", "#ffd908", "#cbe11d", "#000"], noLevel: "lightgrey"}}}
-                                       inputProps={{
-                                           size: 'large'
-                                       }} />
-                        {/*<Password placeholder="Enter new password" />*/}
-                        {/*<Progress steps={4} percent={50} style={{width: "100%"}} />*/}
-                    </Form.Item>
-                    <Form.Item label="Confirm Password" name="confirmPassword">
-                        <Password placeholder="Confirm new password" />
-                    </Form.Item>
-                    <Button type="primary">
-                        Save New Password
-                    </Button>
-                </Form>
-            </>
-        )
-    }
+    return (
+        <>
+            <Typography.Title level={4} style={{marginBottom: "1.5rem"}}>Change Password</Typography.Title>
+            <Row style={{maxWidth: 800}}>
+                <Col md={24} lg={14}>
+                    <Form layout="vertical" onFinish={onFinish} form={form}>
+                        <Form.Item label="Old Password" name="oldPassword"
+                                   rules={[{
+                                       required: true,
+                                       message: "Please input your old password",
+                                   }]}>
+                            <Password placeholder="Enter old password"
+                                      value={oldPass}
+                                      onChange={e => setOldPass(e.target.value)} />
+                        </Form.Item>
+                        <Form.Item label="New Password" name="newPassword"
+                                   rules={[{
+                                       required: true,
+                                       message: "Please input your new password",
+                                   }]}>
+                            <PasswordInput settings={passwordInputSettings}
+                                           inputProps={{value: newPass}}
+                                           onChange={e => setNewPass(e.target.value)} />
+                        </Form.Item>
+                        <Form.Item label="Confirm Password" name="confirmPassword"
+                                   dependencies={['newPassword']}
+                                   hasFeedback
+                                   rules={[
+                                       {
+                                           required: true,
+                                           message: "Please confirm your new password",
+                                       },
+                                       ({ getFieldValue }) => ({
+                                            validator(_, value) {
+                                                if (!value || getFieldValue('newPassword') === value) {
+                                                    return Promise.resolve();
+                                                }
+                                                return Promise.reject('The two passwords that you entered do not match!');
+                                            },
+                                       }),
+                                   ]}>
+                            <Password placeholder="Confirm new password"
+                                      value={confirmPass}
+                                      onChange={e => setConfirmPass(e.target.value)} />
+                        </Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            Save New Password
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
+        </>
+    )
 }
+
+const mapStateToProps = (state: RootState) => {
+    const {operationStatus} = state.users;
+    return { status: operationStatus };
+};
 
 
 const mapDispatchToProps = {
-    getEvents: eventActions.getEvents,
+    changePassword: usersActions.changeCurrentUserPassword,
+    setPageTitle: mainActions.setPageTitle,
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(withRouter(ChangePassword))
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
 

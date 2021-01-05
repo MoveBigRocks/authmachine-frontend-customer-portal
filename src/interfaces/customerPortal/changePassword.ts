@@ -1,8 +1,5 @@
 export interface ChangePasswordProps {
-}
-
-export interface ChangePasswordState {
-    oldPassword: string,
-    newPassword: string,
-    confirmPassword: string,
+    status: boolean,
+    setPageTitle: (pageTitle: string) => void,
+    changePassword: (oldPass: string, newPass: string) => void,
 }
