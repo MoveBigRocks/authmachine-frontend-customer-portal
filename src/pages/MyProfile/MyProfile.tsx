@@ -41,27 +41,27 @@ export const MyProfile = ({user, getUser, setPageTitle}: MyProfileProps) => {
                     <Typography.Title level={2} style={{marginBottom: 0, marginLeft: 15}}>{user?.username}</Typography.Title>
                 </div>
                 <div className="d-flex-center">
-                    <Link to={`/profile-edit`}>
+                    <Link to="/profile-edit">
                         <Button className="edit-btn">
                             <EditFilled size={25} /> Edit
                         </Button>
                     </Link>
                 </div>
             </Row>
-            <Row className="details-table" style={{paddingTop: 20}}>
-                <Col sm={20}>
+            <Row className="details-table" style={{paddingTop: 20, maxWidth: 800}} >
+                <Col sm={24}>
                     <Row>
                         <Col sm={6}>Full Name</Col>
                         <Col sm={11}>{user?.displayName}</Col>
                     </Row>
                 </Col>
-                <Col sm={20}>
+                <Col sm={24}>
                     <Row>
                         <Col sm={6}>Location</Col>
                         <Col sm={11}>{getUserLocation(user)}</Col>
                     </Row>
                 </Col>
-                <Col sm={20}>
+                <Col sm={24}>
                     <Row>
                         <Col sm={6}>Nick Name</Col>
                         <Col sm={11}>{user?.nickName}</Col>

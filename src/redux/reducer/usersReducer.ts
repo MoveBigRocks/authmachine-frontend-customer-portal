@@ -76,6 +76,7 @@ const usersReducer = (state = initialState, action: ActionType) => {
                 groups: action.data
             }
         case usersTypes.CHANGE_USER_PASSWORD:
+        case usersTypes.UPDATE_OPERATION_STATUS:
             return {
                 ...state,
                 operationStatus: action.operationStatus
@@ -86,6 +87,9 @@ const usersReducer = (state = initialState, action: ActionType) => {
                 events: action.data
             }
         case usersTypes.GET_USER:
+        case usersTypes.SET_USER:
+        case usersTypes.UPDATE_USER:
+            console.log("prev user", state.user, "new user", action.user);
             return {
                 ...state,
                 user: action.user

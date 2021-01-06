@@ -2,7 +2,7 @@ import {AppDispatch} from "../store";
 import {alertActions} from "./alertActions";
 import {mainActions} from "./mainActions";
 import usersTypes from "../types/usersTypes";
-import {getUsersData} from "../../interfaces/user";
+import {getUsersData, UserInterface} from "../../interfaces/user";
 import request from '../helpers/request';
 
 const getUsers = (data: getUsersData) => {
@@ -332,9 +332,168 @@ const getUser = (userId: string) => {
     }
 }
 
+const setUser = (user: UserInterface) => {
+    return (dispatch: AppDispatch) => {
+        dispatch({
+            type: usersTypes.SET_USER,
+            user
+        })
+    }
+}
+
+const updateUser = () => {
+    return (dispatch: AppDispatch, getState: any) => {
+        const {user} = getState().users;
+        mainActions.loading(true, dispatch);
+        const dispatchEvent = (operationStatus: boolean) =>
+            dispatch({
+                type: usersTypes.UPDATE_OPERATION_STATUS,
+                operationStatus
+            });
+        dispatchEvent(false);
+
+        let query = `
+        mutation {
+          userUpdate(id: "${user.id}", input: {
+            username: "${user.username}",
+            nickName: "${user.nickName ? user.nickName : ""}",
+            emails: [${user.emails.map((e: any) => 
+            `{value: "${e.value}", primary: ${e.primary} ${e.type ? `, type: "${e.type}"` : ""} ${e.hasOwnProperty("id") ? `, id: ${e.id}` : ""}}`)}],
+            phones: [${user.phoneNumbers.map((p: any) => 
+            `{value: "${p.value}"${p.type ? `, type: "${p.type}"` : ""}${p.hasOwnProperty("id") ? `, id: ${p.id}` : ""}}`)}],
+            addresses: [${user.addresses.map((a: any) => 
+            `{primary: ${a.primary}
+            ${a.type ? `, type: "${a.type}"` : ""}
+            ${a.locality ? `, locality: "${a.locality}"` : ""}
+            ${a.country ? `, country: "${a.country}"` : ""}
+            ${a.formatted ? `, formatted: "${a.formatted}"` : ""}
+            ${a.postalCode ? `, postalCode: "${a.postalCode}"` : ""}
+            ${a.region ? `, region: "${a.region}"` : ""}
+            ${a.streetAddress ? `, streetAddress: "${a.streetAddress}"` : ""}
+            ${a.hasOwnProperty("id") ? `, id: ${a.id}` : ""}}`)}],
+          }) {
+            user {
+                url,
+                id,
+                username,
+                schemas,
+                externalId,
+                nickName,
+                displayName,
+                profileUrl,
+                userType,
+                title,
+                preferredLanguage,
+                locale,
+                timezone,
+                active,
+                activated
+                isSuperuser,
+                activationCode,
+                activationEmailFailed,
+                createdAt,
+                activatedAt,
+                repositories {
+                  url,
+                  id
+                },
+                permissions {
+                  id,
+                  object {
+                    id,
+                    code,
+                    name
+                  },
+                  type {
+                    id,
+                    code,
+                    name
+                  }
+                },
+                x509Certificates {
+                  value
+                },
+                groups {
+                  id, value, displayName
+                },
+                meta {
+                  lastModified,
+                  location,
+                  created
+                },
+                emails {
+                  id,
+                  value,
+                  type,
+                  primary
+                },
+                name {
+                  formatted,
+                  familyName,
+                  givenName,
+                  middleName,
+                  honorificPrefix,
+                  honorificSuffix
+                },
+                addresses {
+                  id,
+                  type,
+                  streetAddress,
+                  locality,
+                  region,
+                  postalCode,
+                  country,
+                  formatted,
+                  primary
+                },
+                phoneNumbers {
+                  id,
+                  value,
+                  type
+                },
+                ims {
+                  value,
+                  type
+                },
+                photos {
+                  type,
+                  value,
+                  image
+                }
+            }
+          }
+        }`;
+
+        console.log(query);
+
+        request.postWithErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {data} = result;
+                let operationSuccess = !data.hasOwnProperty('errors')
+                mainActions.loading(false, dispatch);
+                operationSuccess
+                    ? alertActions.success("User information was updated successfully")
+                    : alertActions.error(data.errors[0].message);
+                dispatch({
+                    type: usersTypes.UPDATE_USER,
+                    user: data.userUpdate.user
+                })
+                dispatchEvent(operationSuccess)
+            },
+            () => {
+                dispatchEvent(false);
+                mainActions.loading(false, dispatch);
+            });
+    }
+}
+
 export const usersActions = {
     getUsers,
     getUser,
+    setUser,
+    updateUser,
     getGroups,
     getEvents,
     changeUserPassword,

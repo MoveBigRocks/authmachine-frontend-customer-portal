@@ -1,6 +1,5 @@
-import React from "react";
+import React, {createRef} from "react";
 import {connect} from "react-redux";
-import {Helmet} from "react-helmet";
 import {RootState} from "../../redux/reducer";
 import {Row, Col, Avatar, Typography, Button, Form, Input} from "antd";
 import {MyProfileEditProps, MyProfileEditState} from "../../interfaces/customerPortal/myProfile";
@@ -9,9 +8,11 @@ import "./MyProfileEdit.scss";
 import {DeleteFilled, PlusOutlined, UserOutlined, CloseOutlined, CloudUploadOutlined} from "@ant-design/icons";
 import {GroupInterface} from "../../interfaces/group";
 import AddressEdit from "../../components/customerPortal/AddressEdit/AddressEdit";
+import {mainActions} from "../../redux/actions/mainActions";
 
 
 class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditState> {
+    private formRef = createRef<any>();
 
     constructor(props: MyProfileEditProps) {
         super(props);
@@ -20,10 +21,25 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<MyProfileEditProps>, prevState: Readonly<MyProfileEditState>, snapshot?: any) {
+        if (this.formRef.current) {
+           // @ts-ignore
+            const username = this.getUserProperty("username");
+            const email = this.getUserPrimaryEmail();
+            const nickName = this.getUserProperty("nickName");
+            this.formRef.current.setFieldsValue({
+                username,
+                email,
+                nickName,
+            });
+        }
+    }
+
     componentDidMount() {
-        const {getUser, getGroups} = this.props;
+        const {getUser, getGroups, setPageTitle} = this.props;
         getUser("me");
         getGroups();
+        setPageTitle("Edit Profile");
     }
 
     getUserProperty = (propName: string, type: string = "string") => {
@@ -80,13 +96,8 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         let {user, setUser, groups} = this.props;
         if (typeof (value) === "object" && !Array.isArray(value)) value = value.target.value;
         if (user !== null) {
-            if (propName === "groups") {
-                user.groups = groups.filter(g => value.includes(g.id));
-            } else {
-                // @ts-ignore
-                user[propName] = value;
-            }
-
+            // @ts-ignore
+            user[propName] = (propName === "groups") ? groups.filter(g => value.includes(g.id)) : value;
             setUser(user);
             this.setState({updated: true});
         }
@@ -97,10 +108,12 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         let emails: any[] = [];
         if (user !== null) {
             emails = user.emails;
-            return emails.filter((e: GroupInterface) => e.primary);
-        } else {
-            return emails
+            emails = emails.filter((e: GroupInterface) => e.primary);
+            if (emails.length === 0 && user.emails.length > 0) {
+                return [user.emails[0]]
+            }
         }
+        return emails
     }
 
     getAdditionalEmails = () => {
@@ -222,25 +235,20 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         ))
     }
 
+    onFinish = () => this.props.updateUser();
+
     render() {
         const {user} = this.props;
         console.log("user", user);
-        const username = this.getUserProperty("username");
-        const email = this.getUserPrimaryEmail();
-        const nickName = this.getUserProperty("nickName");
+
         return (
             <div className="my-profile-edit">
-                <Helmet>
-                    <title>Edit Profile</title>
-                </Helmet>
                 <Typography.Title style={{margin: "20px 0"}} level={5}>Main Details</Typography.Title>
                 <Form labelCol={{ span: 5 }}
                       wrapperCol={{ span: 10 }}
-                      initialValues={{
-                          username,
-                          email,
-                          nickName,
-                      }}
+                      // @ts-ignore
+                      ref={this.formRef}
+                      onFinish={this.onFinish}
                       className="user-form"
                       layout="horizontal">
                     <Form.Item label="Avatar" name="avatar">
@@ -261,46 +269,43 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                     </Form.Item>
                     <Form.Item label="Email" name="email" required>
                         <Input placeholder="Enter email"
-                               value={email}
                                onChange={(e) => this.updateUserPrimaryEmail(e) } />
                     </Form.Item>
                     <Form.Item label="Username" name="username">
                         <Input placeholder="Enter username"
                                name="username"
-                               value={username}
                                onChange={(e) => this.updateUserProperty(e, "username")} />
                     </Form.Item>
                     <Form.Item label="Nick Name" name="nickName">
                         <Input placeholder="Enter nick name"
-                               value={nickName}
                                onChange={(e) => this.updateUserProperty(e, "nickName")} />
                     </Form.Item>
-                    <Form.Item label="Additional Email" name="additional-email">
+                    <Form.Item label="Additional Email">
                         {this.renderAdditionalEmails()}
                         <Button type="link" className="p-0" onClick={this.addEmail}>
                             <PlusOutlined /> Add Email
                         </Button>
                     </Form.Item>
-                    <Form.Item label="Phone" name="phone">
+                    <Form.Item label="Phone">
                         {this.renderPhoneNumbers()}
                         <Button type="link" className="p-0" onClick={this.addPhoneNumber}>
                             <PlusOutlined /> Add Phone
                         </Button>
                     </Form.Item>
+                    <Row>
+                        <Col span={15}>
+                            <Typography.Title style={{margin: "20px 0"}} level={5} className="d-flex-justify">
+                                Address information
+                                <Button type="link" className="p-0"><PlusOutlined /> Add Address</Button>
+                            </Typography.Title>
+                            <div className="address-info-container">
+                                <AddressEdit />
+                                <AddressEdit />
+                            </div>
+                            <Button type="primary" htmlType="submit">Save Profile Changes</Button>
+                        </Col>
+                    </Row>
                 </Form>
-                <Row>
-                    <Col span={15}>
-                        <Typography.Title style={{margin: "20px 0"}} level={5} className="d-flex-justify">
-                            Address information
-                            <Button type="link" className="p-0"><PlusOutlined /> Add Address</Button>
-                        </Typography.Title>
-                        <div className="address-info-container">
-                            <AddressEdit />
-                            <AddressEdit />
-                        </div>
-                        <Button type="primary">Save Profile Changes</Button>
-                    </Col>
-                </Row>
             </div>
         )
     }
@@ -315,6 +320,8 @@ const mapDispatchToProps = {
     getUser: usersActions.getUser,
     setUser: usersActions.setUser,
     getGroups: usersActions.getGroups,
+    setPageTitle: mainActions.setPageTitle,
+    updateUser: usersActions.updateUser,
 }
 
 export default connect(

@@ -19,6 +19,8 @@ export interface MyProfileEditProps {
     getUser: (id: string) => void,
     setUser: (user: UserInterface) => void,
     getGroups: () => void,
+    setPageTitle: (pageTitle: string) => void,
+    updateUser: () => void,
 }
 
 export interface MyProfileEditState {
