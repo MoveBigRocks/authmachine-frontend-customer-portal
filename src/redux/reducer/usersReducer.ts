@@ -89,7 +89,6 @@ const usersReducer = (state = initialState, action: ActionType) => {
         case usersTypes.GET_USER:
         case usersTypes.SET_USER:
         case usersTypes.UPDATE_USER:
-            console.log("prev user", state.user, "new user", action.user);
             return {
                 ...state,
                 user: action.user

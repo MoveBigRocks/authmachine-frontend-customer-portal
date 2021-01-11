@@ -21,8 +21,12 @@ export interface MyProfileEditProps {
     getGroups: () => void,
     setPageTitle: (pageTitle: string) => void,
     updateUser: () => void,
+    uploadUserPhoto: (file: any, imageType: string, updateUser: boolean) => void,
+    deleteAvatar: () => void,
 }
 
 export interface MyProfileEditState {
     updated: boolean,
+    showEditAddressModal: boolean,
+    editedAddress: any,
 }

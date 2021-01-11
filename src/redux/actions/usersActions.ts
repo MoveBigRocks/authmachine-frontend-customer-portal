@@ -29,6 +29,7 @@ const getUsers = (data: getUsersData) => {
             objects {
               url,
               id,
+              avatar,
               username,
               schemas,
               externalId,
@@ -235,6 +236,7 @@ const getUser = (userId: string) => {
           user (id: "${userId}") {
             url,
             id,
+            avatar,
             username,
             schemas,
             externalId,
@@ -362,19 +364,14 @@ const updateUser = () => {
             phones: [${user.phoneNumbers.map((p: any) => 
             `{value: "${p.value}"${p.type ? `, type: "${p.type}"` : ""}${p.hasOwnProperty("id") ? `, id: ${p.id}` : ""}}`)}],
             addresses: [${user.addresses.map((a: any) => 
-            `{primary: ${a.primary}
-            ${a.type ? `, type: "${a.type}"` : ""}
-            ${a.locality ? `, locality: "${a.locality}"` : ""}
-            ${a.country ? `, country: "${a.country}"` : ""}
-            ${a.formatted ? `, formatted: "${a.formatted}"` : ""}
-            ${a.postalCode ? `, postalCode: "${a.postalCode}"` : ""}
-            ${a.region ? `, region: "${a.region}"` : ""}
-            ${a.streetAddress ? `, streetAddress: "${a.streetAddress}"` : ""}
+            `{formatted: "${a.formatted}", primary: ${a.primary}, country: "${a.country}", type: "${a.type}", 
+            locality: "${a.locality}", postalCode: "${a.postalCode}", region: "${a.region}", streetAddress: "${a.streetAddress}"
             ${a.hasOwnProperty("id") ? `, id: ${a.id}` : ""}}`)}],
           }) {
             user {
                 url,
                 id,
+                avatar,
                 username,
                 schemas,
                 externalId,
@@ -464,8 +461,6 @@ const updateUser = () => {
           }
         }`;
 
-        console.log(query);
-
         request.postWithErrors(
             dispatch,
             query,
@@ -489,6 +484,79 @@ const updateUser = () => {
     }
 }
 
+const uploadUserPhoto = (file: any, imageType: string, updateUser: boolean = true) => {
+    return (dispatch: AppDispatch) => {
+        const dispatchEvent = (operationStatus: boolean) =>
+            dispatch({
+                type: usersTypes.UPDATE_OPERATION_STATUS,
+                operationStatus
+            });
+        dispatchEvent(false);
+        let query = `mutation {
+          userPhotoUpload(imageType: "${imageType}") {
+            photo {
+              id,
+              image,
+              type,
+              value
+            }
+          }
+        }`;
+        const data = new FormData();
+        data.append("file", file);
+        data.append("query", query);
+
+        request.postFormData(
+            dispatch,
+            data,
+            (result: any) => {
+                let {data} = result;
+                let operationSuccess = !data.hasOwnProperty("errors");
+                dispatchEvent(operationSuccess);
+                // @ts-ignore
+                if (updateUser) dispatch(getUser("me"));
+            },
+            () => {
+                dispatchEvent(false);
+            });
+    }
+}
+
+const deleteAvatar = () => {
+    return (dispatch: AppDispatch) => {
+        mainActions.loading(true, dispatch);
+        const dispatchEvent = (operationStatus: boolean) =>
+            dispatch({
+                type: usersTypes.UPDATE_OPERATION_STATUS,
+                operationStatus
+            });
+        dispatchEvent(false);
+
+        let query = `mutation {
+          userDeleteAvatar {
+            status
+          }
+        }`;
+
+        request.postWithErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {data} = result;
+                let operationSuccess = !data.hasOwnProperty("errors")
+                mainActions.loading(false, dispatch);
+                if (!operationSuccess) alertActions.error(data.errors[0].message);
+                // @ts-ignore
+                dispatch(getUser("me"));
+                dispatchEvent(operationSuccess);
+            },
+            () => {
+                dispatchEvent(false);
+                mainActions.loading(false, dispatch);
+            });
+    }
+}
+
 export const usersActions = {
     getUsers,
     getUser,
@@ -498,4 +566,6 @@ export const usersActions = {
     getEvents,
     changeUserPassword,
     changeCurrentUserPassword,
+    uploadUserPhoto,
+    deleteAvatar,
 };

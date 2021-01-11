@@ -1,7 +1,15 @@
 export function authHeader() {
-    // let token = localStorage.getItem('access_token');
     let headers = {
       'X-CSRFToken': getCookie('csrftoken')
+    };
+    return { headers: headers }
+}
+
+export function formDataHeader() {
+    let headers = {
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Content-Tranfer-Encoding': 'multipart/form-data',
+      'Content-Type': 'application/graphql',
     };
     return { headers: headers }
 }

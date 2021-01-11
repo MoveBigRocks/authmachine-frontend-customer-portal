@@ -1,6 +1,7 @@
 import { GroupInterface } from "./group";
 import {EventInterface} from "./events";
 import { PermissionInterface } from "./permissions";
+import {AddressInterface} from "./address";
 
 export interface UserInterface {
     id: string,
@@ -72,16 +73,18 @@ export interface UserEditProps {
     getGroups: () => void,
 }
 
-export interface UserEditState {
-    updated: boolean,
+
+export interface AddressProps {
+    address: AddressInterface,
+    deleteAddress: (address: AddressInterface) => void,
+    editAddress: (address: AddressInterface) => void,
 }
 
 export interface AddressEditProps {
-
-}
-
-export interface AddressEditState {
-
+    visible: boolean,
+    onCancel: () => void,
+    address: AddressInterface,
+    saveAddress: (values: AddressInterface) => void,
 }
 
 export interface UserDetailProps {

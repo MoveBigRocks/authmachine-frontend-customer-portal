@@ -1,15 +1,27 @@
 import React, {createRef} from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/reducer";
-import {Row, Col, Avatar, Typography, Button, Form, Input} from "antd";
+import {Row, Col, Avatar, Typography, Button, Form, Input, Upload} from "antd";
 import {MyProfileEditProps, MyProfileEditState} from "../../interfaces/customerPortal/myProfile";
 import {usersActions} from "../../redux/actions/usersActions";
 import "./MyProfileEdit.scss";
 import {DeleteFilled, PlusOutlined, UserOutlined, CloseOutlined, CloudUploadOutlined} from "@ant-design/icons";
 import {GroupInterface} from "../../interfaces/group";
-import AddressEdit from "../../components/customerPortal/AddressEdit/AddressEdit";
+import Address from "../../components/customerPortal/Address/Address";
 import {mainActions} from "../../redux/actions/mainActions";
+import {AddressInterface} from "../../interfaces/address";
+import AddressEdit from "../../components/customerPortal/AddressEdit/AddressEdit";
 
+const defaultAddress = {
+    formatted: "",
+    locality: "",
+    postalCode: "",
+    primary: false,
+    region: "",
+    streetAddress: "",
+    type: "",
+    country: "",
+};
 
 class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditState> {
     private formRef = createRef<any>();
@@ -18,6 +30,8 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         super(props);
         this.state = {
             updated: false,
+            showEditAddressModal: false,
+            editedAddress: defaultAddress,
         }
     }
 
@@ -178,21 +192,26 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
 
     renderAdditionalEmails = () => {
         const emails = this.getAdditionalEmails();
-        return emails.map((email, key: number) => (
-            <Col sm={24} className="d-flex" style={{marginBottom: 10}} key={key}>
-                <Row className="d-flex-justify">
-                    <Col sm={22}>
-                        <Input value={email.value}
-                               onChange={(e) => this.editAdditionalEmail(key, e.target.value)} />
-                    </Col>
-                    <Col sm={2}>
-                        <DeleteFilled className="hover-cursor"
-                                      style={{marginLeft: 10}}
-                                      onClick={() => this.removeAdditionalEmail(key)} />
-                    </Col>
-                </Row>
-            </Col>
-        ))
+        if (emails.length > 0) {
+            return emails.map((email, key: number) => (
+                <Col sm={24} className="d-flex" style={{marginBottom: 10}} key={key}>
+                    <Row className="d-flex-justify">
+                        <Col sm={22}>
+                            <Input value={email.value}
+                                   onChange={(e) => this.editAdditionalEmail(key, e.target.value)} />
+                        </Col>
+                        <Col sm={2}>
+                            <DeleteFilled className="hover-cursor"
+                                          style={{marginLeft: 10}}
+                                          onClick={() => this.removeAdditionalEmail(key)} />
+                        </Col>
+                    </Row>
+                </Col>
+            ))
+        } else {
+            return <div className="empty-container">Emails list is empty</div>;
+        }
+
     }
 
     addEmail = () => {
@@ -218,28 +237,74 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
 
     renderPhoneNumbers = () => {
         const phones = this.getPhoneNumbers();
-        return phones.map((phone, key: number) => (
-            <Col sm={24} className="d-flex" style={{marginBottom: 10}} key={key}>
-                <Row className="d-flex-justify">
-                    <Col sm={22}>
-                        <Input value={phone.value}
-                               onChange={(e) => this.editPhoneNumber(key, e.target.value)} />
-                    </Col>
-                    <Col sm={2}>
-                        <DeleteFilled className="hover-cursor"
-                                      style={{marginLeft: 10}}
-                                      onClick={() => this.removePhoneNumber(key)} />
-                    </Col>
-                </Row>
-            </Col>
-        ))
+        if (phones.length > 0) {
+            return phones.map((phone, key: number) => (
+                <Col sm={24} className="d-flex" style={{marginBottom: 10}} key={key}>
+                    <Row className="d-flex-justify">
+                        <Col sm={22}>
+                            <Input value={phone.value}
+                                   onChange={(e) => this.editPhoneNumber(key, e.target.value)} />
+                        </Col>
+                        <Col sm={2}>
+                            <DeleteFilled className="hover-cursor"
+                                          style={{marginLeft: 10}}
+                                          onClick={() => this.removePhoneNumber(key)} />
+                        </Col>
+                    </Row>
+                </Col>
+            ))
+        } else {
+            return <div className="empty-container">Phones list is empty</div>;
+        }
     }
 
     onFinish = () => this.props.updateUser();
 
+    // @ts-ignore
+    uploadFile = ({fileList}) => {
+        if (fileList.length > 0) {
+            this.props.uploadUserPhoto(fileList[0].originFileObj, "avatar", true);
+        }
+    };
+
+    deleteAvatar = (e: any) => {
+        e.preventDefault();
+        this.props.deleteAvatar();
+    }
+
+    deleteAddress = (address: AddressInterface) => {
+        const {user} = this.props;
+        let addresses = user?.addresses;
+        addresses = addresses?.filter((a: AddressInterface) => a !== address);
+        this.updateUserState("addresses", addresses);
+    }
+
+    editAddress = (editedAddress: AddressInterface = defaultAddress) => this.setState({showEditAddressModal: true, editedAddress});
+
+    addAddresses = () => this.setState({showEditAddressModal: true, editedAddress: defaultAddress});
+
+    hideModal = () => this.setState({showEditAddressModal: false});
+
+    saveAddress = (updatedAddress: AddressInterface) => {
+        const {user} = this.props;
+        const {editedAddress} = this.state;
+        let isFound = false;
+        let addresses = user?.addresses;
+        addresses = addresses?.map((a: AddressInterface) => {
+            if (a === editedAddress && !isFound) {
+                a = Object.assign(editedAddress, updatedAddress);
+                isFound = true;
+            }
+            return a;
+        });
+        if (!isFound) addresses?.push(updatedAddress);
+        this.updateUserState("addresses", addresses);
+        this.hideModal();
+    }
+
     render() {
         const {user} = this.props;
-        console.log("user", user);
+        const {editedAddress, showEditAddressModal} = this.state;
 
         return (
             <div className="my-profile-edit">
@@ -258,10 +323,13 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                                     ? <Avatar src={user?.avatar} size={42} />
                                     : <Avatar icon={<UserOutlined />} size={42} />
                                 }
-                                <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined />}>
-                                    Upload New Avatar
-                                </Button>
-                                {user?.avatar && <Button icon={<CloseOutlined />} style={{marginLeft: 15}}>Delete</Button>}
+                                <Upload onChange={this.uploadFile} beforeUpload={() => false} showUploadList={false}>
+                                    <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined />}>
+                                        Upload New Avatar
+                                    </Button>
+                                </Upload>
+                                {user?.avatar && <Button icon={<CloseOutlined />}
+                                                         style={{marginLeft: 15}} onClick={this.deleteAvatar}>Delete</Button>}
                             </div>
 
                             <div className="description">JPG, GIF, PNG, 256x256 pixels</div>
@@ -296,16 +364,18 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                         <Col span={15}>
                             <Typography.Title style={{margin: "20px 0"}} level={5} className="d-flex-justify">
                                 Address information
-                                <Button type="link" className="p-0"><PlusOutlined /> Add Address</Button>
+                                <Button type="link" className="p-0" onClick={this.addAddresses}><PlusOutlined /> Add Address</Button>
                             </Typography.Title>
                             <div className="address-info-container">
-                                <AddressEdit />
-                                <AddressEdit />
+                                {user?.addresses.length === 0 && <div className="empty-container">Addresses list is empty</div>}
+                                {user?.addresses.map(a =>
+                                    <Address key={a.id} address={a} editAddress={this.editAddress} deleteAddress={this.deleteAddress} />)}
                             </div>
                             <Button type="primary" htmlType="submit">Save Profile Changes</Button>
                         </Col>
                     </Row>
                 </Form>
+                <AddressEdit visible={showEditAddressModal} address={editedAddress} onCancel={this.hideModal} saveAddress={this.saveAddress} />
             </div>
         )
     }
@@ -322,6 +392,8 @@ const mapDispatchToProps = {
     getGroups: usersActions.getGroups,
     setPageTitle: mainActions.setPageTitle,
     updateUser: usersActions.updateUser,
+    uploadUserPhoto: usersActions.uploadUserPhoto,
+    deleteAvatar: usersActions.deleteAvatar,
 }
 
 export default connect(
