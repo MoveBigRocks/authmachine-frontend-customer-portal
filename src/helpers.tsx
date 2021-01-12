@@ -75,6 +75,7 @@ const helpers = {
         let word = str.toLowerCase().replace("_", " ");
         return word.charAt(0).toUpperCase() + word.slice(1)
     },
+    getPagePath: (path: string, pagePath: string) => `${path}/${pagePath}`,
 }
 
 export default helpers;

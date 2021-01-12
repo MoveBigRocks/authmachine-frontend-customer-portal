@@ -6,13 +6,5 @@ export interface AppProps {
         avatar?: string | null,
         isAuthenticated: boolean
     },
-    loading: boolean,
-    eventsExists: boolean,
     pageTitle: string,
-    getFeaturesList: () => void,
-}
-
-export interface AppState {
-    collapsed: boolean,
-    selectedMenuItems: string[],
 }

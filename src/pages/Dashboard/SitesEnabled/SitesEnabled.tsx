@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import {connect} from "react-redux";
-import {RootState} from "../../redux/reducer";
-import {SitesEnabledProps} from "../../interfaces/customerPortal/sitesEnabled";
-import SiteItem from "../../components/customerPortal/SiteItem/SiteItem";
+import {RootState} from "../../../redux/reducer";
+import {SitesEnabledProps} from "../../../interfaces/customerPortal/sitesEnabled";
+import SiteItem from "../../../components/CustomerPortal/SiteItem/SiteItem";
 import { Row, Col } from "antd";
-import {applicationActions} from "../../redux/actions/applicationActions";
-import {mainActions} from "../../redux/actions/mainActions";
+import {applicationActions} from "../../../redux/actions/applicationActions";
+import {mainActions} from "../../../redux/actions/mainActions";
 
 const SitesEnabled = ({applications, getApplications, setPageTitle}: SitesEnabledProps) => {
 

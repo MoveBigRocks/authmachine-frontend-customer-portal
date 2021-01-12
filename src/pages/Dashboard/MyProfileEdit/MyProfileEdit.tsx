@@ -1,16 +1,16 @@
 import React, {createRef} from "react";
 import {connect} from "react-redux";
-import {RootState} from "../../redux/reducer";
+import {RootState} from "../../../redux/reducer";
 import {Row, Col, Avatar, Typography, Button, Form, Input, Upload} from "antd";
-import {MyProfileEditProps, MyProfileEditState} from "../../interfaces/customerPortal/myProfile";
-import {usersActions} from "../../redux/actions/usersActions";
+import {MyProfileEditProps, MyProfileEditState} from "../../../interfaces/customerPortal/myProfile";
+import {usersActions} from "../../../redux/actions/usersActions";
 import "./MyProfileEdit.scss";
 import {DeleteFilled, PlusOutlined, UserOutlined, CloseOutlined, CloudUploadOutlined} from "@ant-design/icons";
-import {GroupInterface} from "../../interfaces/group";
-import Address from "../../components/customerPortal/Address/Address";
-import {mainActions} from "../../redux/actions/mainActions";
-import {AddressInterface} from "../../interfaces/address";
-import AddressEdit from "../../components/customerPortal/AddressEdit/AddressEdit";
+import {GroupInterface} from "../../../interfaces/group";
+import Address from "../../../components/CustomerPortal/Address/Address";
+import {mainActions} from "../../../redux/actions/mainActions";
+import {AddressInterface} from "../../../interfaces/address";
+import AddressEdit from "../../../components/CustomerPortal/AddressEdit/AddressEdit";
 
 const defaultAddress = {
     formatted: "",

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {ChangePasswordProps} from "../../interfaces/customerPortal/changePassword";
+import {ChangePasswordProps} from "../../../interfaces/customerPortal/changePassword";
 import {Typography, Form, Input, Button, Col, Row} from "antd";
 import {PasswordInput} from "antd-password-input-strength";
-import {mainActions} from "../../redux/actions/mainActions";
-import {usersActions} from "../../redux/actions/usersActions";
-import {RootState} from "../../redux/reducer";
+import {mainActions} from "../../../redux/actions/mainActions";
+import {usersActions} from "../../../redux/actions/usersActions";
+import {RootState} from "../../../redux/reducer";
 
 const {Password} = Input;
 

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {RootState} from "../../redux/reducer";
+import {RootState} from "../../../redux/reducer";
 import {Typography, Select, DatePicker, Pagination, Table} from "antd";
-import {RecentActivityProps} from "../../interfaces/customerPortal/recentActivity";
-import {eventActions} from "../../redux/actions/eventActions";
-import helpers from "../../helpers";
+import {RecentActivityProps} from "../../../interfaces/customerPortal/recentActivity";
+import {eventActions} from "../../../redux/actions/eventActions";
+import helpers from "../../../helpers";
 import "./RecentActivity.scss";
-import {mainActions} from "../../redux/actions/mainActions";
+import {mainActions} from "../../../redux/actions/mainActions";
 
 const eventTypes = [
     {value: "all", title: "All events"},

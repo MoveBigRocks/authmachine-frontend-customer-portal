@@ -1,14 +1,14 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {RootState} from "../../redux/reducer";
+import {RootState} from "../../../redux/reducer";
 import {Link} from "react-router-dom";
 import {Row, Col, Avatar, Typography, Button} from "antd";
-import {MyProfileProps} from "../../interfaces/customerPortal/myProfile";
-import {usersActions} from "../../redux/actions/usersActions";
+import {MyProfileProps} from "../../../interfaces/customerPortal/myProfile";
+import {usersActions} from "../../../redux/actions/usersActions";
 import {EditFilled, UserOutlined} from "@ant-design/icons";
 import "./MyProfile.scss";
-import {UserInterface} from "../../interfaces/user";
-import {mainActions} from "../../redux/actions/mainActions";
+import {UserInterface} from "../../../interfaces/user";
+import {mainActions} from "../../../redux/actions/mainActions";
 
 const getUserLocation = (user: UserInterface | null) => {
     if (user?.addresses) {
