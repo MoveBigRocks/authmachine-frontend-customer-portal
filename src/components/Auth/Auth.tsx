@@ -1,50 +1,36 @@
 import React from "react";
-import "antd/dist/antd.css";
 import {Router, Switch, Route} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
 import Error404 from "../../pages/Error404";
-import {Spin} from "antd";
 import {RootState} from "../../redux/reducer";
 import {connect} from "react-redux";
-import helpers from "../../helpers";
-import SignIn from "../../pages/Auth/SignIn/SignIn";
-import {AuthProps, AuthState} from "../../interfaces/auth";
+import SignIn from "../../pages/Auth/SignIn";
+import {AuthProps} from "../../interfaces/auth";
+import "./Auth.scss";
+import Background from "../../staticfiles/images/auth-background.png";
+import RecoveryPassword from "../../pages/Auth/RecoveryPassword";
+import ResetPassword from "../../pages/Auth/ResetPassword";
+import Registration from "../../pages/Auth/Registration";
+import ActivateAccount from "../../pages/Auth/ActivateAccount";
+import ActivateAccountWithUsername from "../../pages/Auth/ActivateAccountWithUsername";
 
+const Auth = ({loading}: AuthProps) => {
+    return (
+        <Router history={history}>
+            <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
+                <Switch>
+                    <Route exact path="/" component={SignIn} />
+                    <Route path="/registration" component={Registration} />
+                    <Route path="/reset-password" component={ResetPassword} />
+                    <Route path="/recovery-password" component={RecoveryPassword} />
+                    <Route path="/activation" component={ActivateAccount} />
+                    <Route path="/activation-with-username" component={ActivateAccountWithUsername} />
 
-const links = {
-    signIn: "",
-};
-
-class Auth extends React.Component<AuthProps, AuthState> {
-    constructor(props: AuthProps) {
-        super(props)
-        this.state = {
-        }
-    }
-
-    componentDidMount() {
-    }
-
-
-    render() {
-        const {loading, match} = this.props;
-        const {path} = match;
-
-        return (
-            <Router history={history}>
-                <div className="customer-portal">
-                    <Spin tip="Loading..." spinning={loading}>
-                        <Switch>
-                            <Route exact path={helpers.getPagePath(path, links.signIn)} component={SignIn}/>
-
-                            <Route path="**" exact={true} component={Error404} />
-                        </Switch>
-
-                    </Spin>
-                </div>
-            </Router>
-        );
-    }
+                    <Route path="**" exact={true} component={Error404} />
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 

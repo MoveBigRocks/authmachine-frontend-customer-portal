@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import {Router, Switch, Route, Link} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
 import Error404 from "../../pages/Error404";

@@ -1,0 +1,93 @@
+.auth-page-container {
+  min-width: 100%;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  .form-container {
+    width: calc(100% - 30px);
+    max-width: 480px;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 100px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 3px 8px 0 rgba(33, 33, 33, 0.5);
+
+    &.auth-form {
+      padding: 0;
+
+      .form-content {
+        padding: 30px 30px 25px 30px;
+      }
+    }
+
+    .additional-actions {
+      list-style-type: none;
+      margin: 0;
+      padding: 20px 30px 30px 30px;
+      font-size: 15px;
+      border-top: 1px solid #ededf2;
+      background-color: #f5f8fa;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+
+      li {
+        color: #959595;
+        &:not(:last-of-type) {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .logo {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+    form {
+      font-size: 16px;
+      padding-top: 5px;
+
+      input, button,
+      .ant-input-affix-wrapper {
+        border-radius: 3px;
+      }
+      button {
+        width: 100%;
+      }
+      .ant-form-item {
+        margin-bottom: 20px;
+      }
+    }
+    .space-between {
+      .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+        label {
+          font-size: 15px;
+        }
+      }
+    }
+    .socials {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      border-top: 1px solid #ededf2;
+      button {
+        border-radius: 3px;
+        img {
+          width: 20px;
+          margin-right: 5px;
+        }
+        &:not(:last-of-type) {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
