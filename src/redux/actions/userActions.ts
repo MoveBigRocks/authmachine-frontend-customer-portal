@@ -4,7 +4,7 @@ import axios from "axios";
 import {authHeader} from "../helpers/authHeaders";
 import {AppDispatch} from "../store";
 import {alertActions} from "./alertActions";
-import request from "../helpers/request";
+import {mainActions} from "./mainActions";
 
 const auth = () => {
     return (dispatch: AppDispatch) => {
@@ -21,15 +21,31 @@ const auth = () => {
               image
             }
           }
-        }`
+        }`;
 
-        request.post(dispatch, query, (data: any) => {
-            dispatch({
-                type: userTypes.USER_AUTH_SUCCESS,
-                user: data.data.user,
-                isAuthenticated: true
+        axios.post('/api/graphql', {query}, authHeader())
+            .then((result) => {
+                mainActions.authLoading(false, dispatch);
+                try {
+                    dispatch({
+                        type: userTypes.USER_AUTH_SUCCESS,
+                        user: result.data.data.user,
+                        isAuthenticated: true
+                    });
+                } catch (Exception) {
+                    dispatch({
+                        type: userTypes.USER_AUTH_FAILURE,
+                        isAuthenticated: false
+                    });
+                }
+            })
+            .catch((err: any) => {
+                mainActions.authLoading(false, dispatch);
+                dispatch({
+                    type: userTypes.USER_AUTH_FAILURE,
+                    isAuthenticated: false
+                })
             });
-        });
     }
 }
 
@@ -52,7 +68,7 @@ const getFeaturesList = () => {
                     data: result.data
                 });
             })
-            .catch((err: any) => alertActions.error(err))
+            .catch((err: any) => alertActions.error(err));
     }
 }
 

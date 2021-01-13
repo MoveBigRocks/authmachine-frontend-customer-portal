@@ -1,7 +1,6 @@
-import React from "react";
-import {Router, Switch, Route} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Switch, Route, Redirect} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
-import Error404 from "../../pages/Error404";
 import {RootState} from "../../redux/reducer";
 import {connect} from "react-redux";
 import SignIn from "../../pages/Auth/SignIn";
@@ -14,36 +13,37 @@ import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateAccountWithUsername from "../../pages/Auth/ActivateAccountWithUsername";
 
-const Auth = ({loading}: AuthProps) => {
-    return (
-        <Router history={history}>
-            <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
-                <Switch>
-                    <Route exact path="/" component={SignIn} />
-                    <Route path="/registration" component={Registration} />
-                    <Route path="/reset-password" component={ResetPassword} />
-                    <Route path="/recovery-password" component={RecoveryPassword} />
-                    <Route path="/activation" component={ActivateAccount} />
-                    <Route path="/activation-with-username" component={ActivateAccountWithUsername} />
+const Auth = ({isAuthenticated}: AuthProps) => {
+    const [isAuth, setIsAuth] = useState(false);
+    const {pathname} = history.location;
 
-                    <Route path="**" exact={true} component={Error404} />
-                </Switch>
-            </div>
-        </Router>
+    useEffect(() => {
+        if (isAuthenticated) setIsAuth(true);
+    }, [isAuthenticated]);
+
+    if (isAuth && (pathname === "/" || pathname === "/registration")) {
+        return <Redirect to="/customer-portal" />
+    }
+
+    return (
+        <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
+            <Switch>
+                <Route exact path="/" component={SignIn} />
+                <Route exact path="/registration" component={Registration} />
+                <Route exact path="/reset-password" component={ResetPassword} />
+                <Route exact path="/recovery-password" component={RecoveryPassword} />
+                <Route exact path="/activation" component={ActivateAccount} />
+                <Route exact path="/activation-with-username" component={ActivateAccountWithUsername} />
+            </Switch>
+        </div>
     );
 }
 
 
 const mapStateToProps = (state: RootState) => {
     return {
-        loading: state.main.loading,
+        isAuthenticated: state.user.isAuthenticated,
     }
 };
 
-const mapDispatchToProps = {
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Auth);
+export default connect(mapStateToProps, null)(Auth);

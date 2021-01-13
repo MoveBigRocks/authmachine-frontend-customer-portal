@@ -174,7 +174,7 @@ const changeUserPassword = (userId: string, password: string) => {
                 operationStatus
             });
 
-        request.postWithErrors(
+        request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {
@@ -212,7 +212,7 @@ const changeCurrentUserPassword = (oldPassword: string, newPassword: string) => 
             });
         changeUserDispatch(false);
 
-        request.postWithErrors(
+        request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {
@@ -461,7 +461,7 @@ const updateUser = () => {
           }
         }`;
 
-        request.postWithErrors(
+        request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {
@@ -538,7 +538,7 @@ const deleteAvatar = () => {
           }
         }`;
 
-        request.postWithErrors(
+        request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {

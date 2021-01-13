@@ -11,29 +11,32 @@ import { AppProps } from "../../interfaces/app";
 import {Helmet} from "react-helmet";
 import CustomerPortal from "../CustomerPortal/CustomerPortal";
 import Auth from "../Auth/Auth";
+import {Spin} from "antd";
 
-const App = ({pageTitle, auth, user}: AppProps) => {
+const App = ({pageTitle, auth, loading}: AppProps) => {
 
-    useEffect(() => auth(), [auth])
+    useEffect(() => auth(), [auth]);
 
     return (
         <Router history={history}>
             <Helmet>
                 <title>{pageTitle}</title>
             </Helmet>
-            <Switch>
-                <Route exact path={""} component={Auth} />
-                <Route path={"/customer-portal"} component={CustomerPortal} />
-                <Route path="**" exact={true} component={Error404} />
-            </Switch>
+            <Spin tip="Loading..." spinning={loading} wrapperClassName="bg-white">
+                <Switch>
+                    <Route path={"/customer-portal"} component={CustomerPortal} />
+                    <Route exact path={""} component={Auth} />
+                    <Route path="**" exact={true} component={Error404} />
+                </Switch>
+            </Spin>
         </Router>
     )
 }
 
 const mapStateToProps = (state: RootState) => {
     return {
-        user: state.user,
         pageTitle: state.main.pageTitle,
+        loading: state.main.authLoading,
     }
 };
 

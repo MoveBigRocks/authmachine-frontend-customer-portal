@@ -25,7 +25,7 @@ const request = {
                 }
             })
     },
-    postWithErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void) => {
+    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void) => {
         mainActions.loading(true, dispatch);
         axios.post('/api/graphql', {query}, authHeader())
             .then((result) => {
@@ -34,7 +34,6 @@ const request = {
             })
             .catch((err: any) => {
                 mainActions.loading(false, dispatch);
-                alertActions.error(err);
                 if (error) error();
             })
     },

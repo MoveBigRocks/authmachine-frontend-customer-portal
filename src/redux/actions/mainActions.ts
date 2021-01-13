@@ -19,16 +19,13 @@ const loading = (loading: boolean, dispatch: AppDispatch) => {
     })
 }
 
-// const setPageSize = (pageSize: string | number) => {
-//     return (dispatch: AppDispatch) => {
-//         console.log("pageSize", pageSize)
-//         // @ts-ignore
-//         dispatch({
-//             type: mainTypes.SET_PAGE_SIZE,
-//             pageSize
-//         })
-//     }
-// }
+const authLoading = (loading: boolean, dispatch: AppDispatch) => {
+    // @ts-ignore
+    return dispatch({
+        type: mainTypes.AUTH_LOADING,
+        loading
+    })
+}
 
 const showRightSider = (showRightSider: boolean = false) => {
     return (dispatch: AppDispatch) => {
@@ -43,6 +40,6 @@ const showRightSider = (showRightSider: boolean = false) => {
 export const mainActions = {
     setPageTitle,
     loading,
-    // setPageSize,
-    showRightSider
+    showRightSider,
+    authLoading,
 };

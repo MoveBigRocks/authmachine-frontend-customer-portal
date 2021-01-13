@@ -3,7 +3,5 @@ export interface AuthProps {
     match: {
         path: string,
     },
-}
-
-export interface AuthState {
+    isAuthenticated: boolean,
 }

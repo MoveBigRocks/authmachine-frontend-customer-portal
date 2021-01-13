@@ -73,6 +73,15 @@ $light-gray: #D9D9D9;
 }
 .bg-white {
   background-color: #ffffff !important;
+  &.ant-spin-nested-loading {
+    height: 100%;
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+  .ant-spin-blur {
+    opacity: 0;
+  }
 }
 .main-header {
   display: flex;

@@ -1,5 +1,4 @@
 export interface CustomerPortalProps {
-    auth: () => void,
     user: {
         username?: string | null,
         id: number | null,
@@ -9,6 +8,7 @@ export interface CustomerPortalProps {
     loading: boolean,
     eventsExists: boolean,
     pageTitle: string,
+    isAuthenticated: boolean,
     getFeaturesList: () => void,
     match: {
         path: string,

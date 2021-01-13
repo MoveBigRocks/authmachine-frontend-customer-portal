@@ -1,5 +1,5 @@
 import React from "react";
-import {Router, Switch, Route, Link} from "react-router-dom";
+import {Switch, Route, Link, Redirect} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
 import Error404 from "../../pages/Error404";
 import {Avatar, Button, Divider, Layout, Menu, Spin} from "antd";
@@ -43,8 +43,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
     }
 
     componentDidMount() {
-        const {auth, getFeaturesList} = this.props;
-        auth();
+        const {getFeaturesList} = this.props;
         getFeaturesList();
         this.setMenuInitialState();
     }
@@ -71,80 +70,81 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
         const {collapsed, selectedMenuItems} = this.state;
         const {path} = match;
 
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/"/>
+        }
+
         return (
-            <Router history={history}>
-                <div className="customer-portal">
-                    <Spin tip="Loading..." spinning={loading}>
+            <div className="customer-portal">
+                <Spin tip="Loading..." spinning={loading}>
+                    <Layout>
+                        <Header className="bg-white logo-header" style={{width: "100%"}}>
+                            <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
+                                <img src={logoSm} alt="logo-img"/>
+                                {!collapsed && <div className="logo-text f-bold">AuthMachine</div>}
+                            </div>
+                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: "trigger",
+                                onClick: this.toggle,
+                            })}
+                            <div style={{marginLeft: "auto"}}>
+                                <div style={{marginRight: 8, display: "inline-block"}}>
+                                    {user.avatar
+                                        ? <Avatar src={user.avatar} size="small" />
+                                        : <Avatar icon={<UserOutlined />} size="small" />
+                                    }
+                                </div>
+
+                                <div style={{marginRight: 15, display: "inline-block"}}>You're logged as <strong>{user?.username}</strong></div>
+                                <a href={"/directory/logout"}>
+                                    <Button icon={<LogoutOutlined />}>Logout</Button>
+                                </a>
+                            </div>
+                        </Header>
                         <Layout>
-                            <Header className="bg-white logo-header" style={{width: "100%"}}>
-                                <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
-                                    <img src={logoSm} alt="logo-img"/>
-                                    {!collapsed && <div className="logo-text f-bold">AuthMachine</div>}
-                                </div>
-                                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                                    className: "trigger",
-                                    onClick: this.toggle,
-                                })}
-                                <div style={{marginLeft: "auto"}}>
-                                    <div style={{marginRight: 8, display: "inline-block"}}>
-                                        {user.avatar
-                                            ? <Avatar src={user.avatar} size="small" />
-                                            : <Avatar icon={<UserOutlined />} size="small" />
-                                        }
-                                    </div>
+                            <Sider trigger={null} collapsible collapsed={collapsed} style={{width: 300}} className="menu-aside">
+                                <Menu mode="inline"
+                                      selectedKeys={selectedMenuItems}
+                                      theme="light"
+                                      onClick={this.onMenuSelect}
+                                      className="submenu-list bg-white">
+                                    <Menu.Item key="sites" icon={<BorderOutlined />}>
+                                        <Link to={helpers.getPagePath(path, links.sites)}>Sites</Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="profile" icon={<UserOutlined/>}>
+                                        <Link to={helpers.getPagePath(path, links.profile)}>My Profile</Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="recent-activity" icon={<HistoryOutlined />} disabled={!eventsExists}>
+                                        <Link to={helpers.getPagePath(path, links.activity)}>Recent Activity</Link>
+                                    </Menu.Item>
+                                    <Menu.ItemGroup title={<Divider />}/>
+                                    <div className="menu-title f-bold">Settings</div>
+                                    <Menu.Item key="login-options" icon={<LoginOutlined />}>
+                                        Login Options
+                                    </Menu.Item>
+                                    <Menu.Item key="change-password" icon={<KeyOutlined />}>
+                                        <Link to={helpers.getPagePath(path, links.changePassword)}>Change Password</Link>
+                                    </Menu.Item>
+                                    <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
+                                        Permission Delegation
+                                    </Menu.Item>
+                                </Menu>
+                            </Sider>
+                            <Content className="bg-white site-layout" style={{minHeight: 280}}>
+                                <Switch>
+                                    <Route exact path={helpers.getPagePath(path, links.sites)} component={SitesEnabled}/>
+                                    <Route path={helpers.getPagePath(path, links.profile)} component={MyProfile} />
+                                    <Route path={helpers.getPagePath(path, links.profileEdit)} component={MyProfileEdit} />
+                                    {eventsExists && <Route path={helpers.getPagePath(path, links.activity)} component={RecentActivity} />}
+                                    <Route path={helpers.getPagePath(path, links.changePassword)} component={ChangePassword} />
 
-                                    <div style={{marginRight: 15, display: "inline-block"}}>You're logged as <strong>{user?.username}</strong></div>
-                                    <a href={"/directory/logout"}>
-                                        <Button icon={<LogoutOutlined />}>Logout</Button>
-                                    </a>
-                                </div>
-                            </Header>
-                            <Layout>
-                                <Sider trigger={null} collapsible collapsed={collapsed} style={{width: 300}} className="menu-aside">
-                                    <Menu mode="inline"
-                                          selectedKeys={selectedMenuItems}
-                                          theme="light"
-                                          onClick={this.onMenuSelect}
-                                          className="submenu-list bg-white">
-                                        <Menu.Item key="sites" icon={<BorderOutlined />}>
-                                            <Link to={helpers.getPagePath(path, links.sites)}>Sites</Link>
-                                        </Menu.Item>
-                                        <Menu.Item key="profile" icon={<UserOutlined/>}>
-                                            <Link to={helpers.getPagePath(path, links.profile)}>My Profile</Link>
-                                        </Menu.Item>
-                                        <Menu.Item key="recent-activity" icon={<HistoryOutlined />} disabled={!eventsExists}>
-                                            <Link to={helpers.getPagePath(path, links.activity)}>Recent Activity</Link>
-                                        </Menu.Item>
-                                        <Menu.ItemGroup title={<Divider />}/>
-                                        <div className="menu-title f-bold">Settings</div>
-                                        <Menu.Item key="login-options" icon={<LoginOutlined />}>
-                                            Login Options
-                                        </Menu.Item>
-                                        <Menu.Item key="change-password" icon={<KeyOutlined />}>
-                                            <Link to={helpers.getPagePath(path, links.changePassword)}>Change Password</Link>
-                                        </Menu.Item>
-                                        <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
-                                            Permission Delegation
-                                        </Menu.Item>
-                                    </Menu>
-                                </Sider>
-                                <Content className="bg-white site-layout" style={{minHeight: 280}}>
-                                    <Switch>
-                                        <Route exact path={helpers.getPagePath(path, links.sites)} component={SitesEnabled}/>
-                                        <Route path={helpers.getPagePath(path, links.profile)} component={MyProfile} />
-                                        <Route path={helpers.getPagePath(path, links.profileEdit)} component={MyProfileEdit} />
-                                        {eventsExists && <Route path={helpers.getPagePath(path, links.activity)} component={RecentActivity} />}
-                                        <Route path={helpers.getPagePath(path, links.changePassword)} component={ChangePassword} />
-
-                                        <Route path="**" exact={true} component={Error404} />
-                                    </Switch>
-                                </Content>
-                            </Layout>
+                                    <Route path="**" exact={true} component={Error404} />
+                                </Switch>
+                            </Content>
                         </Layout>
-
-                    </Spin>
-                </div>
-            </Router>
+                    </Layout>
+                </Spin>
+            </div>
         );
     }
 }
@@ -153,13 +153,13 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
 const mapStateToProps = (state: RootState) => {
     return {
         user: state.user,
+        isAuthenticated: state.user.isAuthenticated,
         loading: state.main.loading,
         eventsExists: state.user.eventsExists,
     }
 };
 
 const mapDispatchToProps = {
-    auth: userActions.auth,
     getFeaturesList: userActions.getFeaturesList,
 }
 

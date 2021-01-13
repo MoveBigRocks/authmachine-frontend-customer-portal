@@ -3,6 +3,7 @@ import mainTypes from "../types/mainTypes";
 type mainState = {
     pageTitle: string,
     loading: boolean,
+    authLoading: boolean,
     pageSize: string,
     showRightSider: boolean
 }
@@ -10,6 +11,7 @@ type mainState = {
 const initialState: mainState = {
     pageTitle: '',
     loading: false,
+    authLoading: true,
     pageSize: "lg",
     showRightSider: false
 }
@@ -43,6 +45,11 @@ const mainReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 showRightSider: action.showRightSider
+            }
+        case mainTypes.AUTH_LOADING:
+            return {
+                ...state,
+                authLoading: action.loading
             }
         default:
             return state;
