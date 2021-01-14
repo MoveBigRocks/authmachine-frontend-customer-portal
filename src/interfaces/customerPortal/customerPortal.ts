@@ -13,6 +13,7 @@ export interface CustomerPortalProps {
     match: {
         path: string,
     },
+    logout: () => void,
 }
 
 export interface CustomerPortalState {

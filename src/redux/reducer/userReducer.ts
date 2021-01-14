@@ -22,7 +22,8 @@ type ActionType = {
     type: string,
     user: { username: string, id: number, photo: string },
     isAuthenticated?: boolean,
-    data: any[]
+    data: any[],
+    status: boolean,
 }
 
 const userReducer = (state = initialState, action: ActionType) => {
@@ -51,7 +52,11 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 features: action.data,
-                eventsExists: action.data.includes("events")
+                eventsExists: action.data.includes("events"),
+            }
+        case userTypes.USER_LOGOUT:
+            return {
+                ...state,
             }
         default:
             return state;

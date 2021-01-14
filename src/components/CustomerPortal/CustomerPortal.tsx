@@ -43,8 +43,8 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
     }
 
     componentDidMount() {
-        const {getFeaturesList} = this.props;
-        getFeaturesList();
+        const {getFeaturesList, isAuthenticated} = this.props;
+        if (isAuthenticated) getFeaturesList();
         this.setMenuInitialState();
     }
 
@@ -96,9 +96,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                 </div>
 
                                 <div style={{marginRight: 15, display: "inline-block"}}>You're logged as <strong>{user?.username}</strong></div>
-                                <a href={"/directory/logout"}>
-                                    <Button icon={<LogoutOutlined />}>Logout</Button>
-                                </a>
+                                <Button icon={<LogoutOutlined />} onClick={this.props.logout}>Logout</Button>
                             </div>
                         </Header>
                         <Layout>
@@ -161,6 +159,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     getFeaturesList: userActions.getFeaturesList,
+    logout: userActions.logout,
 }
 
 export default connect(

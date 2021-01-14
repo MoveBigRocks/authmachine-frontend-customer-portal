@@ -5,6 +5,7 @@ import {authHeader} from "../helpers/authHeaders";
 import {AppDispatch} from "../store";
 import {alertActions} from "./alertActions";
 import {mainActions} from "./mainActions";
+import request from "../helpers/request";
 
 const auth = () => {
     return (dispatch: AppDispatch) => {
@@ -47,6 +48,35 @@ const auth = () => {
                 })
             });
     }
+};
+
+const logout = () => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          logout {
+            status
+          }
+        }`;
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {status} = result.data.logout;
+                dispatch({
+                    type: userTypes.USER_LOGOUT,
+                    status
+                });
+                // @ts-ignore
+                if (status) dispatch(userActions.auth());
+            },
+            () => {
+                dispatch({
+                    type: userTypes.USER_LOGOUT,
+                    status: false
+                });
+            });
+    }
 }
 
 const authSuccess = () => {
@@ -77,4 +107,5 @@ export const userActions = {
     authSuccess,
     authFailure,
     getFeaturesList,
+    logout,
 };
