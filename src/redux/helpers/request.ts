@@ -4,10 +4,16 @@ import {mainActions} from "../actions/mainActions";
 import axios from "axios";
 import {alertActions} from "../actions/alertActions";
 
+const urlType = {
+    private: "/api/graphql/private",
+    public: "/api/graphql",
+}
+
 const request = {
-    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void) => {
+    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+        let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
-        axios.post('/api/graphql', {query}, authHeader())
+        axios.post(url, {query}, authHeader())
             .then((result) => {
                 let {data} = result;
                 mainActions.loading(false, dispatch);
@@ -20,14 +26,13 @@ const request = {
             .catch((err: any) => {
                 mainActions.loading(false, dispatch);
                 alertActions.error(err);
-                if (error) {
-                    error();
-                }
+                if (error) error();
             })
     },
-    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void) => {
+    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+        let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
-        axios.post('/api/graphql', {query}, authHeader())
+        axios.post(url, {query}, authHeader())
             .then((result) => {
                 mainActions.loading(false, dispatch);
                 if (success) success(result.data);
@@ -37,9 +42,10 @@ const request = {
                 if (error) error();
             })
     },
-    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: () => void) => {
+    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+        let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
-        axios.post('/api/graphql', data, formDataHeader())
+        axios.post(url, data, formDataHeader())
             .then((result) => {
                 if (success) success(result.data);
                 mainActions.loading(false, dispatch);
@@ -50,6 +56,7 @@ const request = {
                 mainActions.loading(false, dispatch);
             })
     },
+    getApiUrl: (privateQuery: boolean) => privateQuery ? urlType.private : urlType.public,
 }
 
 export default request;

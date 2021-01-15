@@ -24,7 +24,7 @@ const auth = () => {
           }
         }`;
 
-        axios.post('/api/graphql', {query}, authHeader())
+        axios.post(request.getApiUrl(true), {query}, authHeader())
             .then((result) => {
                 mainActions.authLoading(false, dispatch);
                 try {
@@ -75,7 +75,49 @@ const logout = () => {
                     type: userTypes.USER_LOGOUT,
                     status: false
                 });
+            },
+            false);
+    }
+}
+
+const login = (values: {username: string, password: string, remember: boolean}) => {
+    const {username, password, remember} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          login(input: {
+            username: "${username}",
+            password: "${password}",
+            rememberMe: ${remember}
+          }) {
+            success, message
+          }
+        }`;
+
+        const setLogin = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.USER_LOGIN,
+                status,
+                message
             });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.login;
+
+                if (success) {
+                    // @ts-ignore
+                    dispatch(userActions.auth());
+                    setLogin(true);
+                } else {
+                    setLogin(false, message);
+                }
+            },
+            () => {
+                setLogin(false, "Something wrong");
+            },
+            false);
     }
 }
 
@@ -104,6 +146,7 @@ const getFeaturesList = () => {
 
 export const userActions = {
     auth,
+    login,
     authSuccess,
     authFailure,
     getFeaturesList,

@@ -6,7 +6,8 @@ type UserState = {
     avatar?: string | null,
     isAuthenticated: boolean,
     features: string[],
-    eventsExists: boolean
+    eventsExists: boolean,
+    message: string,
 }
 
 const initialState: UserState = {
@@ -15,7 +16,8 @@ const initialState: UserState = {
     isAuthenticated: false,
     avatar: null,
     features: [],
-    eventsExists: false
+    eventsExists: false,
+    message: "",
 }
 
 type ActionType = {
@@ -24,6 +26,7 @@ type ActionType = {
     isAuthenticated?: boolean,
     data: any[],
     status: boolean,
+    message?: string
 }
 
 const userReducer = (state = initialState, action: ActionType) => {
@@ -57,6 +60,12 @@ const userReducer = (state = initialState, action: ActionType) => {
         case userTypes.USER_LOGOUT:
             return {
                 ...state,
+            }
+        case userTypes.USER_LOGIN:
+            return {
+                ...state,
+                isAuthenticated: action.status,
+                message: action?.message || "",
             }
         default:
             return state;
