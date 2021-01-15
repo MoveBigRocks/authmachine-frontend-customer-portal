@@ -8,6 +8,7 @@ type UserState = {
     features: string[],
     eventsExists: boolean,
     message: string,
+    operationStatus: boolean,
 }
 
 const initialState: UserState = {
@@ -18,6 +19,7 @@ const initialState: UserState = {
     features: [],
     eventsExists: false,
     message: "",
+    operationStatus: false,
 }
 
 type ActionType = {
@@ -65,6 +67,14 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 isAuthenticated: action.status,
+                message: action?.message || "",
+            }
+        case userTypes.RESET_PASSWORD:
+        case userTypes.RECOVERY_PASSWORD:
+            console.log("RECOVERY_PASSWORD")
+            return {
+                ...state,
+                operationStatus: action.status,
                 message: action?.message || "",
             }
         default:

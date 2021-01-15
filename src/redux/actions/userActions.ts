@@ -114,9 +114,73 @@ const login = (values: {username: string, password: string, remember: boolean}) 
                     setLogin(false, message);
                 }
             },
-            () => {
-                setLogin(false, "Something wrong");
+            () => setLogin(false, "Something wrong"),
+            false);
+    }
+}
+
+const resetPassword = (values: {username: string}) => {
+    const {username} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          resetPassword(input: {
+            username: "${username}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setResetStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.RESET_PASSWORD,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.resetPassword;
+
+                setResetStatus(success, message);
             },
+            () => setResetStatus(false, "Something wrong"),
+            false);
+    }
+}
+
+const recoveryPassword = (values: { password: string, confirmPassword: string, token: string }) => {
+    const {password, confirmPassword, token} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          recoveryPassword(input: {
+            password: "${password}",
+            confirmPassword: "${confirmPassword}",
+            token: "${token}",
+          }) {
+            success, message
+          }
+        }`;
+
+        const setRecoveryStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.RECOVERY_PASSWORD,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.recoveryPassword;
+
+                // @ts-ignore
+                if (success) dispatch(userActions.auth());
+                setRecoveryStatus(success, message);
+            },
+            () => setRecoveryStatus(false, "Something wrong"),
             false);
     }
 }
@@ -151,4 +215,6 @@ export const userActions = {
     authFailure,
     getFeaturesList,
     logout,
+    resetPassword,
+    recoveryPassword,
 };

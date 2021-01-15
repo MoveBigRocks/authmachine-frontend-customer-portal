@@ -31,7 +31,7 @@ const Auth = ({isAuthenticated}: AuthProps) => {
                 <Route exact path="/" component={SignIn} />
                 <Route exact path="/registration" component={Registration} />
                 <Route exact path="/reset-password" component={ResetPassword} />
-                <Route exact path="/recovery-password" component={RecoveryPassword} />
+                <Route exact path="/recovery-password/:token" component={RecoveryPassword} />
                 <Route exact path="/activation" component={ActivateAccount} />
                 <Route exact path="/activation-with-username" component={ActivateAccountWithUsername} />
             </Switch>

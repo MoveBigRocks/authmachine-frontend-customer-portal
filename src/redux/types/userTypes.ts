@@ -5,6 +5,8 @@ const userTypes = {
     GET_FEATURES: 'GET_FEATURES',
     USER_LOGOUT: 'USER_LOGOUT',
     USER_LOGIN: 'USER_LOGIN',
+    RESET_PASSWORD: 'RESET_PASSWORD',
+    RECOVERY_PASSWORD: 'RECOVERY_PASSWORD',
 }
 
 export default userTypes;
