@@ -9,6 +9,8 @@ type UserState = {
     eventsExists: boolean,
     message: string,
     operationStatus: boolean,
+    activationFirstStepStatus: boolean,
+    activationSecondStepStatus: boolean,
 }
 
 const initialState: UserState = {
@@ -20,6 +22,8 @@ const initialState: UserState = {
     eventsExists: false,
     message: "",
     operationStatus: false,
+    activationFirstStepStatus: false,
+    activationSecondStepStatus: false,
 }
 
 type ActionType = {
@@ -71,10 +75,22 @@ const userReducer = (state = initialState, action: ActionType) => {
             }
         case userTypes.RESET_PASSWORD:
         case userTypes.RECOVERY_PASSWORD:
-            console.log("RECOVERY_PASSWORD")
+        case userTypes.FINISH_ACTIVATION:
             return {
                 ...state,
                 operationStatus: action.status,
+                message: action?.message || "",
+            }
+        case userTypes.ACTIVATION_FIRST_STEP:
+            return {
+                ...state,
+                activationFirstStepStatus: action.status,
+                message: action?.message || "",
+            }
+        case userTypes.ACTIVATION_SECOND_STEP:
+            return {
+                ...state,
+                activationSecondStepStatus: action.status,
                 message: action?.message || "",
             }
         default:
