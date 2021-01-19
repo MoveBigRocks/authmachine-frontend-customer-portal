@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import SignIn from "../../pages/Auth/SignIn";
 import {AuthProps} from "../../interfaces/auth";
 import "./Auth.scss";
-import Background from "../../staticfiles/images/auth-background.png";
+import Background from "../../staticfiles/images/auth-background.jpg";
 import RecoveryPassword from "../../pages/Auth/RecoveryPassword";
 import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
