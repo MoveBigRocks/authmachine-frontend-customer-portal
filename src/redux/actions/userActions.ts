@@ -301,6 +301,36 @@ const getFeaturesList = () => {
     }
 }
 
+const getPrivacyPolicyList = () => {
+    return (dispatch: AppDispatch) => {
+        let query = `query {
+          allPolicies {
+            id,
+            title,
+            acceptOnActivation,
+            acceptOnLogin,
+            htmlBody
+          }
+        }`;
+
+        const updatePolicies = (data: any[]) =>
+            dispatch({
+                type: userTypes.GET_POLICIES,
+                data,
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {allPolicies} = result.data;
+                updatePolicies(allPolicies);
+            },
+            () => updatePolicies([]),
+            false);
+    }
+}
+
 export const userActions = {
     auth,
     login,
@@ -313,4 +343,5 @@ export const userActions = {
     activationFirstStep,
     activationSecondStep,
     finishActivation,
+    getPrivacyPolicyList,
 };

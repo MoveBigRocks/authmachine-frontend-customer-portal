@@ -6,6 +6,7 @@ type UserState = {
     avatar?: string | null,
     isAuthenticated: boolean,
     features: string[],
+    policies: any[],
     eventsExists: boolean,
     message: string,
     operationStatus: boolean,
@@ -19,6 +20,7 @@ const initialState: UserState = {
     isAuthenticated: false,
     avatar: null,
     features: [],
+    policies: [],
     eventsExists: false,
     message: "",
     operationStatus: false,
@@ -93,9 +95,14 @@ const userReducer = (state = initialState, action: ActionType) => {
                 activationSecondStepStatus: action.status,
                 message: action?.message || "",
             }
+        case userTypes.GET_POLICIES:
+            return {
+                ...state,
+                policies: action.data,
+            }
         default:
             return state;
     }
 };
 
-export default userReducer
+export default userReducer;

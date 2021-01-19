@@ -7,6 +7,7 @@ import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {ActivateAccountProps} from "../../interfaces/auth/activateAccount";
+import PrivacyPolicies from "../../components/Auth/PrivacyPolicies/PrivacyPolicies";
 
 const { Step } = Steps;
 
@@ -84,6 +85,9 @@ const ActivateAccount = (props: ActivateAccountProps) => {
                                    rules={[{ required: true, message: "Please con username" }]}>
                             <Input.Password size="large" placeholder="Confirm Password" />
                         </Form.Item>
+
+                        <PrivacyPolicies form={secondForm} />
+
                         <Form.Item style={{marginBottom: 0}}>
                             <Button type="primary" size="large" htmlType="submit">Submit</Button>
                         </Form.Item>
