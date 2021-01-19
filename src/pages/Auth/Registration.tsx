@@ -2,9 +2,7 @@ import React from "react";
 import Logo from "../../staticfiles/images/logo.png"
 import {Form, Input, Typography, Button} from "antd";
 import { Link } from "react-router-dom";
-import Github from "../../staticfiles/images/social-icons/github.svg";
-import Twitter from "../../staticfiles/images/social-icons/twitter.svg";
-import Facebook from "../../staticfiles/images/social-icons/facebook.svg";
+import SocialAccounts from "../../components/Auth/SocialAccounts";
 
 const Registration = () => (
     <div className="form-container auth-form">
@@ -25,17 +23,8 @@ const Registration = () => (
                     <Button type="primary" size="large" htmlType="submit">Create Account</Button>
                 </Form.Item>
             </Form>
-            <div className="socials">
-                <Button size="large">
-                    <img src={Facebook} alt="facebook"/>Sign up with Facebook
-                </Button>
-                <Button size="large">
-                    <img src={Twitter} alt="twitter"/>Sign up with Twitter
-                </Button>
-                <Button size="large">
-                    <img src={Github} alt="github"/>Sign up with GitHub
-                </Button>
-            </div>
+
+            <SocialAccounts type="register" />
         </div>
         <ul className="additional-actions">
             <li>Already have account? <Link to="/">Log In</Link></li>

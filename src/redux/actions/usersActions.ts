@@ -5,6 +5,30 @@ import usersTypes from "../types/usersTypes";
 import {getUsersData, UserInterface} from "../../interfaces/user";
 import request from '../helpers/request';
 
+
+const getSocials = () => {
+    return (dispatch: AppDispatch, getState: any) => {
+        let query = `query {
+              allSocials {
+                name,
+                url
+              }
+            }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+            let {allSocials} = data.data;
+            mainActions.loading(false, dispatch);
+            dispatch({
+                type: usersTypes.GET_SOCIALS,
+                data: allSocials,
+            });
+        },
+            () => {},
+            false)
+    }
+}
+
+
 const getUsers = (data: getUsersData) => {
     return (dispatch: AppDispatch, getState: any) => {
         let {page, pageSize, orderBy, onlyLocked, onlyAdmin, username, groupsSelected} = getState().users;
@@ -558,6 +582,7 @@ const deleteAvatar = () => {
 }
 
 export const usersActions = {
+    getSocials,
     getUsers,
     getUser,
     setUser,

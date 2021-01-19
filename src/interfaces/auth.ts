@@ -4,4 +4,5 @@ export interface AuthProps {
         path: string,
     },
     isAuthenticated: boolean,
+    initialLink: string,
 }

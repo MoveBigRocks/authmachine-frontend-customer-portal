@@ -2,6 +2,7 @@ import usersTypes from "../types/usersTypes";
 import {UserInterface} from "../../interfaces/user";
 import {GroupInterface} from "../../interfaces/group";
 import {EventInterface} from "../../interfaces/events";
+import {SocialInterface} from "../../interfaces/socials";
 
 export type usersState = {
     usersTotal: number,
@@ -18,6 +19,7 @@ export type usersState = {
     groupsSelected: string[],
     user: null | UserInterface,
     events: EventInterface[],
+    socials: SocialInterface[],
 }
 
 const initialState: usersState = {
@@ -34,7 +36,8 @@ const initialState: usersState = {
     operationStatus: true,
     groups: [],
     groupsSelected: [],
-    events: []
+    events: [],
+    socials: [],
 }
 
 type ActionType = {
@@ -92,6 +95,11 @@ const usersReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 user: action.user
+            }
+        case usersTypes.GET_SOCIALS:
+            return {
+                ...state,
+                socials: action.data,
             }
         default:
             return state;
