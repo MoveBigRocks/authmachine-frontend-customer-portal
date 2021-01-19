@@ -28,8 +28,6 @@ const RecoveryPassword = (props: RecoveryPasswordProps) => {
         recoveryPassword(values);
     }
 
-    console.log("status", status, "message", message)
-
     return (
         <div className="form-container">
             <img src={Logo} alt="AuthMachine" className="logo" />

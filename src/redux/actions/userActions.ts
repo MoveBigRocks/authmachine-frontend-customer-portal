@@ -78,7 +78,7 @@ const logout = () => {
             },
             false);
     }
-}
+};
 
 const login = (values: {username: string, password: string, remember: boolean}) => {
     const {username, password, remember} = values;
@@ -117,7 +117,7 @@ const login = (values: {username: string, password: string, remember: boolean}) 
             () => setLogin(false, "Something wrong"),
             false);
     }
-}
+};
 
 const resetPassword = (values: {username: string}) => {
     const {username} = values;
@@ -148,7 +148,7 @@ const resetPassword = (values: {username: string}) => {
             () => setResetStatus(false, "Something wrong"),
             false);
     }
-}
+};
 
 const recoveryPassword = (values: { password: string, confirmPassword: string, token: string }) => {
     const {password, confirmPassword, token} = values;
@@ -181,6 +181,99 @@ const recoveryPassword = (values: { password: string, confirmPassword: string, t
                 setRecoveryStatus(success, message);
             },
             () => setRecoveryStatus(false, "Something wrong"),
+            false);
+    }
+};
+
+const activationFirstStep = (values: { username: string, code: string }) => {
+    const {username, code} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          activationFirstStep(input: {
+            username: "${username}",
+            code: "${code}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setActivationStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.ACTIVATION_FIRST_STEP,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.activationFirstStep;
+                setActivationStatus(success, success ? "" : message);
+            },
+            () => setActivationStatus(false, "Something wrong"),
+            false);
+    }
+};
+
+const activationSecondStep = (values: { password: string, confirmPassword: string, email: string, phone: string }) => {
+    const {password, confirmPassword, email, phone} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          activationSecondStep(input: {
+            password: "${password}",
+            confirmPassword: "${confirmPassword}",
+            email: "${email}",
+            phone: "${phone}"
+          }) {
+            success,
+            message
+          }
+        }`;
+
+        const setActivationStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.ACTIVATION_SECOND_STEP,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.activationSecondStep;
+                setActivationStatus(success, message);
+            },
+            () => setActivationStatus(false, "Something wrong"),
+            false);
+    }
+};
+
+const finishActivation = (token: string) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          finishActivation(token: "${token}") {
+            success, message
+          }
+        }`;
+
+        const setFinishActivationStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.FINISH_ACTIVATION,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.finishActivation;
+
+                setFinishActivationStatus(success, message);
+            },
+            () => setFinishActivationStatus(false, "Something wrong"),
             false);
     }
 }
@@ -217,4 +310,7 @@ export const userActions = {
     logout,
     resetPassword,
     recoveryPassword,
+    activationFirstStep,
+    activationSecondStep,
+    finishActivation,
 };

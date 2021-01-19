@@ -21,7 +21,7 @@ const ResetPassword = ({status, message, resetPassword}: ResetPasswordProps) => 
             <Typography.Title level={3}>Password Recovery</Typography.Title>
             <Form form={form} onFinish={onFinish}>
                 <Form.Item name="username"
-                           rules={[{ required: true, message: 'Please input your username' }]}>
+                           rules={[{ required: true, message: "Please input your username" }]}>
                     <Input size="large" placeholder="Username or email" />
                 </Form.Item>
                 <Form.Item style={{marginBottom: 0}}>
