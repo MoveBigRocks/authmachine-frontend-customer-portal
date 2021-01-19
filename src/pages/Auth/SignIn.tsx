@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Logo from "../../staticfiles/images/logo.png"
 import {Form, Input, Typography, Checkbox, Button, Alert} from "antd";
 import { Link } from "react-router-dom";
@@ -6,14 +6,19 @@ import Github from "../../staticfiles/images/social-icons/github.svg";
 import Twitter from "../../staticfiles/images/social-icons/twitter.svg";
 import Facebook from "../../staticfiles/images/social-icons/facebook.svg";
 import {connect} from "react-redux";
-import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {SignInProps} from "../../interfaces/auth/signIn";
+import {usersActions} from "../../redux/actions/usersActions";
 
-const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
+const SignIn = ({login, isAuthenticated, message, socials, getSocials}: SignInProps) => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => login(values);
+
+    useEffect(() => {
+        getSocials();
+    }, [getSocials]);
+
 
     return (
         <div className="form-container auth-form">
@@ -39,15 +44,9 @@ const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
                     {(!isAuthenticated && message !== "") && <Alert message={message} type="error" showIcon />}
                 </Form>
                 <div className="socials">
-                    <Button size="large">
-                        <img src={Facebook} alt="facebook"/>Login with Facebook
-                    </Button>
-                    <Button size="large">
-                        <img src={Twitter} alt="twitter"/>Login with Twitter
-                    </Button>
-                    <Button size="large">
-                        <img src={Github} alt="github"/>Login with GitHub
-                    </Button>
+                    {socials.map(s => (
+                        <Button size="large"><img src="" alt=""/>Login with {s.name}</Button>
+                    ))}
                 </div>
             </div>
             <ul className="additional-actions">
@@ -58,16 +57,19 @@ const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
     )
 };
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: any) => {
     const {isAuthenticated, message} = state.user;
+    const {socials} = state.users;
     return {
         isAuthenticated,
         message,
+        socials,
     }
 };
 
 const mapDispatchToProps = {
     login: userActions.login,
+    getSocials: usersActions.getSocials,
 }
 
 export default connect(

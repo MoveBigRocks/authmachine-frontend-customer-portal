@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
 import {RootState} from "../../redux/reducer";
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import SignIn from "../../pages/Auth/SignIn";
 import {AuthProps} from "../../interfaces/auth";
 import "./Auth.scss";
@@ -12,14 +12,17 @@ import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateAccountWithUsername from "../../pages/Auth/ActivateAccountWithUsername";
+import { usersActions } from "../../redux/actions/usersActions";
+
 
 const Auth = ({isAuthenticated}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
 
+
     useEffect(() => {
         if (isAuthenticated) setIsAuth(true);
-    }, [isAuthenticated]);
+    }, []);
 
     if (isAuth && (pathname === "/" || pathname === "/registration")) {
         return <Redirect to="/customer-portal" />
@@ -40,10 +43,8 @@ const Auth = ({isAuthenticated}: AuthProps) => {
 }
 
 
-const mapStateToProps = (state: RootState) => {
-    return {
-        isAuthenticated: state.user.isAuthenticated,
-    }
-};
+const mapStateToProps = (state: RootState) => ({
+    isAuthenticated: state.user.isAuthenticated
+});
 
 export default connect(mapStateToProps, null)(Auth);

@@ -8,6 +8,7 @@ const usersTypes = {
 
     GET_GROUPS: 'GET_GROUPS',
     GET_EVENTS: 'GET_EVENTS',
+    GET_SOCIALS: 'GET_SOCIALS',
 }
 
 export default usersTypes;
