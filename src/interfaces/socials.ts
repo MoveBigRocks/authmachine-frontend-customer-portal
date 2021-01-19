@@ -1,4 +1,5 @@
 export interface SocialInterface {
     provider: string,
-    name: string
+    name: string,
+    url: string,
 }

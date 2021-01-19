@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
 import {history} from "../../redux/helpers/history";
 import {RootState} from "../../redux/reducer";
-import {connect, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import SignIn from "../../pages/Auth/SignIn";
 import {AuthProps} from "../../interfaces/auth";
 import "./Auth.scss";
@@ -12,7 +12,6 @@ import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateAccountWithUsername from "../../pages/Auth/ActivateAccountWithUsername";
-import { usersActions } from "../../redux/actions/usersActions";
 
 
 const Auth = ({isAuthenticated}: AuthProps) => {

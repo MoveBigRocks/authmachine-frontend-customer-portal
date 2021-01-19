@@ -1,24 +1,16 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Logo from "../../staticfiles/images/logo.png"
 import {Form, Input, Typography, Checkbox, Button, Alert} from "antd";
 import { Link } from "react-router-dom";
-import Github from "../../staticfiles/images/social-icons/github.svg";
-import Twitter from "../../staticfiles/images/social-icons/twitter.svg";
-import Facebook from "../../staticfiles/images/social-icons/facebook.svg";
 import {connect} from "react-redux";
 import {userActions} from "../../redux/actions/userActions";
 import {SignInProps} from "../../interfaces/auth/signIn";
-import {usersActions} from "../../redux/actions/usersActions";
+import SocialAccounts from "../../components/Auth/SocialAccounts";
 
-const SignIn = ({login, isAuthenticated, message, socials, getSocials}: SignInProps) => {
+const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => login(values);
-
-    useEffect(() => {
-        getSocials();
-    }, [getSocials]);
-
 
     return (
         <div className="form-container auth-form">
@@ -43,11 +35,8 @@ const SignIn = ({login, isAuthenticated, message, socials, getSocials}: SignInPr
                     </Form.Item>
                     {(!isAuthenticated && message !== "") && <Alert message={message} type="error" showIcon />}
                 </Form>
-                <div className="socials">
-                    {socials.map(s => (
-                        <Button size="large"><img src="" alt=""/>Login with {s.name}</Button>
-                    ))}
-                </div>
+
+                <SocialAccounts type="login" />
             </div>
             <ul className="additional-actions">
                 <li>Don't have account? <Link to="/registration">Create account</Link></li>
@@ -59,17 +48,14 @@ const SignIn = ({login, isAuthenticated, message, socials, getSocials}: SignInPr
 
 const mapStateToProps = (state: any) => {
     const {isAuthenticated, message} = state.user;
-    const {socials} = state.users;
     return {
         isAuthenticated,
         message,
-        socials,
     }
 };
 
 const mapDispatchToProps = {
     login: userActions.login,
-    getSocials: usersActions.getSocials,
 }
 
 export default connect(
