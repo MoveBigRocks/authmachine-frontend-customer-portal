@@ -23,6 +23,7 @@ import {connect} from "react-redux";
 import {CustomerPortalProps, CustomerPortalState} from "../../interfaces/customerPortal/customerPortal";
 import helpers from "../../helpers";
 import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
+import {mainActions} from "../../redux/actions/mainActions";
 
 const {Header, Sider, Content} = Layout;
 
@@ -68,11 +69,12 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
     }
 
     render() {
-        const {loading, user, eventsExists, match} = this.props;
+        const {loading, user, eventsExists, match, setPageLink} = this.props;
         const {collapsed, selectedMenuItems} = this.state;
         const {path} = match;
 
         if (!this.props.isAuthenticated) {
+            setPageLink(history.location.pathname);
             return <Redirect to="/"/>
         }
 
@@ -163,6 +165,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = {
     getFeaturesList: userActions.getFeaturesList,
     logout: userActions.logout,
+    setPageLink: mainActions.setPageLink,
 }
 
 export default connect(

@@ -13,7 +13,7 @@ import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
 
-const Auth = ({isAuthenticated}: AuthProps) => {
+const Auth = ({isAuthenticated, initialLink}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
 
@@ -22,7 +22,7 @@ const Auth = ({isAuthenticated}: AuthProps) => {
     }, [isAuthenticated]);
 
     if (isAuth && (pathname === "/" || pathname === "/registration")) {
-        return <Redirect to="/customer-portal" />
+        return <Redirect to={initialLink === "/" ? "/customer-portal" : initialLink} />
     }
 
     return (
@@ -44,6 +44,7 @@ const Auth = ({isAuthenticated}: AuthProps) => {
 const mapStateToProps = (state: RootState) => {
     return {
         isAuthenticated: state.user.isAuthenticated,
+        initialLink: state.main.pageLink,
     }
 };
 

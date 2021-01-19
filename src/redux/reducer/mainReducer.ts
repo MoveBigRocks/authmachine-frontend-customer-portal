@@ -6,22 +6,25 @@ type mainState = {
     authLoading: boolean,
     pageSize: string,
     showRightSider: boolean
-}
+    pageLink: string,
+};
 
 const initialState: mainState = {
     pageTitle: '',
     loading: false,
     authLoading: true,
     pageSize: "lg",
-    showRightSider: false
-}
+    showRightSider: false,
+    pageLink: "/",
+};
 
 type ActionType = {
     type: string,
     pageTitle: string,
     loading: boolean,
     pageSize: string,
-    showRightSider: boolean
+    showRightSider: boolean,
+    pageLink: string,
 };
 
 const mainReducer = (state = initialState, action: ActionType) => {
@@ -30,7 +33,12 @@ const mainReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 pageTitle: action.pageTitle
-            };
+            }
+        case mainTypes.SET_PAGE_LINK:
+            return {
+                ...state,
+                pageLink: action.pageLink
+            }
         case mainTypes.LOADING:
             return {
                 ...state,
@@ -56,4 +64,4 @@ const mainReducer = (state = initialState, action: ActionType) => {
     }
 };
 
-export default mainReducer
+export default mainReducer;

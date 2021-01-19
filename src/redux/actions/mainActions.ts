@@ -11,6 +11,16 @@ const setPageTitle = (pageTitle: string) => {
     }
 }
 
+const setPageLink = (pageLink: string) => {
+    return (dispatch: AppDispatch) => {
+        // @ts-ignore
+        dispatch({
+            type: mainTypes.SET_PAGE_LINK,
+            pageLink
+        })
+    }
+}
+
 const loading = (loading: boolean, dispatch: AppDispatch) => {
     // @ts-ignore
     return dispatch({
@@ -42,4 +52,5 @@ export const mainActions = {
     loading,
     showRightSider,
     authLoading,
+    setPageLink,
 };
