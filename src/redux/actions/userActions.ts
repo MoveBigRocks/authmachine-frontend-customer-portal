@@ -185,13 +185,13 @@ const recoveryPassword = (values: { password: string, confirmPassword: string, t
     }
 };
 
-const activationFirstStep = (values: { username: string, code: string }) => {
+const activationFirstStep = (values: { username?: string, code: string }) => {
     const {username, code} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           activationFirstStep(input: {
-            username: "${username}",
-            code: "${code}"
+            code: "${code}",
+            ${username ? `username: "${username}",` : ""}
           }) {
             success, message
           }

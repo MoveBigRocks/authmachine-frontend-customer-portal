@@ -1,9 +1,9 @@
-export interface ActivateAccountWithUsernameProps {
+export interface ActivateAccountProps {
     activationFirstStepStatus: boolean,
     activationSecondStepStatus: boolean,
     message: string,
     activationFirstStep: (values: {
-        username: string,
+        username?: string,
         code: string,
     }) => void,
     activationSecondStep: (values: {
@@ -12,4 +12,7 @@ export interface ActivateAccountWithUsernameProps {
         email: string,
         phone: string,
     }) => void,
+    match: {
+        path: string,
+    },
 }

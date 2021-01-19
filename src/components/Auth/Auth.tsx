@@ -11,7 +11,6 @@ import RecoveryPassword from "../../pages/Auth/RecoveryPassword";
 import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
-import ActivateAccountWithUsername from "../../pages/Auth/ActivateAccountWithUsername";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
 
 const Auth = ({isAuthenticated}: AuthProps) => {
@@ -34,8 +33,8 @@ const Auth = ({isAuthenticated}: AuthProps) => {
                 <Route exact path="/reset-password" component={ResetPassword} />
                 <Route exact path="/recovery-password/:token" component={RecoveryPassword} />
                 <Route exact path="/activation" component={ActivateAccount} />
+                <Route exact path="/activation-with-username" component={ActivateAccount} />
                 <Route exact path="/activation/:token" component={ActivateFinish} />
-                <Route exact path="/activation-with-username" component={ActivateAccountWithUsername} />
             </Switch>
         </div>
     );
