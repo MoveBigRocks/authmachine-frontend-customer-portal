@@ -80,14 +80,15 @@ const logout = () => {
     }
 };
 
-const login = (values: {username: string, password: string, remember: boolean}) => {
-    const {username, password, remember} = values;
+const login = (values: {username: string, password: string, remember: boolean, policies: string[]}) => {
+    const {username, password, remember, policies} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           login(input: {
             username: "${username}",
             password: "${password}",
-            rememberMe: ${remember}
+            rememberMe: ${remember},
+            policies: [${policies.map(p => `"${p}"`)}]
           }) {
             success, message
           }

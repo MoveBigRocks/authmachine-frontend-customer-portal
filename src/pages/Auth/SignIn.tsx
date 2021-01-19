@@ -9,11 +9,15 @@ import {connect} from "react-redux";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {SignInProps} from "../../interfaces/auth/signIn";
+import PrivacyPolicies from "../../components/Auth/PrivacyPolicies/PrivacyPolicies";
 
 const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => login(values);
+    const onFinish = (values: any) => {
+        values["policies"] = Object.keys(values).filter((key: string) => key.startsWith("policy_"));
+        login(values);
+    };
 
     return (
         <div className="form-container auth-form">
@@ -29,6 +33,9 @@ const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
                                rules={[{ required: true, message: 'Please input your password' }]}>
                         <Input.Password size="large" placeholder="Password" />
                     </Form.Item>
+
+                    <PrivacyPolicies form={form} formType="login" />
+
                     <Form.Item name="remember" valuePropName="checked" className="space-between">
                         <Checkbox>Remember me</Checkbox>
                         <Link to="/reset-password">Forgot password?</Link>

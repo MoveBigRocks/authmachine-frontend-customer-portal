@@ -82,11 +82,11 @@ const ActivateAccount = (props: ActivateAccountProps) => {
                             <Input.Password size="large" placeholder="Password" />
                         </Form.Item>
                         <Form.Item name="confirmPassword"
-                                   rules={[{ required: true, message: "Please con username" }]}>
+                                   rules={[{ required: true, message: "Please confirm a password" }]}>
                             <Input.Password size="large" placeholder="Confirm Password" />
                         </Form.Item>
 
-                        <PrivacyPolicies form={secondForm} />
+                        <PrivacyPolicies form={secondForm} formType="activation" />
 
                         <Form.Item style={{marginBottom: 0}}>
                             <Button type="primary" size="large" htmlType="submit">Submit</Button>

@@ -10,4 +10,5 @@ export interface PrivacyPoliciesProps {
     policies: PrivacyPolicy[],
     getPrivacyPolicyList: () => void,
     form: any,
+    formType: string,
 }
