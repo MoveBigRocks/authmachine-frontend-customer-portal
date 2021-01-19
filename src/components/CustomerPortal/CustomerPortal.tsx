@@ -22,6 +22,7 @@ import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {CustomerPortalProps, CustomerPortalState} from "../../interfaces/customerPortal/customerPortal";
 import helpers from "../../helpers";
+import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
 
 const {Header, Sider, Content} = Layout;
 
@@ -31,6 +32,7 @@ const links = {
     profileEdit: "profile-edit",
     activity: "recent-activity",
     changePassword: "change-password",
+    permissionDelegation: "permission-delegation",
 };
 
 class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortalState> {
@@ -124,7 +126,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                         <Link to={helpers.getPagePath(path, links.changePassword)}>Change Password</Link>
                                     </Menu.Item>
                                     <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
-                                        Permission Delegation
+                                        <Link to={helpers.getPagePath(path, links.permissionDelegation)}>Permission Delegation</Link>
                                     </Menu.Item>
                                 </Menu>
                             </Sider>
@@ -135,6 +137,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Route path={helpers.getPagePath(path, links.profileEdit)} component={MyProfileEdit} />
                                     {eventsExists && <Route path={helpers.getPagePath(path, links.activity)} component={RecentActivity} />}
                                     <Route path={helpers.getPagePath(path, links.changePassword)} component={ChangePassword} />
+                                    <Route path={helpers.getPagePath(path, links.permissionDelegation)} component={PermissionDelegation} />
 
                                     <Route path="**" exact={true} component={Error404} />
                                 </Switch>

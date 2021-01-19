@@ -13,7 +13,7 @@ type ActionType = {
     data: any[]
 }
 
-const userReducer = (state = initialState, action: ActionType) => {
+const applicationReducer = (state = initialState, action: ActionType) => {
     switch (action.type) {
         case applicationTypes.GET_APPLICATIONS:
             return {
@@ -25,4 +25,4 @@ const userReducer = (state = initialState, action: ActionType) => {
     }
 };
 
-export default userReducer
+export default applicationReducer;

@@ -102,8 +102,15 @@ export interface UserDetailProps {
     getEvents: () => void,
 }
 
-export interface UserDetailState {
+export interface DelegatePermissionProps {
+    visible: boolean,
+    onCancel: () => void,
+}
 
+export interface RemovePermissionProps {
+    visible: boolean,
+    onCancel: () => void,
+    removeItemId: null | string,
 }
 
 export type getUsersData = {

@@ -1,0 +1,23 @@
+.delegate-permission {
+  .ant-select-single {
+    .ant-select-selector {
+      border-radius: 3px;
+    }
+  }
+  button {
+    border-radius: 3px;
+  }
+
+  .sub-dates {
+    margin-bottom: 0;
+    .ant-form-item-control-input-content {
+      .ant-picker {
+        width: calc(50% - 5px);
+        border-radius: 3px;
+        &:not(:last-of-type) {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
