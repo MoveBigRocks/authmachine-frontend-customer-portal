@@ -9,6 +9,7 @@ const usersTypes = {
     GET_GROUPS: 'GET_GROUPS',
     GET_EVENTS: 'GET_EVENTS',
     GET_SOCIALS: 'GET_SOCIALS',
+    GET_GOOGLE_AUTHENTICATOR_VALUE: 'GET_GOOGLE_AUTHENTICATOR_VALUE',
 }
 
 export default usersTypes;

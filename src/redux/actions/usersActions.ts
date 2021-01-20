@@ -6,6 +6,26 @@ import {getUsersData, UserInterface} from "../../interfaces/user";
 import request from '../helpers/request';
 
 
+const getGoogleAuthenticatorValue = () => {
+    return (dispatch: AppDispatch, getState: any) => {
+        let query = `query {
+          googleAuthenticatorValue
+        }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+                let {googleAuthenticatorValue} = data.data;
+                mainActions.loading(false, dispatch);
+                dispatch({
+                    type: usersTypes.GET_GOOGLE_AUTHENTICATOR_VALUE,
+                    data: googleAuthenticatorValue,
+                });
+            },
+            () => {
+            })
+    }
+}
+
+
 const getSocials = () => {
     return (dispatch: AppDispatch, getState: any) => {
         let query = `query {
@@ -16,14 +36,15 @@ const getSocials = () => {
             }`;
 
         request.postWithoutErrors(dispatch, query, (data: any) => {
-            let {allSocials} = data.data;
-            mainActions.loading(false, dispatch);
-            dispatch({
-                type: usersTypes.GET_SOCIALS,
-                data: allSocials,
-            });
-        },
-            () => {},
+                let {allSocials} = data.data;
+                mainActions.loading(false, dispatch);
+                dispatch({
+                    type: usersTypes.GET_SOCIALS,
+                    data: allSocials,
+                });
+            },
+            () => {
+            },
             false)
     }
 }
@@ -383,11 +404,11 @@ const updateUser = () => {
           userUpdate(id: "${user.id}", input: {
             username: "${user.username}",
             nickName: "${user.nickName ? user.nickName : ""}",
-            emails: [${user.emails.map((e: any) => 
+            emails: [${user.emails.map((e: any) =>
             `{value: "${e.value}", primary: ${e.primary} ${e.type ? `, type: "${e.type}"` : ""} ${e.hasOwnProperty("id") ? `, id: ${e.id}` : ""}}`)}],
-            phones: [${user.phoneNumbers.map((p: any) => 
+            phones: [${user.phoneNumbers.map((p: any) =>
             `{value: "${p.value}"${p.type ? `, type: "${p.type}"` : ""}${p.hasOwnProperty("id") ? `, id: ${p.id}` : ""}}`)}],
-            addresses: [${user.addresses.map((a: any) => 
+            addresses: [${user.addresses.map((a: any) =>
             `{formatted: "${a.formatted}", primary: ${a.primary}, country: "${a.country}", type: "${a.type}", 
             locality: "${a.locality}", postalCode: "${a.postalCode}", region: "${a.region}", streetAddress: "${a.streetAddress}"
             ${a.hasOwnProperty("id") ? `, id: ${a.id}` : ""}}`)}],
@@ -582,6 +603,7 @@ const deleteAvatar = () => {
 }
 
 export const usersActions = {
+    getGoogleAuthenticatorValue,
     getSocials,
     getUsers,
     getUser,

@@ -85,7 +85,7 @@ const usersReducer = (state = initialState, action: ActionType) => {
                 operationStatus: action.operationStatus
             }
         case usersTypes.GET_EVENTS:
-            return  {
+            return {
                 ...state,
                 events: action.data
             }
@@ -100,6 +100,11 @@ const usersReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 socials: action.data,
+            }
+        case usersTypes.GET_GOOGLE_AUTHENTICATOR_VALUE:
+            return {
+                ...state,
+                googleAuthenticatorValue: action.data,
             }
         default:
             return state;
