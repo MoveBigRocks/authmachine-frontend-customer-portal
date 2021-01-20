@@ -15,7 +15,7 @@ import Paypal from "../../staticfiles/images/social-icons/paypal.svg";
 import SalesForce from "../../staticfiles/images/social-icons/salesforce.svg";
 import Twitter from "../../staticfiles/images/social-icons/twitter.svg";
 import WindowsLive from "../../staticfiles/images/social-icons/windowslive.svg";
-
+import helpers from "../../helpers";
 
 
 const SocialAccounts = ({socials, getSocials, type}: any) => {
@@ -26,27 +26,27 @@ const SocialAccounts = ({socials, getSocials, type}: any) => {
     const getIconByProvider = (name: string) => {
         switch (name) {
             case 'amazon':
-                return Amazon
+                return Amazon;
             case 'facebook':
-                return Facebook
+                return Facebook;
             case 'github':
-                return Github
+                return Github;
             case 'google':
-                return Google
+                return Google;
             case 'linkedin':
-                return LinkedIn
+                return LinkedIn;
             case 'oauth':
-                return OAuth
+                return OAuth;
             case 'openid':
-                return OpenId
+                return OpenId;
             case 'paypal':
-                return Paypal
+                return Paypal;
             case 'salesforce':
-                return SalesForce
+                return SalesForce;
             case 'twitter':
-                return Twitter
+                return Twitter;
             case 'windowslive':
-                return WindowsLive
+                return WindowsLive;
         }
     }
 
@@ -55,8 +55,8 @@ const SocialAccounts = ({socials, getSocials, type}: any) => {
             {socials.length > 0 && <div className="socials">
                 {socials.map((s: SocialInterface) => (
                     // <Link to={s.url}>
-                        <Button size="large"><img style={{marginRight: 10}} src={getIconByProvider(s.name)} alt={s.name}/>
-                            {type === 'login' ? 'Login' : 'Sign up'} with {s.name}
+                        <Button size="large" key={s.id}><img style={{marginRight: 10}} src={getIconByProvider(s.provider)} alt={s.name}/>
+                            {type === 'login' ? 'Login' : 'Sign up'} with {helpers.getTitleWithUpper(s.name)}
                         </Button>
                     // </Link>
                 ))}

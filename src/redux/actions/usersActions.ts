@@ -10,6 +10,8 @@ const getSocials = () => {
     return (dispatch: AppDispatch, getState: any) => {
         let query = `query {
               allSocials {
+                id,
+                provider,
                 name,
                 url
               }

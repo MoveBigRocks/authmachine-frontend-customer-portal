@@ -23,11 +23,11 @@ const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
                 <Typography.Title level={3}>Login</Typography.Title>
                 <Form form={form} onFinish={onFinish} initialValues={{remember: false}}>
                     <Form.Item name="username"
-                               rules={[{ required: true, message: 'Please input your username' }]}>
+                               rules={[{ required: true, message: "Please input your username" }]}>
                         <Input size="large" placeholder="Username" />
                     </Form.Item>
                     <Form.Item name="password"
-                               rules={[{ required: true, message: 'Please input your password' }]}>
+                               rules={[{ required: true, message: "Please input your password" }]}>
                         <Input.Password size="large" placeholder="Password" />
                     </Form.Item>
 
