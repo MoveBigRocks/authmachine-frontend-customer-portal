@@ -7,6 +7,7 @@ import './LoginOptions.scss';
 import helpers from '../../../helpers'
 import {usersActions} from "../../../redux/actions/usersActions";
 import {ISocialByUser} from "../../../interfaces/socialsByUser";
+import {ILoginOptions} from "../../../interfaces/customerPortal/loginOptions";
 
 const {Option} = Select;
 
@@ -14,9 +15,9 @@ const {Option} = Select;
 const LoginOptions = ({
                           googleAuthenticatorValue,
                           getGoogleAuthenticatorValue,
-                          getSocialsByUser,
                           socialsByUser,
-                      }: any) => {
+                          getSocialsByUser,
+                      }: ILoginOptions) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEnterManually, setIsEnterManually] = useState(false);
     const [isVerifyPhone, setIsVerifyPhone] = useState(false);
@@ -30,9 +31,7 @@ const LoginOptions = ({
         getSocialsByUser();
     }, [getSocialsByUser]);
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
+    const showModal = () => setIsModalVisible(true);
 
     const handlePhoneVerifying = () => {
         setIsModalVisible(false);
@@ -40,18 +39,14 @@ const LoginOptions = ({
         setIsVerified(true);
     };
 
-    const handlePhoneSubmitting = () => {
-        setIsVerifyPhone(true);
-    };
+    const handlePhoneSubmitting = () => setIsVerifyPhone(true);
 
     const handleCancel = () => {
         setIsModalVisible(false);
         setIsVerifyPhone(false);
     };
 
-    const handlerEnterManually = () => {
-        setIsEnterManually(prevState => !prevState)
-    };
+    const handlerEnterManually = () => setIsEnterManually(prevState => !prevState);
 
 
     return (
@@ -193,21 +188,17 @@ const LoginOptions = ({
 }
 
 const mapStateToProps = (state: RootState) => {
-        const {googleAuthenticatorValue, socialsByUser} = state.users;
-        return {
-            googleAuthenticatorValue,
-            socialsByUser,
-        }
+    const {googleAuthenticatorValue, socialsByUser} = state.users;
+    return {
+        googleAuthenticatorValue,
+        socialsByUser,
     }
-;
+};
 
-const mapDispatchToProps =
-    {
-        getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
-        getSocialsByUser
-:
-usersActions.getSocialsByUser,
-}
+const mapDispatchToProps = {
+    getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
+    getSocialsByUser: usersActions.getSocialsByUser,
+};
 
 export default connect(
     mapStateToProps,

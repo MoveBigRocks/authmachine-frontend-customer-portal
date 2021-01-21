@@ -6,7 +6,7 @@ import {getUsersData, UserInterface} from "../../interfaces/user";
 import request from '../helpers/request';
 
 
-const getSocialsByUser = (userId: string) => {
+const getSocialsByUser = () => {
     return (dispatch: AppDispatch, getState: any) => {
         let query = `query {
             allSocialsByUser(id: "${getState().user.id}") {
