@@ -5,6 +5,18 @@ import activation from "./staticfiles/images/event-logs/Activation.svg";
 import passwordReset from "./staticfiles/images/event-logs/Password Reset.svg";
 import unlocked from "./staticfiles/images/event-logs/Unlocked.svg";
 
+import Amazon from "./staticfiles/images/social-icons/amazon.svg";
+import Facebook from "./staticfiles/images/social-icons/facebook.svg";
+import Github from "./staticfiles/images/social-icons/github.svg";
+import Google from "./staticfiles/images/social-icons/google.svg";
+import LinkedIn from "./staticfiles/images/social-icons/linkedin.svg";
+import OAuth from "./staticfiles/images/social-icons/oauth.svg";
+import OpenId from "./staticfiles/images/social-icons/openid.svg";
+import Paypal from "./staticfiles/images/social-icons/paypal.svg";
+import SalesForce from "./staticfiles/images/social-icons/salesforce.svg";
+import Twitter from "./staticfiles/images/social-icons/twitter.svg";
+import WindowsLive from "./staticfiles/images/social-icons/windowslive.svg";
+
 const helpers = {
     getDate: (date: string) => {
         let inputDate = new Date(date);
@@ -76,6 +88,32 @@ const helpers = {
         return word.charAt(0).toUpperCase() + word.slice(1)
     },
     getPagePath: (path: string, pagePath: string) => `${path}/${pagePath}`,
+    getIconByProvider: (name: string) => {
+        switch (name) {
+            case 'amazon':
+                return Amazon
+            case 'facebook':
+                return Facebook
+            case 'github':
+                return Github
+            case 'google':
+                return Google
+            case 'linkedin':
+                return LinkedIn
+            case 'oauth':
+                return OAuth
+            case 'openid':
+                return OpenId
+            case 'paypal':
+                return Paypal
+            case 'salesforce':
+                return SalesForce
+            case 'twitter':
+                return Twitter
+            case 'windowslive':
+                return WindowsLive
+        }
+    }
 }
 
 export default helpers;

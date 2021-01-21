@@ -24,6 +24,7 @@ import {CustomerPortalProps, CustomerPortalState} from "../../interfaces/custome
 import helpers from "../../helpers";
 import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
 import {mainActions} from "../../redux/actions/mainActions";
+import LoginOptions from "../../pages/Dashboard/LoginOptions/LoginOptions";
 
 const {Header, Sider, Content} = Layout;
 
@@ -34,6 +35,7 @@ const links = {
     activity: "recent-activity",
     changePassword: "change-password",
     permissionDelegation: "permission-delegation",
+    loginOptions: "login-options",
 };
 
 class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortalState> {
@@ -122,7 +124,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Menu.ItemGroup title={<Divider />}/>
                                     <div className="menu-title f-bold">Settings</div>
                                     <Menu.Item key="login-options" icon={<LoginOutlined />}>
-                                        Login Options
+                                        <Link to={helpers.getPagePath(path, links.loginOptions)}>Login Options</Link>
                                     </Menu.Item>
                                     <Menu.Item key="change-password" icon={<KeyOutlined />}>
                                         <Link to={helpers.getPagePath(path, links.changePassword)}>Change Password</Link>
@@ -139,6 +141,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Route path={helpers.getPagePath(path, links.profileEdit)} component={MyProfileEdit} />
                                     {eventsExists && <Route path={helpers.getPagePath(path, links.activity)} component={RecentActivity} />}
                                     <Route path={helpers.getPagePath(path, links.changePassword)} component={ChangePassword} />
+                                    <Route path={helpers.getPagePath(path, links.loginOptions)} component={LoginOptions} />
                                     <Route path={helpers.getPagePath(path, links.permissionDelegation)} component={PermissionDelegation} />
 
                                     <Route path="**" exact={true} component={Error404} />
