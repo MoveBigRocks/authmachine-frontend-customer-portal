@@ -54,10 +54,10 @@ const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
 };
 
 const mapStateToProps = (state: any) => {
-    const {isAuthenticated, message} = state.user;
+    const {isAuthenticated, loginMessage} = state.user;
     return {
         isAuthenticated,
-        message,
+        message: loginMessage,
     }
 };
 

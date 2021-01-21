@@ -111,11 +111,11 @@ const ActivateAccount = (props: ActivateAccountProps) => {
 };
 
 const mapStateToProps = (state: RootState) => {
-    const {activationFirstStepStatus, activationSecondStepStatus, message} = state.user;
+    const {activationFirstStepStatus, activationSecondStepStatus, activateMessage} = state.user;
     return {
         activationFirstStepStatus,
         activationSecondStepStatus,
-        message,
+        message: activateMessage,
     }
 };
 

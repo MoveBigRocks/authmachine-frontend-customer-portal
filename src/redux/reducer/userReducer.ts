@@ -9,7 +9,11 @@ type UserState = {
     policies: any[],
     eventsExists: boolean,
     message: string,
+    registerMessage: string,
+    loginMessage: string,
+    activateMessage: string,
     operationStatus: boolean,
+    isRegister: boolean,
     activationFirstStepStatus: boolean,
     activationSecondStepStatus: boolean,
     socialLink: string,
@@ -19,11 +23,15 @@ const initialState: UserState = {
     username: null,
     id: null,
     isAuthenticated: false,
+    isRegister: false,
     avatar: null,
     features: [],
     policies: [],
     eventsExists: false,
     message: "",
+    registerMessage: "",
+    loginMessage: "",
+    activateMessage: "",
     operationStatus: false,
     activationFirstStepStatus: false,
     activationSecondStepStatus: false,
@@ -75,7 +83,13 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 isAuthenticated: action.status,
-                message: action?.message || "",
+                loginMessage: action?.message || "",
+            }
+        case userTypes.USER_REGISTER:
+            return {
+                ...state,
+                isRegister: action.status,
+                registerMessage: action.message
             }
         case userTypes.RESET_PASSWORD:
         case userTypes.RECOVERY_PASSWORD:
@@ -90,13 +104,13 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 activationFirstStepStatus: action.status,
-                message: action?.message || "",
+                activateMessage: action?.message || "",
             }
         case userTypes.ACTIVATION_SECOND_STEP:
             return {
                 ...state,
                 activationSecondStepStatus: action.status,
-                message: action?.message || "",
+                activateMessage: action?.message || "",
             }
         case userTypes.GET_POLICIES:
             return {

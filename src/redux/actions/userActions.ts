@@ -3,7 +3,6 @@ import userTypes from "../types/userTypes";
 import axios from "axios";
 import {authHeader} from "../helpers/authHeaders";
 import {AppDispatch} from "../store";
-import {alertActions} from "./alertActions";
 import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 
@@ -116,6 +115,37 @@ const login = (values: {username: string, password: string, remember: boolean, p
                 }
             },
             () => setLogin(false, "Something wrong"),
+            false);
+    }
+};
+
+const register = (values: {username: string, email: string}) => {
+    const {username, email} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          register(input: {
+            username: "${username}",
+            email: "${email}",
+          }) {
+            success, message
+          }
+        }`;
+
+        const setRegister = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.USER_REGISTER,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.register;
+                setRegister(success, message);
+            },
+            () => setRegister(false, "Something wrong"),
             false);
     }
 };
@@ -391,6 +421,7 @@ const getSocialLink = (provider: string) => {
 export const userActions = {
     auth,
     login,
+    register,
     authSuccess,
     authFailure,
     getFeaturesList,
