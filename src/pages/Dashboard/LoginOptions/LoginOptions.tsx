@@ -4,24 +4,19 @@ import {connect} from "react-redux";
 import {RootState} from "../../../redux/reducer";
 import {LinkOutlined} from '@ant-design/icons';
 import './LoginOptions.scss';
-
-import Amazon from "../../../staticfiles/images/social-icons/amazon.svg";
-import Facebook from "../../../staticfiles/images/social-icons/facebook.svg";
-import Github from "../../../staticfiles/images/social-icons/github.svg";
-import Google from "../../../staticfiles/images/social-icons/google.svg";
-import LinkedIn from "../../../staticfiles/images/social-icons/linkedin.svg";
-import OAuth from "../../../staticfiles/images/social-icons/oauth.svg";
-import OpenId from "../../../staticfiles/images/social-icons/openid.svg";
-import Paypal from "../../../staticfiles/images/social-icons/paypal.svg";
-import SalesForce from "../../../staticfiles/images/social-icons/salesforce.svg";
-import Twitter from "../../../staticfiles/images/social-icons/twitter.svg";
-import WindowsLive from "../../../staticfiles/images/social-icons/windowslive.svg";
+import helpers from '../../../helpers'
 import {usersActions} from "../../../redux/actions/usersActions";
+import {ISocialByUser} from "../../../interfaces/socialsByUser";
 
 const {Option} = Select;
 
 
-const LoginOptions = ({googleAuthenticatorValue, getGoogleAuthenticatorValue}: any) => {
+const LoginOptions = ({
+                          googleAuthenticatorValue,
+                          getGoogleAuthenticatorValue,
+                          getSocialsByUser,
+                          socialsByUser,
+                      }: any) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEnterManually, setIsEnterManually] = useState(false);
     const [isVerifyPhone, setIsVerifyPhone] = useState(false);
@@ -30,6 +25,10 @@ const LoginOptions = ({googleAuthenticatorValue, getGoogleAuthenticatorValue}: a
     useEffect(() => {
         getGoogleAuthenticatorValue();
     }, [getGoogleAuthenticatorValue]);
+
+    useEffect(() => {
+        getSocialsByUser();
+    }, [getSocialsByUser]);
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -61,78 +60,58 @@ const LoginOptions = ({googleAuthenticatorValue, getGoogleAuthenticatorValue}: a
             <Typography.Title level={5} style={{marginBottom: "1.5rem"}}>Social Accounts</Typography.Title>
 
             <Row gutter={[32, 32]}>
-                <Col sm={24} md={24} lg={12} xl={10}>
-                    <Card>
-                        <div className="check">&#10003;</div>
-                        <Row justify="space-around" align="middle">
-                            <Col>
-                                <Row align="middle">
-                                    <Col>
-                                        <img src={Facebook} width={25} style={{marginRight: 15}}/>
-                                    </Col>
-                                    <Col>
-                                        <Typography.Title level={5}>Facebook</Typography.Title>
-                                        <Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col>
-                                <Button type="primary" shape="round" icon={<LinkOutlined/>} size='small'>
-                                    Connect
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-                <Col sm={24} md={24} lg={12} xl={10}>
-                    <Card>
-                        <Row justify="space-around" align="middle">
-                            <Col>
-                                <Row align="middle">
-                                    <Col>
-                                        <img src={Facebook} width={25} style={{marginRight: 15}}/>
-                                    </Col>
-                                    <Col>
-                                        <Typography.Title level={5}>Facebook</Typography.Title>
-                                        <Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col>
-                                <Button style={{background: "#fafafa", color: "#595959", border: "none"}} type="primary"
-                                        shape="round" icon={<LinkOutlined/>} size='small'>
-                                    Disconnect
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-
-                <Col sm={24} md={24} lg={12} xl={10}>
-                    <Card>
-                        <Row justify="space-around" align="middle">
-                            <Col>
-                                <Row align="middle">
-                                    <Col>
-                                        <img src={Facebook} width={25} style={{marginRight: 15}}/>
-                                    </Col>
-                                    <Col>
-                                        <Typography.Title level={5}>Facebook</Typography.Title>
-                                        <Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col>
-                                <Button type="primary" shape="round" icon={<LinkOutlined/>} size='small'>
-                                    Connect
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
+                {socialsByUser.map((s: ISocialByUser, index: number) => (
+                    <Col sm={24} md={24} lg={12} xl={10} key={index}>
+                        <Card>
+                            {
+                                s.isConnected &&
+                                <div className="check">&#10003;</div>
+                            }
+                            <Row justify="space-around" align="middle">
+                                <Col>
+                                    <Row align="middle">
+                                        <Col>
+                                            <img src={helpers.getIconByProvider(s.provider)} width={25}
+                                                 style={{marginRight: 15}}/>
+                                        </Col>
+                                        <Col>
+                                            <Typography.Title
+                                                level={5}
+                                                style={{marginBottom: 0}}>{helpers.getTitleWithUpper(s.provider)}</Typography.Title>
+                                            {/*<Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>*/}
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col>
+                                    {
+                                        s.isConnected &&
+                                        <Button style={{background: "#fafafa", color: "#595959", border: "none"}}
+                                                type="primary"
+                                                shape="round" icon={<LinkOutlined/>} size='small'>
+                                            Disconnect
+                                        </Button>
+                                    }
+                                    {
+                                        !s.isConnected &&
+                                        <Button type="primary" shape="round" icon={<LinkOutlined/>} size='small'>
+                                            Connect
+                                        </Button>
+                                    }
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                ))}
             </Row>
 
-            {googleAuthenticatorValue && <Divider/>}
+            <Divider/>
+            {
+                !isVerified &&
+                <Space direction="vertical">
+                    <Typography.Title level={5}>Two-factor Authentification</Typography.Title>
+                    <Typography.Text>Google Authenticator is disabled on this AuthMachine instance</Typography.Text>
+                </Space>
+            }
             {
                 !isVerified && googleAuthenticatorValue &&
                 <Space direction="vertical">
@@ -213,14 +192,16 @@ const LoginOptions = ({googleAuthenticatorValue, getGoogleAuthenticatorValue}: a
 }
 
 const mapStateToProps = (state: RootState) => {
-    const {googleAuthenticatorValue} = state.users;
+    const {googleAuthenticatorValue, socialsByUser} = state.users;
     return {
         googleAuthenticatorValue,
+        socialsByUser,
     }
 };
 
 const mapDispatchToProps = {
     getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
+    getSocialsByUser: usersActions.getSocialsByUser,
 }
 
 export default connect(

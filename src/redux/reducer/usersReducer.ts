@@ -20,6 +20,8 @@ export type usersState = {
     user: null | UserInterface,
     events: EventInterface[],
     socials: SocialInterface[],
+    googleAuthenticatorValue: boolean,
+    socialsByUser: any[],
 }
 
 const initialState: usersState = {
@@ -38,6 +40,8 @@ const initialState: usersState = {
     groupsSelected: [],
     events: [],
     socials: [],
+    googleAuthenticatorValue: false,
+    socialsByUser: [],
 }
 
 type ActionType = {
@@ -105,6 +109,11 @@ const usersReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 googleAuthenticatorValue: action.data,
+            }
+        case usersTypes.GET_SOCIALS_BY_USER:
+            return {
+                ...state,
+                socialsByUser: action.data,
             }
         default:
             return state;

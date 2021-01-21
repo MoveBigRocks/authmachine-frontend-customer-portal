@@ -6,6 +6,29 @@ import {getUsersData, UserInterface} from "../../interfaces/user";
 import request from '../helpers/request';
 
 
+const getSocialsByUser = (userId: string) => {
+    return (dispatch: AppDispatch, getState: any) => {
+        let query = `query {
+            allSocialsByUser(id: "${getState().user.id}") {
+                id,
+                provider,
+                isConnected
+            }
+        }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+            let {allSocialsByUser} = data.data;
+            mainActions.loading(false, dispatch);
+            dispatch({
+                type: usersTypes.GET_SOCIALS_BY_USER,
+                data: allSocialsByUser,
+            });
+        },
+        () => { })
+    }
+}
+
+
 const getGoogleAuthenticatorValue = () => {
     return (dispatch: AppDispatch, getState: any) => {
         let query = `query {
@@ -603,6 +626,7 @@ const deleteAvatar = () => {
 }
 
 export const usersActions = {
+    getSocialsByUser,
     getGoogleAuthenticatorValue,
     getSocials,
     getUsers,
