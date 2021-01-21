@@ -12,6 +12,7 @@ type UserState = {
     operationStatus: boolean,
     activationFirstStepStatus: boolean,
     activationSecondStepStatus: boolean,
+    socialLink: string,
 }
 
 const initialState: UserState = {
@@ -26,6 +27,7 @@ const initialState: UserState = {
     operationStatus: false,
     activationFirstStepStatus: false,
     activationSecondStepStatus: false,
+    socialLink: "",
 }
 
 type ActionType = {
@@ -78,6 +80,7 @@ const userReducer = (state = initialState, action: ActionType) => {
         case userTypes.RESET_PASSWORD:
         case userTypes.RECOVERY_PASSWORD:
         case userTypes.FINISH_ACTIVATION:
+        case userTypes.SOCIAL_CALLBACK:
             return {
                 ...state,
                 operationStatus: action.status,
@@ -99,6 +102,11 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 policies: action.data,
+            }
+        case userTypes.SOCIAL_LINK:
+            return {
+                ...state,
+                socialLink: action.message
             }
         default:
             return state;

@@ -298,7 +298,7 @@ const getFeaturesList = () => {
                     data: result.data
                 });
             })
-            .catch((err: any) => alertActions.error(err));
+            .catch();
     }
 }
 
@@ -332,6 +332,62 @@ const getPrivacyPolicyList = () => {
     }
 }
 
+const socialCallback = (provider: string, queryString: string) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          socialCallback(provider: "${provider}", queryString: "${queryString}") {
+            success,
+            message
+          }
+        }`;
+
+        const setSocialCallbackStatus = (status: boolean, message: string = "") =>
+            dispatch({
+                type: userTypes.SOCIAL_CALLBACK,
+                status,
+                message
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.socialCallback;
+
+                // @ts-ignore
+                if (success) dispatch(userActions.auth());
+
+                setSocialCallbackStatus(success, success ? "" : message);
+            },
+            () => setSocialCallbackStatus(false, "Something wrong"),
+            false);
+    }
+}
+
+const getSocialLink = (provider: string) => {
+    return (dispatch: AppDispatch) => {
+        let query = `query {
+          getProviderLink(provider: "${provider}")
+        }`;
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let message = result.data.getProviderLink;
+
+                dispatch({
+                    type: userTypes.SOCIAL_LINK,
+                    message
+                });
+            },
+            () => {
+
+            },
+            false);
+    }
+}
+
 export const userActions = {
     auth,
     login,
@@ -345,4 +401,6 @@ export const userActions = {
     activationSecondStep,
     finishActivation,
     getPrivacyPolicyList,
+    socialCallback,
+    getSocialLink,
 };

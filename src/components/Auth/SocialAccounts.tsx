@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
 import { usersActions } from "../../redux/actions/usersActions";
@@ -16,12 +16,17 @@ import SalesForce from "../../staticfiles/images/social-icons/salesforce.svg";
 import Twitter from "../../staticfiles/images/social-icons/twitter.svg";
 import WindowsLive from "../../staticfiles/images/social-icons/windowslive.svg";
 import helpers from "../../helpers";
+import {userActions} from "../../redux/actions/userActions";
 
 
-const SocialAccounts = ({socials, getSocials, type}: any) => {
+const SocialAccounts = ({socials, getSocials, type, socialLink, getSocialLink}: any) => {
     useEffect(() => {
         getSocials();
     }, [getSocials]);
+
+    useEffect(() => {
+        if (socialLink !== "") window.location.replace(socialLink);
+    }, [socialLink, getSocialLink]);
 
     const getIconByProvider = (name: string) => {
         switch (name) {
@@ -48,17 +53,16 @@ const SocialAccounts = ({socials, getSocials, type}: any) => {
             case 'windowslive':
                 return WindowsLive;
         }
-    }
+    };
 
     return (
         <>
             {socials.length > 0 && <div className="socials">
                 {socials.map((s: SocialInterface) => (
-                    // <Link to={s.url}>
-                        <Button size="large" key={s.id}><img style={{marginRight: 10}} src={getIconByProvider(s.provider)} alt={s.name}/>
-                            {type === 'login' ? 'Login' : 'Sign up'} with {helpers.getTitleWithUpper(s.name)}
-                        </Button>
-                    // </Link>
+                    <Button size="large" key={s.id} onClick={() => getSocialLink(s.provider)}>
+                        <img style={{marginRight: 10}} src={getIconByProvider(s.provider)} alt={s.name}/>
+                        {type === 'login' ? 'Login' : 'Sign up'} with {helpers.getTitleWithUpper(s.name)}
+                    </Button>
                 ))}
             </div>}
         </>
@@ -67,13 +71,16 @@ const SocialAccounts = ({socials, getSocials, type}: any) => {
 
 const mapStateToProps = (state: any) => {
     const {socials} = state.users;
+    const {socialLink} = state.user;
     return {
         socials,
+        socialLink,
     }
 };
 
 const mapDispatchToProps = {
     getSocials: usersActions.getSocials,
+    getSocialLink: userActions.getSocialLink,
 }
 
 export default connect(

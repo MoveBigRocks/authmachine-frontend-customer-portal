@@ -12,19 +12,24 @@ import {Helmet} from "react-helmet";
 import CustomerPortal from "../CustomerPortal/CustomerPortal";
 import Auth from "../Auth/Auth";
 import {Spin} from "antd";
+import SocialLogin from "../../pages/SocialLogin/SocialLogin";
 
 const App = ({pageTitle, auth, loading}: AppProps) => {
+    const startAuth = !window.location.pathname.startsWith("/socials");
 
-    useEffect(() => auth(), [auth]);
+    useEffect(() => {
+        if (startAuth) auth();
+    }, [startAuth, auth]);
 
     return (
         <Router history={history}>
             <Helmet>
                 <title>{pageTitle}</title>
             </Helmet>
-            <Spin tip="Loading..." spinning={loading} wrapperClassName="bg-white">
+            <Spin tip="Loading..." spinning={startAuth ? loading : false} wrapperClassName="bg-white">
                 <Switch>
                     <Route path={"/customer-portal"} component={CustomerPortal} />
+                    <Route path={"/socials/:provider/login"} component={SocialLogin} />
                     <Route exact path={""} component={Auth} />
                     <Route path="**" exact={true} component={Error404} />
                 </Switch>

@@ -12,8 +12,7 @@ const getSocials = () => {
               allSocials {
                 id,
                 provider,
-                name,
-                url
+                name
               }
             }`;
 
