@@ -41,7 +41,7 @@ export const MyProfile = ({user, getUser, setPageTitle}: MyProfileProps) => {
                     <Typography.Title level={2} style={{marginBottom: 0, marginLeft: 15}}>{user?.username}</Typography.Title>
                 </div>
                 <div className="d-flex-center">
-                    <Link to="/profile-edit">
+                    <Link to="/customer-portal/profile-edit">
                         <Button className="edit-btn">
                             <EditFilled size={25} /> Edit
                         </Button>
