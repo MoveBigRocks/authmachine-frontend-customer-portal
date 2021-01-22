@@ -10,15 +10,15 @@ export type usersState = {
 
 const initialState: usersState = {
     pinCodeData: {
-        success: false,
+        success: null,
         message: '',
     },
     pinCodeVerifyData: {
-        success: false,
+        success: null,
         message: '',
     },
     tokenVerifyData: {
-        success: false,
+        success: null,
         message: '',
     },
 }
@@ -37,15 +37,15 @@ const tfaReducer = (state = initialState, action: ActionType) => {
                 pinCodeData: action.data,
             }
         case tfaTypes.VERIFY_PIN_CODE:
-        return {
-            ...state,
-            pinCodeVerifyData: action.data,
-        }
+            return {
+                ...state,
+                pinCodeVerifyData: action.data,
+            }
         case tfaTypes.VERIFY_TOKEN:
-        return {
-            ...state,
-            tokenVerifyData: action.data,
-        }
+            return {
+                ...state,
+                tokenVerifyData: action.data,
+            }
         default:
             return state
     }

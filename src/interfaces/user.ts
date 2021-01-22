@@ -22,6 +22,7 @@ export interface UserInterface {
     phoneNumbers: any[],
     addresses: any[],
     permissions: PermissionInterface[],
+    googleAuthenticatorTested: boolean,
 }
 
 export interface UsersListProps {

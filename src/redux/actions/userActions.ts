@@ -6,11 +6,13 @@ import {AppDispatch} from "../store";
 import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 
+
 const auth = () => {
     return (dispatch: AppDispatch) => {
         let query = `query {
           user (id: "me") {
             id,
+            googleAuthenticatorTested,
             username,
             displayName
             isActive,
@@ -19,7 +21,12 @@ const auth = () => {
               type,
               value,
               image
-            }
+            },
+            phoneNumbers {
+              id,
+              value,
+              type
+            },
           }
         }`;
 

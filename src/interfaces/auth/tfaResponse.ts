@@ -1,4 +1,4 @@
 export interface ITFAResponse {
-    success: boolean,
+    success: boolean | null,
     message: string,
 }

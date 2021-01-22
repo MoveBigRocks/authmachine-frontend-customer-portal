@@ -2,6 +2,7 @@ import {AppDispatch} from '../store'
 import {mainActions} from './mainActions'
 import tfaTypes from '../types/tfaTypes'
 import request from '../helpers/request'
+import {userActions} from "./userActions";
 
 
 const getPinCode = (phone: string) => {
@@ -14,11 +15,11 @@ const getPinCode = (phone: string) => {
         }`
 
         request.postWithoutErrors(dispatch, query, (data: any) => {
-                let {pinCodeData} = data.data;
+                let {sendPinCode} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.GET_PIN_CODE,
-                    data: pinCodeData,
+                    data: sendPinCode,
                 })
             },
             () => {
@@ -37,11 +38,11 @@ const verifyPinCode = (phone: string, pin: string) => {
         }`
 
         request.postWithoutErrors(dispatch, query, (data: any) => {
-                let {pinCodeVerifyData} = data.data;
+                let {verifyPinCode} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.VERIFY_PIN_CODE,
-                    data: pinCodeVerifyData,
+                    data: verifyPinCode,
                 })
             },
             () => {
@@ -60,12 +61,14 @@ const verifyToken = (token: string) => {
         }`
 
         request.postWithoutErrors(dispatch, query, (data: any) => {
-                let {tokenVerifyData} = data.data;
+                let {verifyToken} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.VERIFY_TOKEN,
-                    data: tokenVerifyData,
-                })
+                    data: verifyToken,
+                });
+                // @ts-ignore
+                if (verifyToken.success) dispatch(userActions.auth());
             },
             () => {
         })
