@@ -122,6 +122,11 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 socialLink: action.message
             }
+        case userTypes.DISCONNECT_SOCIAL_ACCOUNT:
+            return {
+                ...state,
+                operationStatus: action.status,
+            }
         default:
             return state;
     }

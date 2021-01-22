@@ -12,7 +12,8 @@ const getSocialsByUser = () => {
             allSocialsByUser(id: "${getState().user.id}") {
                 id,
                 provider,
-                isConnected
+                isConnected,
+                accountId,
             }
         }`;
 

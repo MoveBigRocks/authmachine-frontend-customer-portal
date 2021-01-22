@@ -5,6 +5,8 @@ import {authHeader} from "../helpers/authHeaders";
 import {AppDispatch} from "../store";
 import {mainActions} from "./mainActions";
 import request from "../helpers/request";
+import {alertActions} from "./alertActions";
+import {usersActions} from "./usersActions";
 
 const auth = () => {
     return (dispatch: AppDispatch) => {
@@ -394,10 +396,45 @@ const socialCallback = (provider: string, queryString: string) => {
     }
 }
 
-const getSocialLink = (provider: string) => {
+const disconnectSocialAccount = (accountId: number) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          accountDisconnect(accountId: ${accountId}) {
+            success, message
+          }
+        }`;
+
+        const setDisconnectAccount = (status: boolean) =>
+            dispatch({
+                type: userTypes.DISCONNECT_SOCIAL_ACCOUNT,
+                status,
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.accountDisconnect;
+
+                if (success) {
+                    alertActions.success(message);
+                    // @ts-ignore
+                    dispatch(usersActions.getSocialsByUser());
+                } else {
+                    alertActions.error(message);
+                }
+
+                setDisconnectAccount(success);
+            },
+            () => alertActions.error("Something wrong"),
+            true);
+    }
+}
+
+const getSocialLink = (provider: string, connectionType: string = "login") => {
     return (dispatch: AppDispatch) => {
         let query = `query {
-          getProviderLink(provider: "${provider}")
+          getProviderLink(provider: "${provider}", connectionType: "${connectionType}")
         }`;
 
         request.postWithoutErrors(
@@ -434,4 +471,5 @@ export const userActions = {
     getPrivacyPolicyList,
     socialCallback,
     getSocialLink,
+    disconnectSocialAccount,
 };

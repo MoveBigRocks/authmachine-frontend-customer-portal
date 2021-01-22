@@ -113,7 +113,10 @@ const helpers = {
             case 'windowslive':
                 return WindowsLive
         }
-    }
+    },
+    setValueInLocalStorage: (key: string, value: string) => localStorage.setItem(key, value),
+    getValueFromLocalStorage: (value: string) => localStorage.getItem(value),
+    removeValueFromLocalStorage: (value: string) => localStorage.removeItem(value),
 }
 
 export default helpers;

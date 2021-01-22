@@ -5,6 +5,7 @@ import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {SocialLoginProps} from "../../interfaces/socialLogin";
 import {Redirect} from "react-router-dom";
+import helpers from "../../helpers";
 
 
 const SocialLogin = (props: SocialLoginProps) => {
@@ -17,7 +18,10 @@ const SocialLogin = (props: SocialLoginProps) => {
     }, [socialCallback, provider, location]);
 
     if (status) {
-        return <Redirect to="/customer-portal" />
+        const redirectUrl = helpers.getValueFromLocalStorage("connectionType") === "login"
+            ? "/customer-portal" : "/customer-portal/login-options";
+        helpers.removeValueFromLocalStorage("connectionType");
+        return <Redirect to={redirectUrl} />
     }
 
     return (

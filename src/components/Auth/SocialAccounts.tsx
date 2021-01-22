@@ -25,8 +25,11 @@ const SocialAccounts = ({socials, getSocials, type, socialLink, getSocialLink}: 
     }, [getSocials]);
 
     useEffect(() => {
-        if (socialLink !== "") window.location.replace(socialLink);
-    }, [socialLink, getSocialLink]);
+        if (socialLink !== "") {
+            helpers.setValueInLocalStorage("connectionType", "login");
+            window.location.replace(socialLink);
+        }
+    }, [socialLink]);
 
     const getIconByProvider = (name: string) => {
         switch (name) {
@@ -57,14 +60,16 @@ const SocialAccounts = ({socials, getSocials, type, socialLink, getSocialLink}: 
 
     return (
         <>
-            {socials.length > 0 && <div className="socials">
-                {socials.map((s: SocialInterface) => (
-                    <Button size="large" key={s.id} onClick={() => getSocialLink(s.provider)}>
-                        <img style={{marginRight: 10}} src={getIconByProvider(s.provider)} alt={s.name}/>
-                        {type === 'login' ? 'Login' : 'Sign up'} with {helpers.getTitleWithUpper(s.name)}
-                    </Button>
-                ))}
-            </div>}
+            {socials.length > 0 &&
+                <div className="socials">
+                    {socials.map((s: SocialInterface) => (
+                        <Button size="large" key={s.id} onClick={() => getSocialLink(s.provider)}>
+                            <img style={{marginRight: 10}} src={getIconByProvider(s.provider)} alt={s.name}/>
+                            {type === "login" ? "Login" : "Sign up"} with {helpers.getTitleWithUpper(s.name)}
+                        </Button>
+                    ))}
+                </div>
+            }
         </>
     )
 };

@@ -46,7 +46,7 @@ const getTableColumns = () => {
 export const PermissionDelegation = ({permissions, getPermissions, setPageTitle}: PermissionDelegationProps) => {
     const [addModal, setAddModal] = useState(false);
     const [removeModal, setRemoveModal] = useState(false);
-    const [removeItem, setRemoveItem] = useState(null);
+    // const [removeItem, setRemoveItem] = useState(null);
 
     // useEffect(() => getEvents({}), [getEvents]);
 
@@ -72,7 +72,7 @@ export const PermissionDelegation = ({permissions, getPermissions, setPageTitle}
                    style={{paddingTop: 20}} />
 
             <DelegatePermission visible={addModal} onCancel={hideAddModal} />
-            <RemovePermission visible={removeModal} onCancel={hideRemoveModal} removeItemId={removeItem} />
+            <RemovePermission visible={removeModal} onCancel={hideRemoveModal} removeItemId={null} />
         </div>
     )
 }

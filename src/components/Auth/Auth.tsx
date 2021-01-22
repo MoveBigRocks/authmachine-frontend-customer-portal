@@ -41,9 +41,12 @@ const Auth = ({isAuthenticated, initialLink}: AuthProps) => {
 }
 
 
-const mapStateToProps = (state: RootState) => ({
-    isAuthenticated: state.user.isAuthenticated,
-    initialLink: state.main.pageLink,
-});
+const mapStateToProps = (state: RootState) => {
+    const {isAuthenticated} = state.user;
+    return {
+        isAuthenticated,
+        initialLink: state.main.pageLink,
+    }
+};
 
 export default connect(mapStateToProps, null)(Auth);
