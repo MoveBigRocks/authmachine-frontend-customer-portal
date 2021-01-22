@@ -61,7 +61,8 @@ const userReducer = (state = initialState, action: ActionType) => {
                 isAuthenticated: true,
                 username: action.user.username,
                 id: action.user.id,
-                avatar: action.user.photo
+                avatar: action.user.photo,
+                user: action.user,
             }
         case userTypes.USER_AUTH_FAILURE:
             return {

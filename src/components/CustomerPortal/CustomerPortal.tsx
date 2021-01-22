@@ -157,11 +157,12 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
 
 
 const mapStateToProps = (state: RootState) => {
+    const {isAuthenticated, eventsExists} = state.user;
     return {
         user: state.user,
-        isAuthenticated: state.user.isAuthenticated,
         loading: state.main.loading,
-        eventsExists: state.user.eventsExists,
+        isAuthenticated,
+        eventsExists,
     }
 };
 

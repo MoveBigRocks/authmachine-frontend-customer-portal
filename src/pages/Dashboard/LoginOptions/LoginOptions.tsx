@@ -1,36 +1,61 @@
-import {Typography, Input, Button, Col, Row, Card, Divider, Space, Modal, Select} from "antd";
-import React, {useEffect, useState} from "react";
+import {
+    Typography,
+    Input,
+    Button,
+    Col,
+    Row,
+    Card,
+    Divider,
+    Space,
+    Modal,
+    Select,
+    Image,
+    notification
+} from 'antd';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {RootState} from "../../../redux/reducer";
+import {RootState} from '../../../redux/reducer';
 import {LinkOutlined} from '@ant-design/icons';
+import {DisconnectOutlined} from '@ant-design/icons';
 import './LoginOptions.scss';
-import helpers from '../../../helpers'
+import helpers from '../../../helpers';
 import {usersActions} from "../../../redux/actions/usersActions";
 import {ISocialByUser} from "../../../interfaces/socialsByUser";
 import {ILoginOptions} from "../../../interfaces/customerPortal/loginOptions";
 import {userActions} from "../../../redux/actions/userActions";
 import {mainActions} from "../../../redux/actions/mainActions";
+import {tfaActions} from '../../../redux/actions/tfaActions';
 
-const {Option} = Select;
+import AppleDownload from '../../../staticfiles/images/tfa/apple.png';
+import GoogleDownload from '../../../staticfiles/images/tfa/google.png';
+import QR from '../../../staticfiles/images/tfa/qr.png';
+import {IPhone} from "../../../interfaces/phone";
+
+const {Option} = Select
 
 
 const LoginOptions = (props: ILoginOptions) => {
     const {googleAuthenticatorValue, getGoogleAuthenticatorValue, socialsByUser, getSocialsByUser,
-        disconnectSocialAccount, socialLink, getSocialLink, setPageTitle} = props;
+        disconnectSocialAccount, socialLink, getSocialLink, setPageTitle, pinCodeData, getPinCode,
+        pinCodeVerifyData, verifyPinCode, tokenVerifyData, verifyToken, phones, googleAuthenticatorTested} = props;
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEnterManually, setIsEnterManually] = useState(false);
     const [isVerifyPhone, setIsVerifyPhone] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
 
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [code, setCode] = useState('');
+    const [token, setToken] = useState('');
+
     useEffect(() => {
-        getGoogleAuthenticatorValue();
-    }, [getGoogleAuthenticatorValue]);
+        getGoogleAuthenticatorValue()
+    }, [getGoogleAuthenticatorValue])
 
     useEffect(() => setPageTitle("Login Options"), [setPageTitle])
 
     useEffect(() => {
-        getSocialsByUser();
-    }, [getSocialsByUser]);
+        getSocialsByUser()
+    }, [getSocialsByUser])
 
     useEffect(() => {
         if (socialLink !== "") {
@@ -39,22 +64,117 @@ const LoginOptions = (props: ILoginOptions) => {
         }
     }, [socialLink]);
 
-    const showModal = () => setIsModalVisible(true);
+    useEffect(() => {
+        if (pinCodeData.success != null) {
+            if (pinCodeData.success) {
+                setIsVerifyPhone(true)
+            } else {
+                notification.error({
+                    message: 'Error!',
+                    description: pinCodeData.message
+                })
+            }
+        }
+    }, [pinCodeData])
+
+    useEffect(() => {
+        if (pinCodeData.success != null) {
+            if (pinCodeVerifyData.success) {
+                setIsModalVisible(false)
+                setIsVerifyPhone(false)
+                setIsVerified(true)
+            } else {
+                notification.error({
+                    message: 'Error!',
+                    description: pinCodeVerifyData.message
+                })
+            }
+        }
+    }, [pinCodeVerifyData.success, pinCodeVerifyData.message, pinCodeData.success])
+
+    useEffect(() => {
+        if (tokenVerifyData.success != null) {
+            if (tokenVerifyData.success) {
+                notification.success({
+                    message: 'Success!',
+                    description: 'The token was verified successfully.'
+                })
+                tokenVerifyData.success = null;
+            } else {
+                notification.error({
+                    message: 'Error!',
+                    description: tokenVerifyData.message
+                })
+            }
+
+            setToken('')
+        }
+    }, [tokenVerifyData])
+
+    const showModal = () => setIsModalVisible(true)
 
     const handlePhoneVerifying = () => {
-        setIsModalVisible(false);
-        setIsVerifyPhone(false);
-        setIsVerified(true);
-    };
+        if (code) {
+            verifyPinCode(phoneNumber, code)
+        } else {
+            notification.warning({
+                message: 'Warning!',
+                description: 'Code is empty.'
+            })
+        }
+    }
 
-    const handlePhoneSubmitting = () => setIsVerifyPhone(true);
+    const handlePhoneSubmitting = () => {
+        let re = /^\D*(\d\D*){9,14}$/
+
+        if (phoneNumber) {
+            if (re.test(phoneNumber)) {
+                getPinCode(phoneNumber)
+            } else {
+                notification.warning({
+                    message: 'Warning!',
+                    description: 'Phone number is incorrect.'
+                })
+            }
+        } else {
+            notification.warning({
+                message: 'Warning!',
+                description: 'Phone number is empty.'
+            })
+        }
+    }
+
+    const resendCode = () => {
+        handlePhoneSubmitting()
+        notification.success({
+            message: 'Success!',
+            description: 'Code has been sent again.'
+        })
+    }
+
+    const submitToken = () => {
+        if (token) {
+            verifyToken(token)
+        } else {
+            notification.warning({
+                message: 'Warning!',
+                description: 'Token is empty.'
+            })
+        }
+    }
 
     const handleCancel = () => {
-        setIsModalVisible(false);
-        setIsVerifyPhone(false);
-    };
+        setIsModalVisible(false)
+        setIsVerifyPhone(false)
+        setPhoneNumber('')
+    }
 
-    const handlerEnterManually = () => setIsEnterManually(prevState => !prevState);
+    const handlerEnterManually = () => setIsEnterManually(prevState => !prevState)
+
+    const changePhoneNumberBySelect = (value: string) => setPhoneNumber(value)
+    const changePhoneNumberByInput = (event: ChangeEvent<HTMLInputElement>) => setPhoneNumber(event.target.value)
+    const changeCode = (event: ChangeEvent<HTMLInputElement>) => setCode(event.target.value)
+    const changeToken = (event: ChangeEvent<HTMLInputElement>) => setToken(event.target.value)
 
 
     return (
@@ -89,7 +209,7 @@ const LoginOptions = (props: ILoginOptions) => {
                                         <Button style={{background: "#fafafa", color: "#595959", border: "none"}}
                                                 type="primary"
                                                 onClick={() => disconnectSocialAccount(s.accountId)}
-                                                shape="round" icon={<LinkOutlined/>} size='small'>
+                                                shape="round" icon={<DisconnectOutlined/>} size='small'>
                                             Disconnect
                                         </Button>
                                     }
@@ -115,32 +235,67 @@ const LoginOptions = (props: ILoginOptions) => {
             <Space direction="vertical">
                 <Typography.Title level={5}>Two-factor Authentication</Typography.Title>
                 {
-                    !isVerified && !googleAuthenticatorValue &&
-                    <Typography.Text>Google Authenticator is disabled on this AuthMachine instance</Typography.Text>
-
-                }
-                {
-                    !isVerified && googleAuthenticatorValue &&
-
+                    !googleAuthenticatorTested &&
                     <>
-                        <Typography.Text>AuthMachine supports Google Authenticator as a method of Two-Factor
-                            Authentication
-                            (2FA)</Typography.Text>
+                        {
+                            !isVerified && !googleAuthenticatorValue &&
+                            <Typography.Text>Google Authenticator is disabled on this AuthMachine
+                                instance</Typography.Text>
 
-                        <Button onClick={showModal} style={{marginTop: 25}} type="primary">
-                            Enable Two-factor Authorization
-                        </Button>
+                        }
+                        {
+                            !isVerified && googleAuthenticatorValue &&
+
+                            <>
+                                <Typography.Text>AuthMachine supports Google Authenticator as a method of Two-Factor
+                                    Authentication
+                                    (2FA)</Typography.Text>
+
+                                <Button onClick={showModal} style={{marginTop: 25}} type="primary">
+                                    Enable Two-factor Authorization
+                                </Button>
+                            </>
+                        }
+                        {
+                            isVerified &&
+                            <>
+                                <Typography.Text>Download Google Authenticator app to your
+                                    smartphone</Typography.Text>
+                                <Space direction="horizontal" style={{marginBottom: 10}}>
+                                    <Image src={AppleDownload}/>
+                                    <Image src={GoogleDownload}/>
+                                </Space>
+                                <Typography.Text>Scan QR-code by your Google Authenticator</Typography.Text>
+                                <Image src={QR} width={150} style={{margin: '10px 0'}}/>
+                                <Typography.Text>Enter token generated by Google Authenticator below</Typography.Text>
+                                <Space direction="vertical" size={20}>
+                                    <Input value={token} onChange={changeToken} placeholder="Enter token"
+                                           style={{width: 200}}/>
+                                    <Button onClick={submitToken} type="primary">Submit Token</Button>
+                                </Space>
+                            </>
+                        }
                     </>
                 }
+
                 {
-                    isVerified &&
+                    googleAuthenticatorTested &&
                     <>
-                        <Typography.Text>Download Google Authenticator app to your smartphone</Typography.Text>
-                        <Typography.Text>Scan QR-code by your Google Authenticator</Typography.Text>
-                        <Typography.Text>Enter token generated by Google Authenticator below</Typography.Text>
-                        <Space direction="vertical" size={20}>
-                            <Input placeholder="Enter token" style={{width: 200}}/>
-                            <Button type="primary">Submit Token</Button>
+                        <Typography.Text>You have set up two-factor authentication using Google
+                            Authenticator</Typography.Text>
+                        <Typography.Text>Phone numbers which you can use to reset your 2FA:</Typography.Text>
+                        <ul>
+                            {
+                                phones.map((p: IPhone, index: number) => (
+                                    <li value={p.value} key={index}>{p.value}</li>
+                                ))
+                            }
+                        </ul>
+                        <Typography.Text>You can:</Typography.Text>
+                        <Space direction="vertical">
+                            <Button type="primary">Disable two-factor authentication</Button>
+                            <Button type="primary">Re-setup two-factor authentication</Button>
+                            <Button type="primary">Get backup codes</Button>
                         </Space>
                     </>
                 }
@@ -161,14 +316,18 @@ const LoginOptions = (props: ILoginOptions) => {
                             <Col span={24} style={{margin: "8px 0"}}>
                                 {
                                     !isEnterManually &&
-                                    <Select style={{width: "100%"}}
+                                    <Select onChange={changePhoneNumberBySelect} style={{width: "100%"}}
                                             placeholder="Select phone number" allowClear>
-                                        <Option value="1">+1456654462</Option>
+                                        {
+                                            phones.map((p: IPhone, index: number) => (
+                                                <Option value={p.value} key={index}>{p.value}</Option>
+                                            ))
+                                        }
                                     </Select>
                                 }
                                 {
                                     isEnterManually &&
-                                    <Input placeholder="Enter Phone Number"/>
+                                    <Input onChange={changePhoneNumberByInput} placeholder="Enter Phone Number"/>
                                 }
                             </Col>
                         </Row>
@@ -186,11 +345,11 @@ const LoginOptions = (props: ILoginOptions) => {
 
                         <Row>
                             <Col span={24} style={{margin: "8px 0"}}>
-                                <Input placeholder="Enter code"/>
+                                <Input onChange={changeCode} placeholder="Enter code"/>
                             </Col>
                         </Row>
 
-                        <Button type="link" style={{marginLeft: -12}}>Resend code</Button>
+                        <Button onClick={resendCode} type="link" style={{marginLeft: -12}}>Resend code</Button>
                     </>
                 }
             </Modal>
@@ -200,11 +359,19 @@ const LoginOptions = (props: ILoginOptions) => {
 
 const mapStateToProps = (state: RootState) => {
     const {googleAuthenticatorValue, socialsByUser} = state.users;
+    const {pinCodeData, pinCodeVerifyData, tokenVerifyData} = state.tfa;
     const {socialLink} = state.user;
+    const {user} = state.user;
+
     return {
         googleAuthenticatorValue,
         socialsByUser,
         socialLink,
+        pinCodeData,
+        pinCodeVerifyData,
+        tokenVerifyData,
+        phones: user?.phoneNumbers || [],
+        googleAuthenticatorTested: user?.googleAuthenticatorTested || false,
     }
 };
 
@@ -214,6 +381,9 @@ const mapDispatchToProps = {
     disconnectSocialAccount: userActions.disconnectSocialAccount,
     getSocialLink: userActions.getSocialLink,
     setPageTitle: mainActions.setPageTitle,
+    getPinCode: tfaActions.getPinCode,
+    verifyPinCode: tfaActions.verifyPinCode,
+    verifyToken: tfaActions.verifyToken,
 };
 
 export default connect(

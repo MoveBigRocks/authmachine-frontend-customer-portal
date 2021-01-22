@@ -8,11 +8,13 @@ import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
 
+
 const auth = () => {
     return (dispatch: AppDispatch) => {
         let query = `query {
           user (id: "me") {
             id,
+            googleAuthenticatorTested,
             username,
             displayName
             isActive,
@@ -21,7 +23,12 @@ const auth = () => {
               type,
               value,
               image
-            }
+            },
+            phoneNumbers {
+              id,
+              value,
+              type
+            },
           }
         }`;
 
