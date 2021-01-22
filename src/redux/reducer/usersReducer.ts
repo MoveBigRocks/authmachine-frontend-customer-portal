@@ -4,6 +4,7 @@ import {GroupInterface} from "../../interfaces/group";
 import {EventInterface} from "../../interfaces/events";
 import {SocialInterface} from "../../interfaces/socials";
 
+
 export type usersState = {
     usersTotal: number,
     page: number,

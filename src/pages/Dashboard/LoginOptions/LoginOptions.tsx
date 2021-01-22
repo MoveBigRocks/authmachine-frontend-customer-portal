@@ -1,13 +1,16 @@
-import {Typography, Input, Button, Col, Row, Card, Divider, Space, Modal, Select, Image} from "antd";
-import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
-import {RootState} from "../../../redux/reducer";
-import {LinkOutlined} from '@ant-design/icons';
-import './LoginOptions.scss';
+import {Typography, Input, Button, Col, Row, Card, Divider, Space, Modal, Select, Image} from 'antd'
+import React, {useEffect, useState} from 'react'
+import {connect} from "react-redux"
+import {RootState} from '../../../redux/reducer'
+import {LinkOutlined} from '@ant-design/icons'
+import './LoginOptions.scss'
 import helpers from '../../../helpers'
-import {usersActions} from "../../../redux/actions/usersActions";
-import {ISocialByUser} from "../../../interfaces/socialsByUser";
-import {ILoginOptions} from "../../../interfaces/customerPortal/loginOptions";
+import {usersActions} from '../../../redux/actions/usersActions'
+import {tfaActions} from '../../../redux/actions/tfaActions'
+
+import {ISocialByUser} from '../../../interfaces/socialsByUser'
+import {ILoginOptions} from '../../../interfaces/customerPortal/loginOptions'
+
 import AppleDownload from '../../../staticfiles/images/tfa/apple.png'
 import GoogleDownload from '../../../staticfiles/images/tfa/google.png'
 import QR from '../../../staticfiles/images/tfa/qr.png'
@@ -18,22 +21,32 @@ const {Option} = Select;
 
 const LoginOptions = ({
                           googleAuthenticatorValue,
-                          getGoogleAuthenticatorValue,
                           socialsByUser,
+                          pinCodeData,
+                          pinCodeVerifyData,
+                          tokenVerifyData,
+
+                          getGoogleAuthenticatorValue,
                           getSocialsByUser,
+                          getPinCode,
+                          verifyPinCode,
+                          verifyToken
                       }: ILoginOptions) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEnterManually, setIsEnterManually] = useState(false);
     const [isVerifyPhone, setIsVerifyPhone] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
 
-    useEffect(() => {
-        getGoogleAuthenticatorValue();
-    }, [getGoogleAuthenticatorValue]);
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     useEffect(() => {
-        getSocialsByUser();
-    }, [getSocialsByUser]);
+        getGoogleAuthenticatorValue()
+    }, [getGoogleAuthenticatorValue])
+
+    useEffect(() => {
+        getSocialsByUser()
+    }, [getSocialsByUser])
+
 
     const showModal = () => setIsModalVisible(true);
 
@@ -51,6 +64,10 @@ const LoginOptions = ({
     };
 
     const handlerEnterManually = () => setIsEnterManually(prevState => !prevState);
+
+    const changePhoneNumber = (e: Event, value: string) => {
+        console.log(value)
+    }
 
 
     return (
@@ -131,7 +148,7 @@ const LoginOptions = ({
                     <>
                         <Typography.Text>Download Google Authentificator app to your smartphone</Typography.Text>
                         <Space direction="horizontal" style={{marginBottom: 10}}>
-                            <Image src={AppleDownload} />
+                            <Image src={AppleDownload}/>
                             <Image src={GoogleDownload}/>
                         </Space>
                         <Typography.Text>Scan QR-code by your Google Authentificator</Typography.Text>
@@ -160,7 +177,7 @@ const LoginOptions = ({
                             <Col span={24} style={{margin: "8px 0"}}>
                                 {
                                     !isEnterManually &&
-                                    <Select style={{width: "100%"}}
+                                    <Select  style={{width: "100%"}}
                                             placeholder="Select phone number" allowClear>
                                         <Option value="1">+1456654462</Option>
                                     </Select>
@@ -197,26 +214,29 @@ const LoginOptions = ({
     )
 }
 
-const mapStateToProps = (state: RootState) =>
-{
-    const {googleAuthenticatorValue, socialsByUser} = state.users;
+const mapStateToProps = (state: RootState) => {
+    const {googleAuthenticatorValue, socialsByUser} = state.users
+    const {pinCodeData, pinCodeVerifyData, tokenVerifyData} = state.tfa
+
     return {
         googleAuthenticatorValue,
         socialsByUser,
+        pinCodeData,
+        pinCodeVerifyData,
+        tokenVerifyData,
     }
 }
-;
 
-const mapDispatchToProps =
-{
+const mapDispatchToProps = {
     getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
-        getSocialsByUser
-:
-    usersActions.getSocialsByUser,
+    getSocialsByUser: usersActions.getSocialsByUser,
+
+    getPinCode: tfaActions.getPinCode,
+    verifyPinCode: tfaActions.verifyPinCode,
+    verifyToken: tfaActions.verifyToken,
 }
-;
 
 export default connect(
-mapStateToProps,
-mapDispatchToProps
-)(LoginOptions);
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginOptions)
