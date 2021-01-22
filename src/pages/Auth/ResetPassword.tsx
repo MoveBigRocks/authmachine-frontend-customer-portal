@@ -20,7 +20,9 @@ const ResetPassword = ({status, message, resetPassword, setPageTitle}: ResetPass
 
     return (
         <div className="form-container">
-            <img src={Logo} alt="AuthMachine" className="logo" />
+            <div className="text-center">
+                <img src={Logo} alt="AuthMachine" className="logo" />
+            </div>
             <Typography.Title level={3}>Password Recovery</Typography.Title>
             <Form form={form} onFinish={onFinish}>
                 <Form.Item name="username"

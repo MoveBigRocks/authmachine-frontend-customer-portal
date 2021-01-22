@@ -23,7 +23,9 @@ const SignIn = ({login, isAuthenticated, message, setPageTitle}: SignInProps) =>
     return (
         <div className="form-container auth-form">
             <div className="form-content">
-                <img src={Logo} alt="AuthMachine" className="logo" />
+                <div className="text-center">
+                    <img src={Logo} alt="AuthMachine" className="logo" />
+                </div>
                 <Typography.Title level={3}>Login</Typography.Title>
                 <Form form={form} onFinish={onFinish} initialValues={{remember: false}}>
                     <Form.Item name="username"

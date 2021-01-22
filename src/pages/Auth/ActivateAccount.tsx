@@ -45,7 +45,9 @@ const ActivateAccount = (props: ActivateAccountProps) => {
     return (
         <div className="form-container auth-form">
             <div className="form-content">
-                <img src={Logo} alt="AuthMachine" className="logo" />
+                <div className="text-center">
+                    <img src={Logo} alt="AuthMachine" className="logo" />
+                </div>
                 <Typography.Title level={3}>Activate Account</Typography.Title>
                 <Steps style={{marginBottom: 20}} current={current}>
                     <Step title="Activation" icon={<UserOutlined />} />

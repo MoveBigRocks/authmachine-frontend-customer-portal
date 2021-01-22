@@ -21,7 +21,9 @@ const ActivateFinish = ({status, message, finishActivation, match, setPageTitle}
     return (
         <div className="form-container">
             <div className="form-content">
-                <img src={Logo} alt="AuthMachine" className="logo" />
+                <div className="text-center">
+                    <img src={Logo} alt="AuthMachine" className="logo" />
+                </div>
                 <Space size="middle" className="d-flex-cc" >
                     {loading && <Spin size="large" spinning={loading} />}
                     {!loading && (

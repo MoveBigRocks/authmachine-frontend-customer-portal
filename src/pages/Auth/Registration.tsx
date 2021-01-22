@@ -43,7 +43,9 @@ const Registration = ({message, isRegister, register, setPageTitle}: Registratio
     return (
         <div className="form-container auth-form">
             <div className="form-content">
-                <img src={Logo} alt="AuthMachine" className="logo" />
+                <div className="text-center">
+                    <img src={Logo} alt="AuthMachine" className="logo" />
+                </div>
                 <Typography.Title level={3}>Create Account</Typography.Title>
                 <Form form={form} onFinish={onFinish}>
                     <Form.Item name="username"
