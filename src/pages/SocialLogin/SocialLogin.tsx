@@ -6,16 +6,19 @@ import {connect} from "react-redux";
 import {SocialLoginProps} from "../../interfaces/socialLogin";
 import {Redirect} from "react-router-dom";
 import helpers from "../../helpers";
+import {mainActions} from "../../redux/actions/mainActions";
 
 
 const SocialLogin = (props: SocialLoginProps) => {
-    const {status, message, match, socialCallback, location} = props;
+    const {status, message, match, socialCallback, location, setPageTitle} = props;
     const {provider} = match.params;
     const loading = !status && message === "";
 
     useEffect(() => {
         socialCallback(provider, location.search);
     }, [socialCallback, provider, location]);
+
+    useEffect(() => setPageTitle("Social Authorization"), [setPageTitle])
 
     if (status) {
         const redirectUrl = helpers.getValueFromLocalStorage("connectionType") === "login"
@@ -50,6 +53,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     socialCallback: userActions.socialCallback,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

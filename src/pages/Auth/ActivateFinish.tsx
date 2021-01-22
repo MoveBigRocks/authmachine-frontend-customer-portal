@@ -5,11 +5,14 @@ import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {ActivateFinishProps} from "../../interfaces/auth/activateFinish";
+import {mainActions} from "../../redux/actions/mainActions";
 
 
-const ActivateFinish = ({status, message, finishActivation, match}: ActivateFinishProps) => {
+const ActivateFinish = ({status, message, finishActivation, match, setPageTitle}: ActivateFinishProps) => {
     const {token} = match.params;
     const loading = !status && message === "";
+
+    useEffect(() => setPageTitle("Finish the activation"), [setPageTitle])
 
     useEffect(() => {
         finishActivation(token);
@@ -58,6 +61,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     finishActivation: userActions.finishActivation,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

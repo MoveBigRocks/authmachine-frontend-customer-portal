@@ -15,4 +15,5 @@ export interface ActivateAccountProps {
     match: {
         path: string,
     },
+    setPageTitle: (pageTitle: string) => void,
 }

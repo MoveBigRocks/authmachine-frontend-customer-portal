@@ -28,7 +28,7 @@ const getUserLocation = (user: UserInterface | null) => {
 export const MyProfile = ({user, getUser, setPageTitle}: MyProfileProps) => {
     useEffect(() => getUser("me"), [getUser]);
 
-    useEffect(() => setPageTitle("My Profile"), [setPageTitle])
+    useEffect(() => setPageTitle("My Profile"), [setPageTitle]);
 
     return (
         <div className="my-profile">

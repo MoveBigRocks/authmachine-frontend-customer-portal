@@ -11,4 +11,5 @@ export interface RecoveryPasswordProps {
         confirmPassword: string,
         token: string
     }) => void,
+    setPageTitle: (pageTitle: string) => void,
 }

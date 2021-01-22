@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Logo from "../../staticfiles/images/logo.png"
 import {Form, Input, Typography, Checkbox, Button, Alert} from "antd";
 import { Link } from "react-router-dom";
@@ -7,9 +7,13 @@ import {userActions} from "../../redux/actions/userActions";
 import {SignInProps} from "../../interfaces/auth/signIn";
 import PrivacyPolicies from "../../components/Auth/PrivacyPolicies/PrivacyPolicies";
 import SocialAccounts from "../../components/Auth/SocialAccounts";
+import {mainActions} from "../../redux/actions/mainActions";
 
-const SignIn = ({login, isAuthenticated, message}: SignInProps) => {
+const SignIn = ({login, isAuthenticated, message, setPageTitle}: SignInProps) => {
     const [form] = Form.useForm();
+
+    useEffect(() => setPageTitle("Sign In"), [setPageTitle])
+
 
     const onFinish = (values: any) => {
         values["policies"] = Object.keys(values).filter((key: string) => key.startsWith("policy_"));
@@ -63,6 +67,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     login: userActions.login,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

@@ -6,12 +6,15 @@ import SocialAccounts from "../../components/Auth/SocialAccounts";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {RegistrationProps} from "../../interfaces/auth/registration";
+import {mainActions} from "../../redux/actions/mainActions";
 
-const Registration = ({message, isRegister, register}: RegistrationProps) => {
+const Registration = ({message, isRegister, register, setPageTitle}: RegistrationProps) => {
     const [formErrors, setFormErrors] = useState(false);
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => register(values);
+
+    useEffect(() => setPageTitle("Registration"), [setPageTitle])
 
     useEffect(() => {
         let formErrors = [];
@@ -81,6 +84,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     register: userActions.register,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

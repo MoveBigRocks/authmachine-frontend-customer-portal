@@ -5,11 +5,14 @@ import {Form, Input, Typography, Button, Alert} from "antd";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import { ResetPasswordProps } from "../../interfaces/auth/resetPassword";
+import {mainActions} from "../../redux/actions/mainActions";
 
-const ResetPassword = ({status, message, resetPassword}: ResetPasswordProps) => {
+const ResetPassword = ({status, message, resetPassword, setPageTitle}: ResetPasswordProps) => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => resetPassword(values);
+
+    useEffect(() => setPageTitle("Password Recovery"), [setPageTitle]);
 
     useEffect(() => {
         if (status) form.resetFields();
@@ -44,6 +47,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     resetPassword: userActions.resetPassword,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

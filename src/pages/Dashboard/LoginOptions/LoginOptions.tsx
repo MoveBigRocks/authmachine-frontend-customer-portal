@@ -9,13 +9,14 @@ import {usersActions} from "../../../redux/actions/usersActions";
 import {ISocialByUser} from "../../../interfaces/socialsByUser";
 import {ILoginOptions} from "../../../interfaces/customerPortal/loginOptions";
 import {userActions} from "../../../redux/actions/userActions";
+import {mainActions} from "../../../redux/actions/mainActions";
 
 const {Option} = Select;
 
 
 const LoginOptions = (props: ILoginOptions) => {
     const {googleAuthenticatorValue, getGoogleAuthenticatorValue, socialsByUser, getSocialsByUser,
-        disconnectSocialAccount, socialLink, getSocialLink} = props;
+        disconnectSocialAccount, socialLink, getSocialLink, setPageTitle} = props;
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEnterManually, setIsEnterManually] = useState(false);
     const [isVerifyPhone, setIsVerifyPhone] = useState(false);
@@ -24,6 +25,8 @@ const LoginOptions = (props: ILoginOptions) => {
     useEffect(() => {
         getGoogleAuthenticatorValue();
     }, [getGoogleAuthenticatorValue]);
+
+    useEffect(() => setPageTitle("Login Options"), [setPageTitle])
 
     useEffect(() => {
         getSocialsByUser();
@@ -210,6 +213,7 @@ const mapDispatchToProps = {
     getSocialsByUser: usersActions.getSocialsByUser,
     disconnectSocialAccount: userActions.disconnectSocialAccount,
     getSocialLink: userActions.getSocialLink,
+    setPageTitle: mainActions.setPageTitle,
 };
 
 export default connect(

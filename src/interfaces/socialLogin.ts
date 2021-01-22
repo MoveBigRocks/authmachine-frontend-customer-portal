@@ -11,4 +11,5 @@ export interface SocialLoginProps {
         search: string,
     },
     socialCallback: (provider: string, queryString: string) => void,
+    setPageTitle: (pageTitle: string) => void,
 }

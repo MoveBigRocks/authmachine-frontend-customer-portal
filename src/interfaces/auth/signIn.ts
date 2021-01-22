@@ -6,4 +6,5 @@ export interface SignInProps {
     login: (values: any) => void,
     socials: Array<SocialInterface>,
     getSocials: () => void,
+    setPageTitle: (pageTitle: string) => void,
 }

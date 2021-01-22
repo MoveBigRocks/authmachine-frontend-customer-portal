@@ -6,5 +6,6 @@ export interface ActivateFinishProps {
         params: {
             token: string,
         }
-    }
+    },
+    setPageTitle: (pageTitle: string) => void,
 }

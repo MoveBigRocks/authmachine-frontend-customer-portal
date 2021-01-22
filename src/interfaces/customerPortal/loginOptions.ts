@@ -8,4 +8,5 @@ export interface ILoginOptions {
     getSocialsByUser: () => void,
     disconnectSocialAccount: (accountId: number) => void,
     getSocialLink: (provider: string, connectionType: string) => void,
+    setPageTitle: (pageTitle: string) => void,
 }

@@ -8,11 +8,12 @@ import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {ActivateAccountProps} from "../../interfaces/auth/activateAccount";
 import PrivacyPolicies from "../../components/Auth/PrivacyPolicies/PrivacyPolicies";
+import {mainActions} from "../../redux/actions/mainActions";
 
 const { Step } = Steps;
 
 const ActivateAccount = (props: ActivateAccountProps) => {
-    const {activationFirstStepStatus, activationSecondStepStatus, message, match} = props;
+    const {activationFirstStepStatus, activationSecondStepStatus, message, match, setPageTitle} = props;
     const isActivationWithNamePath = match.path === "/activation-with-username";
     const [firstForm] = Form.useForm();
     const [secondForm] = Form.useForm();
@@ -21,6 +22,8 @@ const ActivateAccount = (props: ActivateAccountProps) => {
     useEffect(() => {
         if (activationFirstStepStatus) setCurrent(1);
     }, [activationFirstStepStatus]);
+
+    useEffect(() => setPageTitle("Activate Account"), [setPageTitle]);
 
     useEffect(() => {
         if (activationSecondStepStatus) setCurrent(2);
@@ -122,6 +125,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = {
     activationFirstStep: userActions.activationFirstStep,
     activationSecondStep: userActions.activationSecondStep,
+    setPageTitle: mainActions.setPageTitle,
 }
 
 export default connect(

@@ -5,4 +5,5 @@ export interface AuthProps {
     },
     isAuthenticated: boolean,
     initialLink: string,
+    pageTitle: string,
 }

@@ -12,8 +12,9 @@ import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
+import {Helmet} from "react-helmet";
 
-const Auth = ({isAuthenticated, initialLink}: AuthProps) => {
+const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
 
@@ -27,6 +28,9 @@ const Auth = ({isAuthenticated, initialLink}: AuthProps) => {
 
     return (
         <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
+            <Helmet>
+                <title>{pageTitle}</title>
+            </Helmet>
             <Switch>
                 <Route exact path="/" component={SignIn} />
                 <Route exact path="/registration" component={Registration} />
@@ -43,9 +47,11 @@ const Auth = ({isAuthenticated, initialLink}: AuthProps) => {
 
 const mapStateToProps = (state: RootState) => {
     const {isAuthenticated} = state.user;
+    const {pageLink, pageTitle} = state.main;
     return {
         isAuthenticated,
-        initialLink: state.main.pageLink,
+        initialLink: pageLink,
+        pageTitle,
     }
 };
 
