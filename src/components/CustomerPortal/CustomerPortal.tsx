@@ -71,11 +71,21 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
     }
 
     render() {
-        const {loading, user, eventsExists, match, setPageLink} = this.props;
+        const {loading, user, eventsExists, match, setPageLink, isAuthenticated} = this.props;
         const {collapsed, selectedMenuItems} = this.state;
         const {path} = match;
 
-        if (!this.props.isAuthenticated) {
+        const pageLinks = {
+            sites: helpers.getPagePath(path, links.sites),
+            profile: helpers.getPagePath(path, links.profile),
+            profileEdit: helpers.getPagePath(path, links.profileEdit),
+            loginOptions: helpers.getPagePath(path, links.loginOptions),
+            changePassword: helpers.getPagePath(path, links.changePassword),
+            permissionDelegation: helpers.getPagePath(path, links.permissionDelegation),
+            activity: helpers.getPagePath(path, links.activity),
+        }
+
+        if (!isAuthenticated) {
             setPageLink(history.location.pathname);
             return <Redirect to="/"/>
         }
@@ -113,24 +123,24 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                       onClick={this.onMenuSelect}
                                       className="submenu-list bg-white">
                                     <Menu.Item key="sites" icon={<BorderOutlined />}>
-                                        <Link to={helpers.getPagePath(path, links.sites)}>Sites</Link>
+                                        <Link to={pageLinks.sites}>Sites</Link>
                                     </Menu.Item>
                                     <Menu.Item key="profile" icon={<UserOutlined/>}>
-                                        <Link to={helpers.getPagePath(path, links.profile)}>My Profile</Link>
+                                        <Link to={pageLinks.profile}>My Profile</Link>
                                     </Menu.Item>
                                     <Menu.Item key="recent-activity" icon={<HistoryOutlined />} disabled={!eventsExists}>
-                                        <Link to={helpers.getPagePath(path, links.activity)}>Recent Activity</Link>
+                                        <Link to={pageLinks.activity}>Recent Activity</Link>
                                     </Menu.Item>
                                     <Menu.ItemGroup title={<Divider />}/>
                                     <div className="menu-title f-bold">Settings</div>
                                     <Menu.Item key="login-options" icon={<LoginOutlined />}>
-                                        <Link to={helpers.getPagePath(path, links.loginOptions)}>Login Options</Link>
+                                        <Link to={pageLinks.loginOptions}>Login Options</Link>
                                     </Menu.Item>
                                     <Menu.Item key="change-password" icon={<KeyOutlined />}>
-                                        <Link to={helpers.getPagePath(path, links.changePassword)}>Change Password</Link>
+                                        <Link to={pageLinks.changePassword}>Change Password</Link>
                                     </Menu.Item>
                                     <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
-                                        <Link to={helpers.getPagePath(path, links.permissionDelegation)}>Permission Delegation</Link>
+                                        <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                     </Menu.Item>
                                     <Menu.Item key="admin-portal" icon={<ReloadOutlined />} disabled={user?.user.isSuperuser !== true}>
                                         Admin Portal
@@ -139,13 +149,13 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                             </Sider>
                             <Content className="bg-white site-layout" style={{minHeight: 280}}>
                                 <Switch>
-                                    <Route exact path={helpers.getPagePath(path, links.sites)} component={SitesEnabled}/>
-                                    <Route path={helpers.getPagePath(path, links.profile)} component={MyProfile} />
-                                    <Route path={helpers.getPagePath(path, links.profileEdit)} component={MyProfileEdit} />
-                                    {eventsExists && <Route path={helpers.getPagePath(path, links.activity)} component={RecentActivity} />}
-                                    <Route path={helpers.getPagePath(path, links.changePassword)} component={ChangePassword} />
-                                    <Route path={helpers.getPagePath(path, links.loginOptions)} component={LoginOptions} />
-                                    <Route path={helpers.getPagePath(path, links.permissionDelegation)} component={PermissionDelegation} />
+                                    <Route exact path={pageLinks.sites} component={SitesEnabled}/>
+                                    <Route path={pageLinks.profile} component={MyProfile} />
+                                    <Route path={pageLinks.profileEdit} component={MyProfileEdit} />
+                                    {eventsExists && <Route path={pageLinks.activity} component={RecentActivity} />}
+                                    <Route path={pageLinks.changePassword} component={ChangePassword} />
+                                    <Route path={pageLinks.loginOptions} component={LoginOptions} />
+                                    <Route path={pageLinks.permissionDelegation} component={PermissionDelegation} />
 
                                     <Route path="**" exact={true} component={Error404} />
                                 </Switch>
