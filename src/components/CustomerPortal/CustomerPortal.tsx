@@ -144,7 +144,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                         <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                     </Menu.Item>
                                     <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined />} disabled={user?.user.isSuperuser !== true}>
-                                        Admin Portal
+                                        <a href="http://localhost:4000" rel="noreferrer">Admin Portal</a>
                                     </Menu.Item>
                                 </Menu>
                             </Sider>
