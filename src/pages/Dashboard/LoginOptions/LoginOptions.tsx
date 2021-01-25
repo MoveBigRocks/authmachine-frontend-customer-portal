@@ -264,7 +264,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
         } else {
             notification.warning({
                 message: 'Warning!',
-                description: 'Pin code is incorrect.'
+                description: 'The length of the code must be 6.'
             });
         }
     }
