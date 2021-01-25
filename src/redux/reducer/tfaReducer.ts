@@ -1,6 +1,10 @@
-import tfaTypes from '../types/tfaTypes'
-import {ITFAResponse} from '../../interfaces/auth/tfaResponse'
+import tfaTypes from '../types/tfaTypes';
+import {ITFAResponse} from '../../interfaces/auth/tfaResponse';
 
+const emptyMessage = {
+    success: null,
+    message: '',
+};
 
 export type usersState = {
     pinCodeData: ITFAResponse,
@@ -12,26 +16,11 @@ export type usersState = {
 }
 
 const initialState: usersState = {
-    pinCodeData: {
-        success: null,
-        message: '',
-    },
-    pinCodeVerifyData: {
-        success: null,
-        message: '',
-    },
-    tokenVerifyData: {
-        success: null,
-        message: '',
-    },
-    sendDisablePinData: {
-        success: null,
-        message: '',
-    },
-    disableGoogleAuthData: {
-        success: null,
-        message: '',
-    },
+    pinCodeData: emptyMessage,
+    pinCodeVerifyData: emptyMessage,
+    tokenVerifyData: emptyMessage,
+    sendDisablePinData: emptyMessage,
+    disableGoogleAuthData: emptyMessage,
     backupCodes: [],
 }
 
@@ -61,17 +50,24 @@ const tfaReducer = (state = initialState, action: ActionType) => {
         case tfaTypes.SEND_DISABLE_PIN:
             return {
                 ...state,
-                tokenVerifyData: action.data,
+                sendDisablePinData: action.data,
             }
         case tfaTypes.DISABLE_GOOGLE_AUTH:
             return {
                 ...state,
-                tokenVerifyData: action.data,
+                disableGoogleAuthData: action.data,
             }
         case tfaTypes.GET_BACKUP_CODES:
             return {
                 ...state,
                 backupCodes: action.data,
+            }
+        case tfaTypes.CLEAR_VERIFICATION_STATE:
+            return {
+                ...state,
+                pinCodeData: emptyMessage,
+                pinCodeVerifyData: emptyMessage,
+                tokenVerifyData: emptyMessage,
             }
         default:
             return state

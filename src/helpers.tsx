@@ -35,6 +35,13 @@ const helpers = {
         let inputDate = new Date(date);
         return `${currentDay} ${moment(inputDate).format("HH:mm")}`;
     },
+    hidePhone: (phone: string) => {
+        try {
+            return 'XXX-XXX-' + phone.substring(8);
+        } catch {
+            return 'XXX-XXX-XXX';
+        }
+    },
     getEventDateTime: (date: string) => {
         let inputDate = new Date(date);
         return moment(inputDate).format("lll");

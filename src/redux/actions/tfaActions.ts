@@ -22,8 +22,7 @@ const getPinCode = (phone: string) => {
                     data: sendPinCode,
                 })
             },
-            () => {
-        })
+            () => {})
     }
 }
 
@@ -114,7 +113,7 @@ const disableGoogleAuthenticator = (pinCode: string) => {
                     data: disableGoogleAuthenticator,
                 });
                 // @ts-ignore
-                // if (sendDisablePin.success) dispatch(userActions.auth());
+                if (disableGoogleAuthenticator.success) dispatch(userActions.auth());
             },
             () => {
         })
@@ -134,13 +133,19 @@ const getBackupCodes = () => {
                     type: tfaTypes.GET_BACKUP_CODES,
                     data: backupCodes,
                 });
-                // @ts-ignore
-                // if (sendDisablePin.success) dispatch(userActions.auth());
             },
             () => {
         })
     }
 };
+
+const clearVerificationState = () => {
+    return (dispatch: AppDispatch) => {
+        dispatch({
+            type: tfaTypes.CLEAR_VERIFICATION_STATE,
+        })
+    }
+}
 
 
 export const tfaActions = {
@@ -150,4 +155,5 @@ export const tfaActions = {
     disablePinCode,
     disableGoogleAuthenticator,
     getBackupCodes,
+    clearVerificationState,
 }

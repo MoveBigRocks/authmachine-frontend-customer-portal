@@ -10,7 +10,8 @@ import {
     LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined, ReloadOutlined,
-    UserOutlined
+    UserOutlined,
+    DeploymentUnitOutlined
 } from "@ant-design/icons";
 import SitesEnabled from "../../pages/Dashboard/SitesEnabled/SitesEnabled";
 import MyProfile from "../../pages/Dashboard/MyProfile/MyProfile";
@@ -142,7 +143,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
                                         <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                     </Menu.Item>
-                                    <Menu.Item key="admin-portal" icon={<ReloadOutlined />} disabled={user?.user.isSuperuser !== true}>
+                                    <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined />} disabled={user?.user.isSuperuser !== true}>
                                         Admin Portal
                                     </Menu.Item>
                                 </Menu>
