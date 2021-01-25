@@ -78,6 +78,10 @@ const LoginOptions = (props: ILoginOptionsProps) => {
 
 
     useEffect(() => {
+        return clearVerificationState;
+    }, []);
+
+    useEffect(() => {
         if (backupCodes.length > 0) {
             setIsBackupCodesShowing(true);
         }
@@ -142,7 +146,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                 })
             }
         }
-    }, [pinCodeData])
+    }, [pinCodeData]);
 
     useEffect(() => {
         if (pinCodeVerifyData.success != null) {
@@ -159,7 +163,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                 console.log('wef');
             }
         }
-    }, [pinCodeVerifyData])
+    }, [pinCodeVerifyData]);
 
     useEffect(() => {
         if (tokenVerifyData.success != null) {
@@ -178,9 +182,9 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                 })
             }
 
-            setToken('')
+            setToken('');
         }
-    }, [tokenVerifyData])
+    }, [tokenVerifyData]);
 
     const showModal = (reSetup: boolean = false) => {
         if (reSetup) {
@@ -198,7 +202,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
             notification.warning({
                 message: 'Warning!',
                 description: 'The length of the code must be 6.'
-            })
+            });
         }
     }
 
@@ -212,13 +216,13 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                 notification.warning({
                     message: 'Warning!',
                     description: 'Phone number is incorrect.'
-                })
+                });
             }
         } else {
             notification.warning({
                 message: 'Warning!',
                 description: 'Phone number is empty.'
-            })
+            });
         }
     }
 
@@ -227,7 +231,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
         notification.success({
             message: 'Success!',
             description: 'Code has been sent again.'
-        })
+        });
     }
 
     const submitToken = () => {
@@ -237,7 +241,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
             notification.warning({
                 message: 'Warning!',
                 description: 'Token is empty.'
-            })
+            });
         }
     }
 
