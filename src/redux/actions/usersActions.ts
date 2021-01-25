@@ -425,7 +425,7 @@ const updateUser = () => {
         dispatchEvent(false);
 
         user.emails = user.emails.filter((email: any) => {
-            let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+            let re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
             return re.test(email.value);
         });

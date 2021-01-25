@@ -471,8 +471,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
     )
 }
 
-const mapStateToProps = (state: RootState) =>
-{
+const mapStateToProps = (state: RootState) => {
     const {googleAuthenticatorValue, socialsByUser} = state.users;
     const {
         pinCodeData,
@@ -498,52 +497,25 @@ const mapStateToProps = (state: RootState) =>
         sendDisablePinData,
         disableGoogleAuthData,
     }
-}
-;
+};
 
-const mapDispatchToProps =
-{
+const mapDispatchToProps = {
     getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
-        getSocialsByUser
-:
-    usersActions.getSocialsByUser,
-        disconnectSocialAccount
-:
-    userActions.disconnectSocialAccount,
-        getSocialLink
-:
-    userActions.getSocialLink,
-        setPageTitle
-:
-    mainActions.setPageTitle,
-        getPinCode
-:
-    tfaActions.getPinCode,
-        verifyPinCode
-:
-    tfaActions.verifyPinCode,
-        verifyToken
-:
-    tfaActions.verifyToken,
-        getBackupCodes
-:
-    tfaActions.getBackupCodes,
-        disablePinCode
-:
-    tfaActions.disablePinCode,
-        clearVerificationState
-:
-    tfaActions.clearVerificationState,
-        disableGoogleAuthenticator
-:
-    tfaActions.disableGoogleAuthenticator,
-        getUser
-:
-    usersActions.getUser,
-}
-;
+    getSocialsByUser: usersActions.getSocialsByUser,
+    disconnectSocialAccount: userActions.disconnectSocialAccount,
+    getSocialLink: userActions.getSocialLink,
+    setPageTitle: mainActions.setPageTitle,
+    getPinCode: tfaActions.getPinCode,
+    verifyPinCode: tfaActions.verifyPinCode,
+    verifyToken: tfaActions.verifyToken,
+    getBackupCodes: tfaActions.getBackupCodes,
+    disablePinCode: tfaActions.disablePinCode,
+    clearVerificationState: tfaActions.clearVerificationState,
+    disableGoogleAuthenticator: tfaActions.disableGoogleAuthenticator,
+    getUser: usersActions.getUser,
+};
 
 export default connect(
-mapStateToProps,
-mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(LoginOptions);

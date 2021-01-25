@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {RootState} from "../../../redux/reducer";
 import {SitesEnabledProps} from "../../../interfaces/customerPortal/sitesEnabled";
 import SiteItem from "../../../components/CustomerPortal/SiteItem/SiteItem";
-import {Row, Col, Typography} from "antd";
+import {Row, Col} from "antd";
 import {applicationActions} from "../../../redux/actions/applicationActions";
 import {mainActions} from "../../../redux/actions/mainActions";
 
