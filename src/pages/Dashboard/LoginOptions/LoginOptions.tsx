@@ -273,54 +273,57 @@ const LoginOptions = (props: ILoginOptionsProps) => {
     return (
         <>
             <Typography.Title level={3} style={{marginBottom: "1.5rem"}}>Login Options</Typography.Title>
-            <Typography.Title level={5} style={{marginBottom: "1.5rem"}}>Social Accounts</Typography.Title>
+            <Typography.Title level={5} style={{marginBottom: "1.5rem"}}>
+                {socialsByUser.length > 0 ? 'Social Accounts' : 'Here are no social accounts'}
+            </Typography.Title>
 
             <Row gutter={[32, 32]}>
-                {socialsByUser.map((s: ISocialByUser, index: number) => (
-                    <Col sm={24} md={24} lg={12} xl={10} key={index}>
-                        <Card>
-                            {s.isConnected && <div className="check">&#10003;</div>}
-                            <Row justify="space-around" align="middle">
-                                <Col>
-                                    <Row align="middle">
-                                        <Col>
-                                            <img src={helpers.getIconByProvider(s.provider)} width={25}
-                                                 alt={s.provider}
-                                                 style={{marginRight: 15}}/>
-                                        </Col>
-                                        <Col>
-                                            <Typography.Title
-                                                level={5}
-                                                style={{marginBottom: 0}}>{helpers.getTitleWithUpper(s.provider)}</Typography.Title>
-                                            {/*<Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>*/}
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    {
-                                        s.isConnected &&
-                                        <Button style={{background: "#fafafa", color: "#595959", border: "none"}}
-                                                type="primary"
-                                                onClick={() => disconnectSocialAccount(s.accountId)}
-                                                shape="round" icon={<DisconnectOutlined/>} size='small'>
-                                            Disconnect
-                                        </Button>
-                                    }
-                                    {
-                                        !s.isConnected &&
-                                        <Button type="primary"
-                                                shape="round"
-                                                onClick={() => getSocialLink(s.provider, "connect")}
-                                                icon={<LinkOutlined/>}
-                                                size='small'>
-                                            Connect
-                                        </Button>
-                                    }
-                                </Col>
-                            </Row>
-                        </Card>
-                    </Col>
-                ))}
+                {
+                    socialsByUser.map((s: ISocialByUser, index: number) => (
+                        <Col sm={24} md={24} lg={12} xl={10} key={index}>
+                            <Card>
+                                {s.isConnected && <div className="check">&#10003;</div>}
+                                <Row justify="space-around" align="middle">
+                                    <Col>
+                                        <Row align="middle">
+                                            <Col>
+                                                <img src={helpers.getIconByProvider(s.provider)} width={25}
+                                                     alt={s.provider}
+                                                     style={{marginRight: 15}}/>
+                                            </Col>
+                                            <Col>
+                                                <Typography.Title
+                                                    level={5}
+                                                    style={{marginBottom: 0}}>{helpers.getTitleWithUpper(s.provider)}</Typography.Title>
+                                                {/*<Typography.Text type="secondary">facebook.com/john.doe</Typography.Text>*/}
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        {
+                                            s.isConnected &&
+                                            <Button style={{background: "#fafafa", color: "#595959", border: "none"}}
+                                                    type="primary"
+                                                    onClick={() => disconnectSocialAccount(s.accountId)}
+                                                    shape="round" icon={<DisconnectOutlined/>} size='small'>
+                                                Disconnect
+                                            </Button>
+                                        }
+                                        {
+                                            !s.isConnected &&
+                                            <Button type="primary"
+                                                    shape="round"
+                                                    onClick={() => getSocialLink(s.provider, "connect")}
+                                                    icon={<LinkOutlined/>}
+                                                    size='small'>
+                                                Connect
+                                            </Button>
+                                        }
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </Col>
+                    ))}
             </Row>
 
             <Divider/>
@@ -468,7 +471,8 @@ const LoginOptions = (props: ILoginOptionsProps) => {
     )
 }
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: RootState) =>
+{
     const {googleAuthenticatorValue, socialsByUser} = state.users;
     const {
         pinCodeData,
@@ -494,25 +498,52 @@ const mapStateToProps = (state: RootState) => {
         sendDisablePinData,
         disableGoogleAuthData,
     }
-};
+}
+;
 
-const mapDispatchToProps = {
+const mapDispatchToProps =
+{
     getGoogleAuthenticatorValue: usersActions.getGoogleAuthenticatorValue,
-    getSocialsByUser: usersActions.getSocialsByUser,
-    disconnectSocialAccount: userActions.disconnectSocialAccount,
-    getSocialLink: userActions.getSocialLink,
-    setPageTitle: mainActions.setPageTitle,
-    getPinCode: tfaActions.getPinCode,
-    verifyPinCode: tfaActions.verifyPinCode,
-    verifyToken: tfaActions.verifyToken,
-    getBackupCodes: tfaActions.getBackupCodes,
-    disablePinCode: tfaActions.disablePinCode,
-    clearVerificationState: tfaActions.clearVerificationState,
-    disableGoogleAuthenticator: tfaActions.disableGoogleAuthenticator,
-    getUser: usersActions.getUser,
-};
+        getSocialsByUser
+:
+    usersActions.getSocialsByUser,
+        disconnectSocialAccount
+:
+    userActions.disconnectSocialAccount,
+        getSocialLink
+:
+    userActions.getSocialLink,
+        setPageTitle
+:
+    mainActions.setPageTitle,
+        getPinCode
+:
+    tfaActions.getPinCode,
+        verifyPinCode
+:
+    tfaActions.verifyPinCode,
+        verifyToken
+:
+    tfaActions.verifyToken,
+        getBackupCodes
+:
+    tfaActions.getBackupCodes,
+        disablePinCode
+:
+    tfaActions.disablePinCode,
+        clearVerificationState
+:
+    tfaActions.clearVerificationState,
+        disableGoogleAuthenticator
+:
+    tfaActions.disableGoogleAuthenticator,
+        getUser
+:
+    usersActions.getUser,
+}
+;
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+mapStateToProps,
+mapDispatchToProps
 )(LoginOptions);
