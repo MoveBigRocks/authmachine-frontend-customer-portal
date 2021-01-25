@@ -19,6 +19,7 @@ const auth = () => {
             displayName
             isActive,
             isSuperuser,
+            avatar,
             photos {
               type,
               value,
