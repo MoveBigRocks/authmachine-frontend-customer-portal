@@ -40,7 +40,7 @@ const initialState: UserState = {
 
 type ActionType = {
     type: string,
-    user: { username: string, id: number, photo: string },
+    user: { username: string, id: number, avatar: string },
     isAuthenticated?: boolean,
     data: any[],
     status: boolean,
@@ -61,7 +61,7 @@ const userReducer = (state = initialState, action: ActionType) => {
                 isAuthenticated: true,
                 username: action.user.username,
                 id: action.user.id,
-                avatar: action.user.photo,
+                avatar: action.user.avatar,
                 user: action.user,
             }
         case userTypes.USER_AUTH_FAILURE:

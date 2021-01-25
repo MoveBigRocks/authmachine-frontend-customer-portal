@@ -37,7 +37,7 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
 
     componentDidUpdate(prevProps: Readonly<MyProfileEditProps>, prevState: Readonly<MyProfileEditState>, snapshot?: any) {
         if (this.formRef.current) {
-           // @ts-ignore
+            // @ts-ignore
             const username = this.getUserProperty("username");
             const email = this.getUserPrimaryEmail();
             const nickName = this.getUserProperty("nickName");
@@ -198,12 +198,12 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                     <Row className="d-flex-justify">
                         <Col sm={22}>
                             <Input value={email.value}
-                                   onChange={(e) => this.editAdditionalEmail(key, e.target.value)} />
+                                   onChange={(e) => this.editAdditionalEmail(key, e.target.value)}/>
                         </Col>
                         <Col sm={2}>
                             <DeleteFilled className="hover-cursor"
                                           style={{marginLeft: 10}}
-                                          onClick={() => this.removeAdditionalEmail(key)} />
+                                          onClick={() => this.removeAdditionalEmail(key)}/>
                         </Col>
                     </Row>
                 </Col>
@@ -243,12 +243,12 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                     <Row className="d-flex-justify">
                         <Col sm={22}>
                             <Input value={phone.value}
-                                   onChange={(e) => this.editPhoneNumber(key, e.target.value)} />
+                                   onChange={(e) => this.editPhoneNumber(key, e.target.value)}/>
                         </Col>
                         <Col sm={2}>
                             <DeleteFilled className="hover-cursor"
                                           style={{marginLeft: 10}}
-                                          onClick={() => this.removePhoneNumber(key)} />
+                                          onClick={() => this.removePhoneNumber(key)}/>
                         </Col>
                     </Row>
                 </Col>
@@ -279,7 +279,10 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         this.updateUserState("addresses", addresses);
     }
 
-    editAddress = (editedAddress: AddressInterface = defaultAddress) => this.setState({showEditAddressModal: true, editedAddress});
+    editAddress = (editedAddress: AddressInterface = defaultAddress) => this.setState({
+        showEditAddressModal: true,
+        editedAddress
+    });
 
     addAddresses = () => this.setState({showEditAddressModal: true, editedAddress: defaultAddress});
 
@@ -309,9 +312,9 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         return (
             <div className="my-profile-edit">
                 <Typography.Title style={{margin: "20px 0"}} level={5}>Main Details</Typography.Title>
-                <Form labelCol={{ span: 5 }}
-                      wrapperCol={{ span: 10 }}
-                      // @ts-ignore
+                <Form labelCol={{span: 5}}
+                      wrapperCol={{span: 10}}
+                    // @ts-ignore
                       ref={this.formRef}
                       onFinish={this.onFinish}
                       className="user-form"
@@ -320,16 +323,17 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                         <div className="avatar-container">
                             <div style={{marginBottom: 10}}>
                                 {user?.avatar
-                                    ? <Avatar src={user?.avatar} size={42} />
-                                    : <Avatar icon={<UserOutlined />} size={42} />
+                                    ? <Avatar src={user?.avatar} size={42}/>
+                                    : <Avatar icon={<UserOutlined/>} size={42}/>
                                 }
                                 <Upload onChange={this.uploadFile} beforeUpload={() => false} showUploadList={false}>
-                                    <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined />}>
+                                    <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined/>}>
                                         Upload New Avatar
                                     </Button>
                                 </Upload>
-                                {user?.avatar && <Button icon={<CloseOutlined />}
-                                                         style={{marginLeft: 15}} onClick={this.deleteAvatar}>Delete</Button>}
+                                {user?.avatar && <Button icon={<CloseOutlined/>}
+                                                         style={{marginLeft: 15}}
+                                                         onClick={this.deleteAvatar}>Delete</Button>}
                             </div>
 
                             <div className="description">JPG, GIF, PNG, 256x256 pixels</div>
@@ -337,45 +341,50 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                     </Form.Item>
                     <Form.Item label="Email" name="email" required>
                         <Input placeholder="Enter email"
-                               onChange={(e) => this.updateUserPrimaryEmail(e) } />
+                               onChange={(e) => this.updateUserPrimaryEmail(e)}/>
                     </Form.Item>
-                    <Form.Item label="Username" name="username">
+                    <Form.Item label="Username" name="username"
+                               rules={[{required: true, message: "Please input your username"}]}>
                         <Input placeholder="Enter username"
                                name="username"
-                               onChange={(e) => this.updateUserProperty(e, "username")} />
+                               onChange={(e) => this.updateUserProperty(e, "username")}/>
                     </Form.Item>
                     <Form.Item label="Nick Name" name="nickName">
                         <Input placeholder="Enter nick name"
-                               onChange={(e) => this.updateUserProperty(e, "nickName")} />
+                               onChange={(e) => this.updateUserProperty(e, "nickName")}/>
                     </Form.Item>
                     <Form.Item label="Additional Email">
                         {this.renderAdditionalEmails()}
                         <Button type="link" className="p-0" onClick={this.addEmail}>
-                            <PlusOutlined /> Add Email
+                            <PlusOutlined/> Add Email
                         </Button>
                     </Form.Item>
                     <Form.Item label="Phone">
                         {this.renderPhoneNumbers()}
                         <Button type="link" className="p-0" onClick={this.addPhoneNumber}>
-                            <PlusOutlined /> Add Phone
+                            <PlusOutlined/> Add Phone
                         </Button>
                     </Form.Item>
                     <Row>
                         <Col span={15}>
                             <Typography.Title style={{margin: "20px 0"}} level={5} className="d-flex-justify">
                                 Address information
-                                <Button type="link" className="p-0" onClick={this.addAddresses}><PlusOutlined /> Add Address</Button>
+                                <Button type="link" className="p-0" onClick={this.addAddresses}><PlusOutlined/> Add
+                                    Address</Button>
                             </Typography.Title>
                             <div className="address-info-container">
-                                {user?.addresses.length === 0 && <div className="empty-container">Addresses list is empty</div>}
+                                {user?.addresses.length === 0 &&
+                                <div className="empty-container">Addresses list is empty</div>}
                                 {user?.addresses.map(a =>
-                                    <Address key={a.id} address={a} editAddress={this.editAddress} deleteAddress={this.deleteAddress} />)}
+                                    <Address key={a.id} address={a} editAddress={this.editAddress}
+                                             deleteAddress={this.deleteAddress}/>)}
                             </div>
                             <Button type="primary" htmlType="submit">Save Profile Changes</Button>
                         </Col>
                     </Row>
                 </Form>
-                <AddressEdit visible={showEditAddressModal} address={editedAddress} onCancel={this.hideModal} saveAddress={this.saveAddress} />
+                <AddressEdit visible={showEditAddressModal} address={editedAddress} onCancel={this.hideModal}
+                             saveAddress={this.saveAddress}/>
             </div>
         )
     }
@@ -383,7 +392,7 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
 
 const mapStateToProps = (state: RootState) => {
     const {user, groups} = state.users;
-    return { user, groups };
+    return {user, groups};
 };
 
 const mapDispatchToProps = {

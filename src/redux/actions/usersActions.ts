@@ -396,6 +396,7 @@ const getUser = (userId: string) => {
         }`;
 
         request.post(dispatch, query, (data: any) => {
+            console.log("GET_USER", data.data.user)
             dispatch({
                 type: usersTypes.GET_USER,
                 user: data.data.user
@@ -423,6 +424,18 @@ const updateUser = () => {
                 operationStatus
             });
         dispatchEvent(false);
+
+        user.emails = user.emails.filter((email: string) => {
+            let re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+            return re.test(email);
+        });
+
+        user.phoneNumbers = user.phoneNumbers.filter((phone: string) => {
+            let re = /^\D*(\d\D*){9,14}$/;
+
+            return re.test(phone);
+        });
 
         let query = `
         mutation {
