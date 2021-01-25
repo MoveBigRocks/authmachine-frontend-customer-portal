@@ -145,19 +145,21 @@ const LoginOptions = (props: ILoginOptionsProps) => {
     }, [pinCodeData])
 
     useEffect(() => {
-        if (pinCodeData.success != null) {
+        if (pinCodeVerifyData.success != null) {
             if (pinCodeVerifyData.success) {
                 setIsModalVisible(false);
                 setIsVerifyPhone(false);
                 setIsVerified(true);
-            } else if (pinCodeVerifyData.success === false) {
+            } else {
                 notification.error({
                     message: 'Error!',
                     description: pinCodeVerifyData.message
                 });
+
+                console.log('wef');
             }
         }
-    }, [pinCodeVerifyData.success, pinCodeVerifyData.message, pinCodeData.success])
+    }, [pinCodeVerifyData])
 
     useEffect(() => {
         if (tokenVerifyData.success != null) {
