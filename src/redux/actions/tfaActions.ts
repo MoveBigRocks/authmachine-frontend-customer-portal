@@ -75,9 +75,79 @@ const verifyToken = (token: string) => {
     }
 }
 
+const disablePinCode = () => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          sendDisablePin {
+            success, message
+          }
+        }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+                let {sendDisablePin} = data.data;
+                mainActions.loading(false, dispatch);
+                dispatch({
+                    type: tfaTypes.SEND_DISABLE_PIN,
+                    data: sendDisablePin,
+                });
+                // @ts-ignore
+                // if (sendDisablePin.success) dispatch(userActions.auth());
+            },
+            () => {
+        })
+    }
+};
+
+const disableGoogleAuthenticator = (pinCode: string) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          disableGoogleAuthenticator (pin: "${pinCode}") {
+            success, message
+          }
+        }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+                let {disableGoogleAuthenticator} = data.data;
+                mainActions.loading(false, dispatch);
+                dispatch({
+                    type: tfaTypes.DISABLE_GOOGLE_AUTH,
+                    data: disableGoogleAuthenticator,
+                });
+                // @ts-ignore
+                // if (sendDisablePin.success) dispatch(userActions.auth());
+            },
+            () => {
+        })
+    }
+};
+
+const getBackupCodes = () => {
+    return (dispatch: AppDispatch) => {
+        let query = `query {
+          backupCodes
+        }`;
+
+        request.postWithoutErrors(dispatch, query, (data: any) => {
+                let {backupCodes} = data.data;
+                mainActions.loading(false, dispatch);
+                dispatch({
+                    type: tfaTypes.GET_BACKUP_CODES,
+                    data: backupCodes,
+                });
+                // @ts-ignore
+                // if (sendDisablePin.success) dispatch(userActions.auth());
+            },
+            () => {
+        })
+    }
+};
+
 
 export const tfaActions = {
     getPinCode,
     verifyPinCode,
     verifyToken,
+    disablePinCode,
+    disableGoogleAuthenticator,
+    getBackupCodes,
 }

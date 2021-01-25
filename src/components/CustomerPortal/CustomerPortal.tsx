@@ -132,6 +132,9 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
                                         <Link to={helpers.getPagePath(path, links.permissionDelegation)}>Permission Delegation</Link>
                                     </Menu.Item>
+                                    <Menu.Item key="admin-portal" icon={<ReloadOutlined />} disabled={user?.user.isSuperuser !== true}>
+                                        Admin Portal
+                                    </Menu.Item>
                                 </Menu>
                             </Sider>
                             <Content className="bg-white site-layout" style={{minHeight: 280}}>

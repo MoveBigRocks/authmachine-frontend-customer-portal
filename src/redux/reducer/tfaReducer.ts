@@ -6,6 +6,9 @@ export type usersState = {
     pinCodeData: ITFAResponse,
     pinCodeVerifyData: ITFAResponse,
     tokenVerifyData: ITFAResponse,
+    sendDisablePinData: ITFAResponse,
+    disableGoogleAuthData: ITFAResponse,
+    backupCodes: string[],
 }
 
 const initialState: usersState = {
@@ -21,6 +24,15 @@ const initialState: usersState = {
         success: null,
         message: '',
     },
+    sendDisablePinData: {
+        success: null,
+        message: '',
+    },
+    disableGoogleAuthData: {
+        success: null,
+        message: '',
+    },
+    backupCodes: [],
 }
 
 type ActionType = {
@@ -45,6 +57,21 @@ const tfaReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 tokenVerifyData: action.data,
+            }
+        case tfaTypes.SEND_DISABLE_PIN:
+            return {
+                ...state,
+                tokenVerifyData: action.data,
+            }
+        case tfaTypes.DISABLE_GOOGLE_AUTH:
+            return {
+                ...state,
+                tokenVerifyData: action.data,
+            }
+        case tfaTypes.GET_BACKUP_CODES:
+            return {
+                ...state,
+                backupCodes: action.data,
             }
         default:
             return state
