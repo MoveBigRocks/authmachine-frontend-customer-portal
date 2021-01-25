@@ -15,6 +15,8 @@ export interface CustomerPortalProps {
     },
     logout: () => void,
     setPageLink: (pageLink: string) => void,
+    username: string,
+    isSuperuser: boolean,
 }
 
 export interface CustomerPortalState {

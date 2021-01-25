@@ -112,7 +112,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     }
                                 </div>
 
-                                <div style={{marginRight: 15, display: "inline-block"}}>You're logged as <strong>{user?.username}</strong></div>
+                                <div style={{marginRight: 15, display: "inline-block"}}>You're logged as <strong>{this.props.username}</strong></div>
                                 <Button icon={<LogoutOutlined />} onClick={this.props.logout}>Logout</Button>
                             </div>
                         </Header>
@@ -143,7 +143,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                     <Menu.Item key="permission-delegation" icon={<ReloadOutlined />}>
                                         <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                     </Menu.Item>
-                                    <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined />} disabled={user?.user.isSuperuser !== true}>
+                                    <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined />} disabled={!this.props.isSuperuser}>
                                         <a href="http://localhost:4000" rel="noreferrer">Admin Portal</a>
                                     </Menu.Item>
                                 </Menu>
@@ -171,12 +171,14 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
 
 
 const mapStateToProps = (state: RootState) => {
-    const {isAuthenticated, eventsExists} = state.user;
+    const {username, isAuthenticated, eventsExists, isSuperuser} = state.user;
     return {
+        username,
         user: state.user,
         loading: state.main.loading,
         isAuthenticated,
         eventsExists,
+        isSuperuser,
     }
 };
 

@@ -79,7 +79,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
 
     useEffect(() => {
         return clearVerificationState;
-    }, []);
+    }, [clearVerificationState]);
 
     useEffect(() => {
         if (backupCodes.length > 0) {
@@ -103,7 +103,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                 });
             }
         }
-    }, [disableGoogleAuthData])
+    }, [disableGoogleAuthData, getUser])
 
     useEffect(() => {
         if (sendDisablePinData.success != null) {
@@ -483,6 +483,7 @@ const mapStateToProps = (state: RootState) => {
     } = state.tfa;
     const {socialLink} = state.user;
     const {user} = state.user;
+    const {phoneNumbers, googleAuthenticatorTested} = user;
 
     return {
         googleAuthenticatorValue,
@@ -491,8 +492,8 @@ const mapStateToProps = (state: RootState) => {
         pinCodeData,
         pinCodeVerifyData,
         tokenVerifyData,
-        phones: user?.phoneNumbers || [],
-        googleAuthenticatorTested: user?.googleAuthenticatorTested || false,
+        phones: phoneNumbers || [],
+        googleAuthenticatorTested: googleAuthenticatorTested || false,
         backupCodes,
         sendDisablePinData,
         disableGoogleAuthData,

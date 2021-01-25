@@ -37,21 +37,17 @@ const SitesEnabled = ({applications, getApplications, setPageTitle}: SitesEnable
     )
 }
 
-const mapStateToProps = (state: RootState) =>
-{
+const mapStateToProps = (state: RootState) => {
     const {applications} = state.application;
+
     return {
         applications,
     }
-}
-;
+};
 
-const mapDispatchToProps =
-{
+const mapDispatchToProps = {
     getApplications: applicationActions.getApplications,
-        setPageTitle
-:
-    mainActions.setPageTitle,
-}
+    setPageTitle: mainActions.setPageTitle,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SitesEnabled);
