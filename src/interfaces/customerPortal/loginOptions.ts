@@ -2,7 +2,8 @@ import {ISocialByUser} from '../socialsByUser'
 import {ITFAResponse} from '../auth/tfaResponse'
 import {IPhone} from "../phone";
 
-export interface ILoginOptions {
+
+export interface ILoginOptionsProps {
     googleAuthenticatorValue: boolean | undefined,
     socialLink: string,
     getGoogleAuthenticatorValue: () => void,
@@ -20,4 +21,18 @@ export interface ILoginOptions {
     verifyToken: (token: string) => void,
     phones: IPhone[],
     googleAuthenticatorTested: boolean,
-}
+    getBackupCodes: () => void,
+    backupCodes: [],
+    disablePinCode: () => void,
+    sendDisablePinData: ITFAResponse,
+    clearVerificationState: () => void,
+    disableGoogleAuthenticator: (pin: string) => void,
+    disableGoogleAuthData: ITFAResponse,
+    getUser: (userId: string) => void,
+};
+
+export interface IQRCodeProps {
+    token: string,
+    changeToken: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    submitToken: () => void,
+};
