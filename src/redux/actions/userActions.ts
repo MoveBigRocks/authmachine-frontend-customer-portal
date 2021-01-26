@@ -7,6 +7,7 @@ import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
+import helpers from "../../helpers";
 
 
 const auth = () => {
@@ -124,7 +125,10 @@ const login = (values: {username: string, password: string, remember: boolean, p
                     setLogin(false, message);
                 }
             },
-            () => setLogin(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setLogin(false, error)
+            },
             false);
     }
 };
@@ -155,7 +159,10 @@ const register = (values: {username: string, email: string}) => {
                 let {success, message} = result.data.register;
                 setRegister(success, message);
             },
-            () => setRegister(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setRegister(false, error);
+            },
             false);
     }
 };
@@ -186,7 +193,10 @@ const resetPassword = (values: {username: string}) => {
 
                 setResetStatus(success, message);
             },
-            () => setResetStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setResetStatus(false, error);
+            },
             false);
     }
 };
@@ -221,7 +231,10 @@ const recoveryPassword = (values: { password: string, confirmPassword: string, t
                 if (success) dispatch(userActions.auth());
                 setRecoveryStatus(success, message);
             },
-            () => setRecoveryStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setRecoveryStatus(false, error);
+            },
             false);
     }
 };
@@ -252,7 +265,10 @@ const activationFirstStep = (values: { username?: string, code: string }) => {
                 let {success, message} = result.data.activationFirstStep;
                 setActivationStatus(success, success ? "" : message);
             },
-            () => setActivationStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setActivationStatus(false, error);
+            },
             false);
     }
 };
@@ -286,7 +302,10 @@ const activationSecondStep = (values: { password: string, confirmPassword: strin
                 let {success, message} = result.data.activationSecondStep;
                 setActivationStatus(success, message);
             },
-            () => setActivationStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setActivationStatus(false, error);
+            },
             false);
     }
 };
@@ -314,7 +333,10 @@ const finishActivation = (token: string) => {
 
                 setFinishActivationStatus(success, message);
             },
-            () => setFinishActivationStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setFinishActivationStatus(false, error)
+            },
             false);
     }
 }
@@ -399,7 +421,10 @@ const socialCallback = (provider: string, queryString: string) => {
 
                 setSocialCallbackStatus(success, success ? "" : message);
             },
-            () => setSocialCallbackStatus(false, "Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                setSocialCallbackStatus(false, error);
+            },
             false);
     }
 }
@@ -434,7 +459,10 @@ const disconnectSocialAccount = (accountId: number) => {
 
                 setDisconnectAccount(success);
             },
-            () => alertActions.error("Something wrong"),
+            (error: any) => {
+                error = request.isServerError(error);
+                alertActions.error(error);
+            },
             true);
     }
 }
@@ -456,9 +484,7 @@ const getSocialLink = (provider: string, connectionType: string = "login") => {
                     message
                 });
             },
-            () => {
-
-            },
+            () => {},
             false);
     }
 }

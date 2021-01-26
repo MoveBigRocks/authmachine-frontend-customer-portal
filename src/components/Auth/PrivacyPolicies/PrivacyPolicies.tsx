@@ -63,7 +63,7 @@ const PrivacyPolicies = ({policies, getPrivacyPolicyList, form, formType}: Priva
             </>
         )
     } else {
-        return <></>
+        return null;
     }
 
 };

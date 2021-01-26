@@ -3,6 +3,8 @@ import {AppDispatch} from "../store";
 import {mainActions} from "../actions/mainActions";
 import axios from "axios";
 import {alertActions} from "../actions/alertActions";
+// import {Simulate} from "react-dom/test-utils";
+// import error = Simulate.error;
 
 const urlType = {
     private: "/api/graphql/private",
@@ -10,7 +12,7 @@ const urlType = {
 }
 
 const request = {
-    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
         let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
         axios.post(url, {query}, authHeader())
@@ -26,10 +28,10 @@ const request = {
             .catch((err: any) => {
                 mainActions.loading(false, dispatch);
                 alertActions.error(err);
-                if (error) error();
-            })
+                if (error) error(err);
+            });
     },
-    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
         let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
         axios.post(url, {query}, authHeader())
@@ -39,10 +41,10 @@ const request = {
             })
             .catch((err: any) => {
                 mainActions.loading(false, dispatch);
-                if (error) error();
-            })
+                if (error) error(err);
+            });
     },
-    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: () => void, privateQuery=true) => {
+    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
         let url = request.getApiUrl(privateQuery);
         mainActions.loading(true, dispatch);
         axios.post(url, data, formDataHeader())
@@ -52,11 +54,12 @@ const request = {
             })
             .catch((err: any) => {
                 alertActions.error(err);
-                if (error) error();
+                if (error) error(err);
                 mainActions.loading(false, dispatch);
-            })
+            });
     },
     getApiUrl: (privateQuery: boolean) => privateQuery ? urlType.private : urlType.public,
+    isServerError: (error: any) => (String(error).split('Error: ')[1] === 'Request failed with status code 500' ? 'Server error' : 'Something wrong'),
 }
 
 export default request;

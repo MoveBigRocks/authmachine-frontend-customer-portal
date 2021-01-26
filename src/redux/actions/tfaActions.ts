@@ -14,15 +14,14 @@ const getPinCode = (phone: string) => {
             }
         }`
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {sendPinCode} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.GET_PIN_CODE,
                     data: sendPinCode,
-                })
-            },
-            () => {})
+                });
+            });
     }
 }
 
@@ -36,16 +35,14 @@ const verifyPinCode = (phone: string, pin: string) => {
             }
         }`
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {verifyPinCode} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.VERIFY_PIN_CODE,
                     data: verifyPinCode,
-                })
-            },
-            () => {
-        })
+                });
+            });
     }
 }
 
@@ -59,7 +56,7 @@ const verifyToken = (token: string) => {
             }
         }`
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {verifyToken} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
@@ -68,9 +65,7 @@ const verifyToken = (token: string) => {
                 });
                 // @ts-ignore
                 if (verifyToken.success) dispatch(userActions.auth());
-            },
-            () => {
-        })
+            });
     }
 }
 
@@ -82,7 +77,7 @@ const disablePinCode = () => {
           }
         }`;
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {sendDisablePin} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
@@ -91,9 +86,7 @@ const disablePinCode = () => {
                 });
                 // @ts-ignore
                 // if (sendDisablePin.success) dispatch(userActions.auth());
-            },
-            () => {
-        })
+            });
     }
 };
 
@@ -105,7 +98,7 @@ const disableGoogleAuthenticator = (pinCode: string) => {
           }
         }`;
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {disableGoogleAuthenticator} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
@@ -114,9 +107,7 @@ const disableGoogleAuthenticator = (pinCode: string) => {
                 });
                 // @ts-ignore
                 if (disableGoogleAuthenticator.success) dispatch(userActions.auth());
-            },
-            () => {
-        })
+            });
     }
 };
 
@@ -126,16 +117,14 @@ const getBackupCodes = () => {
           backupCodes
         }`;
 
-        request.postWithoutErrors(dispatch, query, (data: any) => {
+        request.post(dispatch, query, (data: any) => {
                 let {backupCodes} = data.data;
                 mainActions.loading(false, dispatch);
                 dispatch({
                     type: tfaTypes.GET_BACKUP_CODES,
                     data: backupCodes,
                 });
-            },
-            () => {
-        })
+            });
     }
 };
 

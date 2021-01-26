@@ -25,7 +25,7 @@ const getSocialsByUser = () => {
                 data: allSocialsByUser,
             });
         },
-        () => { })
+        () => {})
     }
 }
 
@@ -44,8 +44,7 @@ const getGoogleAuthenticatorValue = () => {
                     data: googleAuthenticatorValue,
                 });
             },
-            () => {
-            })
+            () => {});
     }
 }
 
@@ -68,9 +67,8 @@ const getSocials = () => {
                     data: allSocials,
                 });
             },
-            () => {
-            },
-            false)
+            () => {},
+            false);
     }
 }
 
