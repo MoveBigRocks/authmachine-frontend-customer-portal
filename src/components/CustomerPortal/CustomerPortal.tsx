@@ -144,7 +144,7 @@ class CustomerPortal extends React.Component<CustomerPortalProps, CustomerPortal
                                         <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                     </Menu.Item>
                                     <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined />} disabled={!this.props.isSuperuser}>
-                                        <a href="http://localhost:4000" rel="noreferrer">Admin Portal</a>
+                                        <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "https://authmachine-frontend.herokuapp.com"} rel="noreferrer">Admin Portal</a>
                                     </Menu.Item>
                                 </Menu>
                             </Sider>
