@@ -7,8 +7,8 @@ import {alertActions} from "../actions/alertActions";
 // import error = Simulate.error;
 
 const urlType = {
-    private: "/api/graphql/private",
-    public: "/api/graphql",
+    private: process.env.SERVER_URL + "/api/graphql/private",
+    public: process.env.SERVER_URL + "/api/graphql",
 }
 
 const request = {
