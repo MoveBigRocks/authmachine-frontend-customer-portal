@@ -37,7 +37,7 @@ const ChangePassword = ({setPageTitle, changePassword, status}: ChangePasswordPr
         <>
             <Typography.Title level={4} style={{marginBottom: "1.5rem"}}>Change Password</Typography.Title>
             <Row style={{maxWidth: 800}}>
-                <Col md={24} lg={14}>
+                <Col md={14} lg={14}>
                     <Form layout="vertical" onFinish={onFinish} form={form}>
                         <Form.Item label="Old Password" name="oldPassword"
                                    rules={[{
@@ -52,7 +52,8 @@ const ChangePassword = ({setPageTitle, changePassword, status}: ChangePasswordPr
                                    rules={[{
                                        required: true,
                                        message: "Please input your new password",
-                                   }]}>
+                                   }]}
+                        >
                             <PasswordInput settings={passwordInputSettings}
                                            inputProps={{value: newPass}}
                                            onChange={e => setNewPass(e.target.value)} />

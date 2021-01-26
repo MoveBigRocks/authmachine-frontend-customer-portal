@@ -18,8 +18,3 @@ export interface CustomerPortalProps {
     username: string,
     isSuperuser: boolean,
 }
-
-export interface CustomerPortalState {
-    collapsed: boolean,
-    selectedMenuItems: string[],
-}

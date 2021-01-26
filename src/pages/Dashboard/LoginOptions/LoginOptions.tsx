@@ -280,7 +280,7 @@ const LoginOptions = (props: ILoginOptionsProps) => {
             <Row gutter={[32, 32]}>
                 {
                     socialsByUser.map((s: ISocialByUser, index: number) => (
-                        <Col sm={24} md={24} lg={12} xl={10} key={index}>
+                        <Col xs={24} sm={24} md={24} lg={12} xl={10} key={index}>
                             <Card>
                                 {s.isConnected && <div className="check">&#10003;</div>}
                                 <Row justify="space-around" align="middle">
