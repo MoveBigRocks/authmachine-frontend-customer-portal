@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/reducer";
-import {Typography, Select, DatePicker, Pagination, Table} from "antd";
+import {Typography, Select, DatePicker, Pagination, Table, Row, Col} from "antd";
 import {RecentActivityProps} from "../../../interfaces/customerPortal/recentActivity";
 import {eventActions} from "../../../redux/actions/eventActions";
 import helpers from "../../../helpers";
@@ -48,35 +48,41 @@ export const RecentActivity = ({events, page, pageSize, total, getEvents, setPag
     const [date, setDate] = useState<null | string[]>(null);
 
     useEffect(() => getEvents({}), [getEvents]);
-
     useEffect(() => setPageTitle("Recent Activity"), [setPageTitle]);
 
     return (
         <div className="recent-activity">
             <Typography.Title level={4} style={{marginBottom: "1.5rem"}}>Recent Activity</Typography.Title>
-            Event:
-            <Select
-                style={{ width: 200, marginLeft: 10, marginRight: 20 }}
-                placeholder="Select an event"
-                onChange={(eventType: string) => {
-                    setEventType(eventType);
-                    getEvents({eventType});
-                }}
-                value={eventType}
-              >
-                {eventTypes.map(event => <Select.Option value={event.value} key={event.value}>{event.title}</Select.Option>)}
-            </Select>
-            Date:
-            <DatePicker.RangePicker
-                style={{ marginLeft: 10 }}
-                // @ts-ignore
-                value={date}
-                // @ts-ignore
-                onChange={(date: any[], dateFormat: string[]) => {
-                    setDate(date);
-                    getEvents({dateRange: dateFormat})
-                }}
-            />
+            <Row gutter={[20, 20]}>
+                <Col>
+                    <Typography.Text>Event:</Typography.Text>
+                    <Select
+                        style={{ width: 200, marginLeft: 10, marginRight: 20 }}
+                        placeholder="Select an event"
+                        onChange={(eventType: string) => {
+                            setEventType(eventType);
+                            getEvents({eventType});
+                        }}
+                        value={eventType}
+                    >
+                        {eventTypes.map(event => <Select.Option value={event.value} key={event.value}>{event.title}</Select.Option>)}
+                    </Select>
+                </Col>
+                <Col>
+                    <Typography.Text>Date:</Typography.Text>
+                    <DatePicker.RangePicker
+                        style={{ marginLeft: 10 }}
+                        // @ts-ignore
+                        value={date}
+                        // @ts-ignore
+                        onChange={(date: any[], dateFormat: string[]) => {
+                            setDate(date);
+                            getEvents({dateRange: dateFormat})
+                        }}
+                    />
+                </Col>
+            </Row>
+
 
             <Table columns={getTableColumns()}
                    dataSource={events}

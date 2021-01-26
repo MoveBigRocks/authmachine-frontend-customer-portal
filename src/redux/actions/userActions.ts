@@ -7,7 +7,6 @@ import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
-import helpers from "../../helpers";
 
 
 const auth = () => {
