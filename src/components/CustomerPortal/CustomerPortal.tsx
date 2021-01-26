@@ -139,7 +139,7 @@ const CustomerPortal = ({
                         <div style={{marginLeft: "auto"}}>
                             <div style={{marginRight: 8, display: "inline-block"}}>
                                 {user.avatar
-                                    ? <Avatar className="mobile-hide" src={user.avatar} size="small"/>
+                                    ? <Avatar src={user.avatar} size="small"/>
                                     : <Avatar icon={<UserOutlined/>} size="small"/>
                                 }
                             </div>

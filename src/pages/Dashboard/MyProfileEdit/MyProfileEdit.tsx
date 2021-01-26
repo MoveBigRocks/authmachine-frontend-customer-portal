@@ -312,29 +312,39 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
         return (
             <div className="my-profile-edit">
                 <Typography.Title style={{margin: "20px 0"}} level={5}>Main Details</Typography.Title>
-                <Form labelCol={{span: 5}}
+                <Form labelCol={{span: 6}}
                       wrapperCol={{span: 10}}
-                    // @ts-ignore
                       ref={this.formRef}
                       onFinish={this.onFinish}
                       className="user-form"
                       layout="horizontal">
                     <Form.Item label="Avatar" name="avatar">
                         <div className="avatar-container">
-                            <div style={{marginBottom: 10}}>
-                                {user?.avatar
-                                    ? <Avatar src={user?.avatar} size={42}/>
-                                    : <Avatar icon={<UserOutlined/>} size={42}/>
-                                }
-                                <Upload onChange={this.uploadFile} beforeUpload={() => false} showUploadList={false}>
-                                    <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined/>}>
-                                        Upload New Avatar
-                                    </Button>
-                                </Upload>
-                                {user?.avatar && <Button icon={<CloseOutlined/>}
-                                                         style={{marginLeft: 15}}
-                                                         onClick={this.deleteAvatar}>Delete</Button>}
-                            </div>
+                            <Row gutter={[10, 10]} align="middle">
+                                    <Col>
+                                        {
+                                            user?.avatar
+                                                ? <Avatar src={user?.avatar} size={42}/>
+                                                : <Avatar icon={<UserOutlined/>} size={42}/>
+                                        }
+                                    </Col>
+                                <Col>
+                                    <Upload onChange={this.uploadFile} beforeUpload={() => false}
+                                            showUploadList={false}>
+                                        <Button type="primary" style={{marginLeft: 15}} icon={<CloudUploadOutlined/>}>
+                                            Upload New Avatar
+                                        </Button>
+                                    </Upload>
+                                </Col>
+                                <Col>
+                                    {
+                                        user?.avatar &&
+                                        <Button icon={<CloseOutlined/>}
+                                                style={{marginLeft: 15}}
+                                                onClick={this.deleteAvatar}>Delete</Button>
+                                    }
+                                </Col>
+                            </Row>
 
                             <div className="description">JPG, GIF, PNG, 256x256 pixels</div>
                         </div>
