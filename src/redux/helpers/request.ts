@@ -6,11 +6,11 @@ import {alertActions} from "../actions/alertActions";
 // import {Simulate} from "react-dom/test-utils";
 // import error = Simulate.error;
 
-const serverUrl = process.env.NODE_ENV === "development" ? "" : process.env.REACT_APP_SERVER_URL;
+// const serverUrl = process.env.NODE_ENV === "development" ? "" : process.env.REACT_APP_SERVER_URL;
 
 const urlType = {
-    private: serverUrl + "/api/graphql/private",
-    public: serverUrl + "/api/graphql",
+    private: "/api/graphql/private",
+    public: "/api/graphql",
 }
 
 const request = {
