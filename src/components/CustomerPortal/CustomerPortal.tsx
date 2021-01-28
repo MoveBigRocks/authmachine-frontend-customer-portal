@@ -186,7 +186,7 @@ const CustomerPortal = ({
                                 </Menu.Item>
                                 <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "https://authmachine-frontend.herokuapp.com"} rel="noreferrer">Admin Portal</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin"} rel="noreferrer">Admin Portal</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&
@@ -219,14 +219,14 @@ const CustomerPortal = ({
 
 
 const mapStateToProps = (state: RootState) => {
-    const {username, isAuthenticated, eventsExists, isSuperuser} = state.user;
+    const {username, isAuthenticated, eventsExists, isSuperUser} = state.user;
     return {
         username,
         user: state.user,
         loading: state.main.loading,
         isAuthenticated,
         eventsExists,
-        isSuperuser: isSuperuser,
+        isSuperuser: isSuperUser,
     }
 };
 

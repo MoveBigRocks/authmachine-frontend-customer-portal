@@ -56,7 +56,6 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 isAuthenticated: false,
                 user: action.user,
-                isSuperUser: action.user.isSuperuser,
             }
         case userTypes.USER_AUTH_SUCCESS:
             return {
@@ -66,6 +65,7 @@ const userReducer = (state = initialState, action: ActionType) => {
                 id: action.user.id,
                 avatar: action.user.avatar,
                 user: action.user,
+                isSuperUser: action.user.isSuperuser,
             }
         case userTypes.USER_AUTH_FAILURE:
             return {
