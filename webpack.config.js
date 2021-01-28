@@ -62,7 +62,6 @@ module.exports = {
     output: {
         filename: 'js/[name].js',
         path: path.resolve(__dirname, 'build'),
-        publicPath: 'customer-portal-static/'
     },
     plugins: [
         new LiveReloadPlugin(),
