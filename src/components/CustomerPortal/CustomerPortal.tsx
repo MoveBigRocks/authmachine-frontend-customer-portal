@@ -186,7 +186,7 @@ const CustomerPortal = ({
                                 </Menu.Item>
                                 <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin"} rel="noreferrer">Admin Portal</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin/dashboard"} rel="noreferrer">Admin Portal</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&
