@@ -187,7 +187,7 @@ const CustomerPortal = ({
                                 </Menu.Item>
                                 <Menu.Item key="admin-portal" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal/"} rel="noreferrer">Admin Portal</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal"} rel="noreferrer">Admin Portal</a>
                                 </Menu.Item>
                                 <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
