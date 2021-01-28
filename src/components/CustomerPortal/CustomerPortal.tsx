@@ -226,7 +226,7 @@ const mapStateToProps = (state: RootState) => {
         loading: state.main.loading,
         isAuthenticated,
         eventsExists,
-        isSuperuser,
+        isSuperuser: isSuperuser,
     }
 };
 
