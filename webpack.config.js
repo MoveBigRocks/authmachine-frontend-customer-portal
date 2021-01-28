@@ -29,7 +29,7 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: 'images/'
+                        outputPath: '/customer-portal-styles/images/'
                     }
                 }]
             },
@@ -51,7 +51,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'fonts/',
+                            outputPath: '/customer-portal-styles/fonts/',
                             mimetype: 'application/font-woff'
                         }
                     }
