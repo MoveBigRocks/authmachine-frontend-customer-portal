@@ -29,7 +29,7 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: '/customer-portal-styles/images/'
+                        outputPath: '/images/'
                     }
                 }]
             },
@@ -51,7 +51,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: '/customer-portal-styles/fonts/',
+                            outputPath: '/fonts/',
                             mimetype: 'application/font-woff'
                         }
                     }
@@ -60,8 +60,9 @@ module.exports = {
         ],
     },
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'build')
+        filename: 'js/[name].js',
+        path: path.resolve(__dirname, 'build'),
+        publicPath: '/customer-portal-static/'
     },
     plugins: [
         new LiveReloadPlugin(),
