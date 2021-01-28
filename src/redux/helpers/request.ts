@@ -9,8 +9,8 @@ import {alertActions} from "../actions/alertActions";
 // const serverUrl = process.env.NODE_ENV === "development" ? "" : process.env.REACT_APP_SERVER_URL;
 
 const urlType = {
-    private: "/api/graphql/private",
-    public: "/api/graphql",
+    private: "https://authmachine-backend.herokuapp.com/api/graphql/private",
+    public: "https://authmachine-backend.herokuapp.com/api/graphql",
 }
 
 const request = {
