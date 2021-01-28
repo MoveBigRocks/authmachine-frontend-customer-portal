@@ -12,6 +12,7 @@ const RemovePermission = ({visible, onCancel, removeItemId}: RemovePermissionPro
             className="custom-modal delegate-permission"
             onCancel={onCancel}
             okText="Remove Delegation"
+            // @ts-ignore
             okButtonProps={{type: "danger"}}
         >
             Do you really want to remove delegation?
