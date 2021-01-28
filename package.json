@@ -38,6 +38,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "/customer-portal",
   "eslintConfig": {
     "extends": [
       "react-app",
