@@ -12,7 +12,8 @@ import {
     MenuUnfoldOutlined, ReloadOutlined,
     UserOutlined,
     DeploymentUnitOutlined,
-    SplitCellsOutlined
+    SplitCellsOutlined,
+    DesktopOutlined
 } from "@ant-design/icons";
 import SitesEnabled from "../../pages/Dashboard/SitesEnabled/SitesEnabled";
 import MyProfile from "../../pages/Dashboard/MyProfile/MyProfile";
@@ -184,9 +185,13 @@ const CustomerPortal = ({
                                 <Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>
                                     <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
                                 </Menu.Item>
+                                <Menu.Item key="admin-portal" icon={<DesktopOutlined />}
+                                           disabled={!isSuperuser}>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal/"} rel="noreferrer">Admin Portal</a>
+                                </Menu.Item>
                                 <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin/dashboard"} rel="noreferrer">Admin Portal</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Portal Deprecated</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&
