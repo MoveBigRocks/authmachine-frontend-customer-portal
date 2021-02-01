@@ -8,7 +8,7 @@ import {BorderOutlined, RightOutlined} from "@ant-design/icons";
 export default function SiteItem(props: SiteItemProps) {
     const {name, siteUrl} = props.item;
     return (
-        <a href={siteUrl} target="_blank" rel="noreferrer">
+        <a href={siteUrl} target="_blank" rel="noopener noreferrer">
             <Card className="site-item">
                 <Meta
                     avatar={<div className="avatar"><BorderOutlined style={{fontSize: '36px'}} /></div> }

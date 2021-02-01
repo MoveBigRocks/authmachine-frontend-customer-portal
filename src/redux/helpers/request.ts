@@ -3,10 +3,6 @@ import {AppDispatch} from "../store";
 import {mainActions} from "../actions/mainActions";
 import axios from "axios";
 import {alertActions} from "../actions/alertActions";
-// import {Simulate} from "react-dom/test-utils";
-// import error = Simulate.error;
-
-// const serverUrl = process.env.NODE_ENV === "development" ? "" : process.env.REACT_APP_SERVER_URL;
 
 const urlType = {
     private: "/api/graphql/private",

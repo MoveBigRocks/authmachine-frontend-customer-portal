@@ -189,7 +189,7 @@ const CustomerPortal = ({
                                            disabled={!isSuperuser}>
                                     <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal"} rel="noreferrer">Admin Portal</a>
                                 </Menu.Item>
-                                <Menu.Item key="admin-portal" icon={<DeploymentUnitOutlined/>}
+                                <Menu.Item key="admin-portal-deprecated" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
                                     <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Portal Deprecated</a>
                                 </Menu.Item>

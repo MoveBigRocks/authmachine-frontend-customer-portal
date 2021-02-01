@@ -89,7 +89,7 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 isAuthenticated: action.status,
                 loginMessage: action?.message || "",
-                isSuperUser: action.user.isSuperuser,
+                isSuperUser: action.user?.isSuperuser || false,
             }
         case userTypes.USER_REGISTER:
             return {
