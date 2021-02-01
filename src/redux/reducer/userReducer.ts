@@ -17,7 +17,7 @@ type UserState = {
     activationFirstStepStatus: boolean,
     activationSecondStepStatus: boolean,
     socialLink: string,
-    isSuperuser: boolean | null,
+    isSuperUser: boolean | null,
 }
 
 const initialState: UserState = {
@@ -37,7 +37,7 @@ const initialState: UserState = {
     activationFirstStepStatus: false,
     activationSecondStepStatus: false,
     socialLink: "",
-    isSuperuser: null,
+    isSuperUser: null,
 }
 
 type ActionType = {
@@ -66,14 +66,14 @@ const userReducer = (state = initialState, action: ActionType) => {
                 id: action.user.id,
                 avatar: action.user.avatar,
                 user: action.user,
-                isSuperuser: action.user.isSuperuser,
+                isSuperUser: action.user.isSuperuser,
             }
         case userTypes.USER_AUTH_FAILURE:
             return {
                 ...state,
                 isAuthenticated: false,
                 user: null,
-                isSuperuser: action.user.isSuperuser,
+                isSuperUser: false,
             }
         case userTypes.GET_FEATURES:
             return {
@@ -90,7 +90,7 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 isAuthenticated: action.status,
                 loginMessage: action?.message || "",
-                isSuperuser: action.user.isSuperuser,
+                isSuperUser: action.user?.isSuperuser || false,
             }
         case userTypes.USER_REGISTER:
             return {
