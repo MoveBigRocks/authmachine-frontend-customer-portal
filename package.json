@@ -42,7 +42,7 @@
     "ts-loader": "^6.2.1",
     "webpack-cli": "^3.3.10"
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "http://web:8000",
   "scripts": {
     "start": "react-scripts start",
     "build": "webpack --config webpack.config.js --mode production",

@@ -55,7 +55,8 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 isAuthenticated: false,
-                user: action.user,
+                isSuperuser: action.user.isSuperuser,
+                user: action.user
             }
         case userTypes.USER_AUTH_SUCCESS:
             return {
