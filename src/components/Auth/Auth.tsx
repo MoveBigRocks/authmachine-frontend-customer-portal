@@ -16,6 +16,7 @@ import {Helmet} from "react-helmet";
 
 const onlyNotAuthLinks = ["/", "/registration", "/login"];
 
+
 const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
