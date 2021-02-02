@@ -14,6 +14,8 @@ import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
 import {Helmet} from "react-helmet";
 
+const onlyNotAuthLinks = ["/", "/registration", "/login"];
+
 const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
@@ -22,7 +24,7 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
         if (isAuthenticated) setIsAuth(true);
     }, [isAuthenticated]);
 
-    if (isAuth && (pathname === "/" || pathname === "/registration")) {
+    if (isAuth && onlyNotAuthLinks.includes(pathname)) {
         return <Redirect to={initialLink === "/" ? "/customer-portal" : initialLink} />
     }
 
@@ -32,7 +34,7 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
                 <title>{pageTitle}</title>
             </Helmet>
             <Switch>
-                <Route exact path="/" component={SignIn} />
+                <Route exact path={["/", "/login"]} component={SignIn} />
                 <Route exact path="/registration" component={Registration} />
                 <Route exact path="/reset-password" component={ResetPassword} />
                 <Route exact path="/recovery-password/:token" component={RecoveryPassword} />

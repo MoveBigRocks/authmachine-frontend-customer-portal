@@ -9,15 +9,16 @@ import PrivacyPolicies from "../../components/Auth/PrivacyPolicies/PrivacyPolici
 import SocialAccounts from "../../components/Auth/SocialAccounts";
 import {mainActions} from "../../redux/actions/mainActions";
 
-const SignIn = ({login, isAuthenticated, message, setPageTitle}: SignInProps) => {
+const SignIn = (props: SignInProps) => {
+    const {login, isAuthenticated, message, setPageTitle} = props;
     const [form] = Form.useForm();
 
     useEffect(() => setPageTitle("Sign In"), [setPageTitle])
 
-
     const onFinish = (values: any) => {
+        const nextUrl = new URLSearchParams(props.location.search).get("next");
         values["policies"] = Object.keys(values).filter((key: string) => key.startsWith("policy_"));
-        login(values);
+        login(values, nextUrl);
     };
 
     return (

@@ -89,7 +89,7 @@ const logout = () => {
     }
 };
 
-const login = (values: {username: string, password: string, remember: boolean, policies: string[]}) => {
+const login = (values: {username: string, password: string, remember: boolean, policies: string[]}, nextUrl: null | string = null) => {
     const {username, password, remember, policies} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
@@ -120,6 +120,7 @@ const login = (values: {username: string, password: string, remember: boolean, p
                     // @ts-ignore
                     dispatch(userActions.auth());
                     setLogin(true);
+                    if (nextUrl) window.location.replace(nextUrl);
                 } else {
                     setLogin(false, message);
                 }
