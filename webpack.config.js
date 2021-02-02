@@ -60,7 +60,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'js/[name].[contenthash].js',
         path: path.resolve(__dirname, 'build'),
     },
     plugins: [
@@ -68,11 +68,12 @@ module.exports = {
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: '[name].css',
+            filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',
         }),
         new HtmlWebpackPlugin({
-          template: "./public/index.html",
+            title: "Caching",
+            template: "./public/index.html",
         }),
     ]
 }

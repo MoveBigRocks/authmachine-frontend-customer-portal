@@ -117,10 +117,13 @@ const login = (values: {username: string, password: string, remember: boolean, p
                 let {success, message} = result.data.login;
 
                 if (success) {
-                    // @ts-ignore
-                    dispatch(userActions.auth());
-                    setLogin(true);
-                    if (nextUrl) window.location.replace(nextUrl);
+                    if (nextUrl) {
+                        window.location.replace(nextUrl);
+                    } else {
+                        // @ts-ignore
+                        dispatch(userActions.auth());
+                        setLogin(true);
+                    }
                 } else {
                     setLogin(false, message);
                 }
