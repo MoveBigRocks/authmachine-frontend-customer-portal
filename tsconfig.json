@@ -1,5 +1,4 @@
 {
-  "extends": "./paths.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -13,16 +12,15 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "suppressImplicitAnyIndexErrors": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+//    "isolatedModules": true,
+    "isolatedModules": false,
     "jsx": "react",
     "outDir": "./dist",
-    "noImplicitAny": true,
-    "noEmit": false
+    "noImplicitAny": true
   },
   "include": [
     "src"
