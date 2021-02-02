@@ -13,10 +13,11 @@ const SignIn = (props: SignInProps) => {
     const {login, isAuthenticated, message, setPageTitle} = props;
     const [form] = Form.useForm();
 
-    useEffect(() => setPageTitle("Sign In"), [setPageTitle])
+    useEffect(() => setPageTitle("Sign In"), [setPageTitle]);
 
     const onFinish = (values: any) => {
-        const nextUrl = new URLSearchParams(props.location.search).get("next");
+        let nextUrl = new URLSearchParams(props.location.search).get("next");
+        if (nextUrl && process.env.REACT_APP_SERVER_URL) nextUrl = nextUrl.substr(nextUrl.indexOf('/', 7));
         values["policies"] = Object.keys(values).filter((key: string) => key.startsWith("policy_"));
         login(values, nextUrl);
     };
