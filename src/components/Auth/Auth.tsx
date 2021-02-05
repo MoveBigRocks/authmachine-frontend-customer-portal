@@ -13,8 +13,10 @@ import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
 import {Helmet} from "react-helmet";
+import ActivateLicense from "../../pages/Auth/ActivateLicense";
+import NewLicense from "../../pages/Auth/NewLicense";
 
-const onlyNotAuthLinks = ["/", "/registration", "/login"];
+const onlyNotAuthLinks = ["/", "/registration", "/login", "/license-activation", "/new-license"];
 
 
 const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
@@ -42,6 +44,8 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
                 <Route exact path="/activation" component={ActivateAccount} />
                 <Route exact path="/activation-with-username" component={ActivateAccount} />
                 <Route exact path="/activation/:token" component={ActivateFinish} />
+                <Route exact path="/license-activation" component={ActivateLicense} />
+                <Route exact path="/new-license" component={NewLicense} />
             </Switch>
         </div>
     );

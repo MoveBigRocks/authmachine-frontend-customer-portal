@@ -1,5 +1,12 @@
 import userTypes from "../types/userTypes";
 
+import {infoStatusResponse} from '../../interfaces/infoStatusResponse';
+
+const emptyMessage = {
+    success: null,
+    message: '',
+}
+
 type UserState = {
     username?: string | null,
     id: number | null,
@@ -18,6 +25,8 @@ type UserState = {
     activationSecondStepStatus: boolean,
     socialLink: string,
     isSuperUser: boolean | null,
+    newLicenseData: infoStatusResponse,
+    activateLicenseData: infoStatusResponse,
 }
 
 const initialState: UserState = {
@@ -38,6 +47,8 @@ const initialState: UserState = {
     activationSecondStepStatus: false,
     socialLink: "",
     isSuperUser: null,
+    newLicenseData: emptyMessage,
+    activateLicenseData: emptyMessage,
 }
 
 type ActionType = {
@@ -46,7 +57,8 @@ type ActionType = {
     isAuthenticated?: boolean,
     data: any[],
     status: boolean,
-    message?: string
+    message?: string,
+    infoStatus: {status: boolean, message: string}
 }
 
 const userReducer = (state = initialState, action: ActionType) => {
@@ -133,6 +145,16 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 operationStatus: action.status,
+            }
+        case userTypes.NEW_LICENSE:
+            return {
+                ...state,
+                newLicenseData: action.infoStatus,
+            }
+        case userTypes.ACTIVATE_LICENSE:
+            return {
+                ...state,
+                activateLicenseData: action.infoStatus,
             }
         default:
             return state;

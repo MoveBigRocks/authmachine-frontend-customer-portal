@@ -7,6 +7,7 @@ import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
+import {newLicenseValues} from "../../interfaces/auth/newLicense";
 
 
 const auth = () => {
@@ -492,6 +493,72 @@ const getSocialLink = (provider: string, connectionType: string = "login") => {
     }
 }
 
+const activateLicense = (values: { activationCode: string }) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          activateLicense(input: {
+            activationCode: "${values.activationCode}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setActivationStatus = (infoStatus: {status: boolean, message: string}) =>
+            dispatch({
+                type: userTypes.ACTIVATE_LICENSE,
+                infoStatus
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {activateLicense} = result.data;
+                setActivationStatus(activateLicense);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setActivationStatus({status: false, message: error});
+            },
+            false);
+    }
+};
+
+const requestNewLicense = (values: newLicenseValues) => {
+    const {email, endUserName, endUserType, licenseType} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          newLicense(input: {
+            licenseType: "${licenseType}",
+            endUserType: "${endUserType}",
+            endUserName: "${endUserName}",
+            email: "${email}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setStatus = (infoStatus: {status: boolean, message: string}) =>
+            dispatch({
+                type: userTypes.NEW_LICENSE,
+                infoStatus
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {newLicense} = result.data;
+                setStatus(newLicense);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setStatus({status: false, message: error});
+            },
+            false);
+    }
+};
+
 export const userActions = {
     auth,
     login,
@@ -509,4 +576,6 @@ export const userActions = {
     socialCallback,
     getSocialLink,
     disconnectSocialAccount,
+    activateLicense,
+    requestNewLicense,
 };

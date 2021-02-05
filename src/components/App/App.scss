@@ -406,6 +406,20 @@ $light-gray: #D9D9D9;
     font-size: 15px;
   }
 }
+.fs-16 {
+  font-size: 16px;
+  label {
+    font-size: 16px;
+  }
+
+  .ant-radio-group {
+    .ant-radio-wrapper {
+      &:not(:last-of-type) {
+        margin-bottom: 2px;
+      }
+    }
+  }
+}
 .ant-input-affix-wrapper {
   border-radius: 3px;
 }

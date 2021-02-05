@@ -1,4 +1,4 @@
-export interface ITFAResponse {
+export interface infoStatusResponse {
     success: boolean | null,
     message: string,
 }
