@@ -125,7 +125,7 @@ const CustomerPortal = ({
                     <Header className="bg-white logo-header" style={{width: "100%"}}>
                         <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
                             <img src={logoSm} alt="logo-img"/>
-                            {!collapsed && <div className="logo-text f-bold">AuthMachine</div>}
+                            {!collapsed && <div className="logo-text">authmachine</div>}
                         </div>
                         <div className="mobile-hide">
                             {
