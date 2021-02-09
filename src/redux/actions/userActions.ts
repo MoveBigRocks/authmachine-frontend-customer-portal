@@ -34,7 +34,7 @@ const auth = () => {
           }
         }`;
 
-        axios.post(request.getApiUrl(true), {query}, authHeader())
+        axios.post(request.getApiUrl(), {query}, authHeader())
             .then((result) => {
                 mainActions.authLoading(false, dispatch);
                 try {
@@ -64,7 +64,7 @@ const logout = () => {
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           logout {
-            status
+            success
           }
         }`;
 
@@ -72,21 +72,20 @@ const logout = () => {
             dispatch,
             query,
             (result: any) => {
-                let {status} = result.data.logout;
+                let {success} = result.data.logout;
                 dispatch({
                     type: userTypes.USER_LOGOUT,
-                    status
+                    status: success
                 });
                 // @ts-ignore
-                if (status) dispatch(userActions.auth());
+                if (success) dispatch(userActions.auth());
             },
             () => {
                 dispatch({
                     type: userTypes.USER_LOGOUT,
                     status: false
                 });
-            },
-            false);
+            });
     }
 };
 
@@ -132,8 +131,7 @@ const login = (values: {username: string, password: string, remember: boolean, p
             (error: any) => {
                 error = request.isServerError(error);
                 setLogin(false, error)
-            },
-            false);
+            });
     }
 };
 
@@ -166,8 +164,7 @@ const register = (values: {username: string, email: string}) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setRegister(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -200,8 +197,7 @@ const resetPassword = (values: {username: string}) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setResetStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -238,8 +234,7 @@ const recoveryPassword = (values: { password: string, confirmPassword: string, t
             (error: any) => {
                 error = request.isServerError(error);
                 setRecoveryStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -272,8 +267,7 @@ const activationFirstStep = (values: { username?: string, code: string }) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setActivationStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -309,8 +303,7 @@ const activationSecondStep = (values: { password: string, confirmPassword: strin
             (error: any) => {
                 error = request.isServerError(error);
                 setActivationStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -340,8 +333,7 @@ const finishActivation = (token: string) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setFinishActivationStatus(false, error)
-            },
-            false);
+            });
     }
 }
 
@@ -371,7 +363,7 @@ const getFeaturesList = () => {
 const getPrivacyPolicyList = () => {
     return (dispatch: AppDispatch) => {
         let query = `query {
-          allPolicies {
+          allPublicPolicies {
             id,
             title,
             acceptOnActivation,
@@ -390,11 +382,10 @@ const getPrivacyPolicyList = () => {
             dispatch,
             query,
             (result: any) => {
-                let {allPolicies} = result.data;
-                updatePolicies(allPolicies);
+                let {allPublicPolicies} = result.data;
+                updatePolicies(allPublicPolicies);
             },
-            () => updatePolicies([]),
-            false);
+            () => updatePolicies([]));
     }
 }
 
@@ -428,8 +419,7 @@ const socialCallback = (provider: string, queryString: string) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setSocialCallbackStatus(false, error);
-            },
-            false);
+            });
     }
 }
 
@@ -466,8 +456,7 @@ const disconnectSocialAccount = (accountId: number) => {
             (error: any) => {
                 error = request.isServerError(error);
                 alertActions.error(error);
-            },
-            true);
+            });
     }
 }
 
@@ -488,8 +477,7 @@ const getSocialLink = (provider: string, connectionType: string = "login") => {
                     message
                 });
             },
-            () => {},
-            false);
+            () => {});
     }
 }
 
@@ -519,8 +507,7 @@ const activateLicense = (values: { activationCode: string }) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setActivationStatus({status: false, message: error});
-            },
-            false);
+            });
     }
 };
 
@@ -554,8 +541,7 @@ const requestNewLicense = (values: newLicenseValues) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setStatus({status: false, message: error});
-            },
-            false);
+            });
     }
 };
 

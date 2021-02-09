@@ -4,14 +4,10 @@ import {mainActions} from "../actions/mainActions";
 import axios from "axios";
 import {alertActions} from "../actions/alertActions";
 
-const urlType = {
-    private: "/api/graphql/private",
-    public: "/api/graphql",
-}
 
 const request = {
-    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
-        let url = request.getApiUrl(privateQuery);
+    post: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void) => {
+        let url = request.getApiUrl();
         mainActions.loading(true, dispatch);
         axios.post(url, {query}, authHeader())
             .then((result) => {
@@ -29,8 +25,8 @@ const request = {
                 if (error) error(err);
             });
     },
-    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
-        let url = request.getApiUrl(privateQuery);
+    postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void) => {
+        let url = request.getApiUrl();
         mainActions.loading(true, dispatch);
         axios.post(url, {query}, authHeader())
             .then((result) => {
@@ -42,8 +38,8 @@ const request = {
                 if (error) error(err);
             });
     },
-    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: (errorMessage?: any) => void, privateQuery=true) => {
-        let url = request.getApiUrl(privateQuery);
+    postFormData: (dispatch: AppDispatch, data: any, success?: (result: any) => void, error?: (errorMessage?: any) => void) => {
+        let url = request.getApiUrl();
         mainActions.loading(true, dispatch);
         axios.post(url, data, formDataHeader())
             .then((result) => {
@@ -56,7 +52,7 @@ const request = {
                 mainActions.loading(false, dispatch);
             });
     },
-    getApiUrl: (privateQuery: boolean) => privateQuery ? urlType.private : urlType.public,
+    getApiUrl: () => "/api/graphql",
     isServerError: (error: any) => (String(error).split('Error: ')[1] === 'Request failed with status code 500' ? 'Server error' : 'Something wrong'),
 }
 

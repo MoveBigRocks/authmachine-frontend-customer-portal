@@ -67,8 +67,7 @@ const getSocials = () => {
                     data: allSocials,
                 });
             },
-            () => {},
-            false);
+            () => {});
     }
 }
 
