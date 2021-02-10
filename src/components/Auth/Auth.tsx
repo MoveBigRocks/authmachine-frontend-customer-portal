@@ -12,14 +12,14 @@ import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
-import {Helmet} from "react-helmet";
 import ActivateLicense from "../../pages/Auth/ActivateLicense";
 import NewLicense from "../../pages/Auth/NewLicense";
+import CreateAdminUser from "../../pages/Auth/CreateAdminUser";
 
 const onlyNotAuthLinks = ["/", "/registration", "/login", "/license-activation", "/new-license"];
 
 
-const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
+const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
     const [isAuth, setIsAuth] = useState(false);
     const {pathname} = history.location;
 
@@ -31,11 +31,12 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
         return <Redirect to={initialLink === "/" ? "/customer-portal" : initialLink} />
     }
 
+    if (!usersExists && pathname !== "/new-admin-user") {
+        return <Redirect to="/new-admin-user" />
+    }
+
     return (
         <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
-            <Helmet>
-                <title>{pageTitle}</title>
-            </Helmet>
             <Switch>
                 <Route exact path={["/", "/login"]} component={SignIn} />
                 <Route exact path="/registration" component={Registration} />
@@ -46,6 +47,7 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
                 <Route exact path="/activation/:token" component={ActivateFinish} />
                 <Route exact path="/license-activation" component={ActivateLicense} />
                 <Route exact path="/new-license" component={NewLicense} />
+                <Route exact path="/new-admin-user" component={CreateAdminUser} />
             </Switch>
         </div>
     );
@@ -53,12 +55,12 @@ const Auth = ({isAuthenticated, initialLink, pageTitle}: AuthProps) => {
 
 
 const mapStateToProps = (state: RootState) => {
-    const {isAuthenticated} = state.user;
-    const {pageLink, pageTitle} = state.main;
+    const {isAuthenticated, usersExists} = state.user;
+    const {pageLink} = state.main;
     return {
         isAuthenticated,
         initialLink: pageLink,
-        pageTitle,
+        usersExists,
     }
 };
 

@@ -1,4 +1,4 @@
-import {authHeader, formDataHeader} from "./authHeaders";
+import {authHeader, formDataHeader, getCookie} from "./authHeaders";
 import {AppDispatch} from "../store";
 import {mainActions} from "../actions/mainActions";
 import axios from "axios";
@@ -53,7 +53,22 @@ const request = {
             });
     },
     getApiUrl: () => "/api/graphql",
-    isServerError: (error: any) => (String(error).split('Error: ')[1] === 'Request failed with status code 500' ? 'Server error' : 'Something wrong'),
+    isServerError: (error: any) =>
+        (String(error).split("Error: ")[1] === "Request failed with status code 500"
+            ? "Server error" : "Something wrong"),
+    simplePost: (dispatch: AppDispatch, url: string, data: any, success?: (result: any) => void, error?: (errorMessage?: any) => void) => {
+        mainActions.loading(true, dispatch);
+        data["csrfmiddlewaretoken"] = getCookie("csrftoken");
+        axios.post(url, data, authHeader())
+            .then((result) => {
+                mainActions.loading(false, dispatch);
+                if (success) success(result.data);
+            })
+            .catch((err: any) => {
+                mainActions.loading(false, dispatch);
+                if (error) error(err);
+            });
+    },
 }
 
 export default request;

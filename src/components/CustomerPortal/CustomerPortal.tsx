@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Switch, Route, Link, Redirect} from "react-router-dom";
-import {history} from "../../redux/helpers/history";
 import Error404 from "../../pages/Error404";
 import {Avatar, Button, Divider, Layout, Menu, Spin} from "antd";
 import logoSm from "../../staticfiles/images/logo-sm.png";
@@ -29,6 +28,7 @@ import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/Per
 import {mainActions} from "../../redux/actions/mainActions";
 import LoginOptions from "../../pages/Dashboard/LoginOptions/LoginOptions";
 import './CustomerPortal.scss';
+import {useHistory} from "react-router";
 
 const {Header, Sider, Content} = Layout;
 
@@ -53,7 +53,9 @@ const CustomerPortal = ({
                             isSuperuser,
                             username,
                             logout,
+                            usersExists,
                         }: CustomerPortalProps) => {
+    const history = useHistory();
     const [collapsed, setCollapsed] = useState(false);
     const [selectedMenuItems, setSelectedMenuItems] = useState(['sites']);
     const [isMobileSize, setIsMobileSize] = useState(false);
@@ -66,15 +68,12 @@ const CustomerPortal = ({
         setMenuInitialState();
 
         checkMobileSize();
-        window.addEventListener('resize', () => {
-            checkMobileSize();
-        });
+        window.addEventListener('resize', () => checkMobileSize());
 
         return () => {
-            window.removeEventListener('resize', () => {
-                checkMobileSize();
-            });
+            window.removeEventListener('resize', () => checkMobileSize());
         }
+    // eslint-disable-next-line
     }, [isAuthenticated, getFeaturesList]);
 
     const checkMobileSize = () => {
@@ -116,6 +115,10 @@ const CustomerPortal = ({
     if (!isAuthenticated) {
         setPageLink(history.location.pathname);
         return <Redirect to="/"/>
+    }
+
+    if (!usersExists) {
+        return <Redirect to="/new-admin-user" />
     }
 
     return (
@@ -224,7 +227,7 @@ const CustomerPortal = ({
 
 
 const mapStateToProps = (state: RootState) => {
-    const {username, isAuthenticated, eventsExists, isSuperUser} = state.user;
+    const {username, isAuthenticated, eventsExists, isSuperUser, usersExists} = state.user;
     return {
         username,
         user: state.user,
@@ -232,6 +235,7 @@ const mapStateToProps = (state: RootState) => {
         isAuthenticated,
         eventsExists,
         isSuperuser: isSuperUser,
+        usersExists,
     }
 };
 

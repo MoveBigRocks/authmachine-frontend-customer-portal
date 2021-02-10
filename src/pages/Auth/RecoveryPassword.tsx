@@ -26,9 +26,10 @@ const RecoveryPassword = (props: RecoveryPasswordProps) => {
                 name: "confirmPassword",
                 errors: ["Please check the passwords, values don't match"],
             }])
+        } else {
+            values = Object.assign({token}, values);
+            recoveryPassword(values);
         }
-        values = Object.assign({token}, values);
-        recoveryPassword(values);
     }
 
     return (

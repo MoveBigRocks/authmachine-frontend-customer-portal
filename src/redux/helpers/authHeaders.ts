@@ -14,7 +14,7 @@ export function formDataHeader() {
     return { headers: headers }
 }
 
-function getCookie(cname: string) {
+export function getCookie(cname: string) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');

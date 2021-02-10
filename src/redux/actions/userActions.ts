@@ -8,6 +8,7 @@ import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
 import {newLicenseValues} from "../../interfaces/auth/newLicense";
+import {createAdminUserValues} from "../../interfaces/auth/createAdminUser";
 
 
 const auth = () => {
@@ -37,6 +38,7 @@ const auth = () => {
         axios.post(request.getApiUrl(), {query}, authHeader())
             .then((result) => {
                 mainActions.authLoading(false, dispatch);
+                console.log("result", result)
                 try {
                     dispatch({
                         type: userTypes.USER_AUTH_SUCCESS,
@@ -51,11 +53,17 @@ const auth = () => {
                 }
             })
             .catch((err: any) => {
+                if (err.response!.status === 404) {
+                    dispatch({
+                        type: userTypes.USERS_EXISTS,
+                        status: false
+                    });
+                }
                 mainActions.authLoading(false, dispatch);
                 dispatch({
                     type: userTypes.USER_AUTH_FAILURE,
                     isAuthenticated: false
-                })
+                });
             });
     }
 };
@@ -545,6 +553,33 @@ const requestNewLicense = (values: newLicenseValues) => {
     }
 };
 
+const createAdminUser = (values: createAdminUserValues) => {
+    return (dispatch: AppDispatch) => {
+
+        const setStatus = (infoStatus: {success: boolean, message: string}) =>
+            dispatch({
+                type: userTypes.CREATE_ADMIN_USER,
+                infoStatus
+            });
+
+        request.simplePost(
+            dispatch,
+            "new-admin-user",
+            values,
+            (result: any) => {
+                setStatus(result);
+                dispatch({
+                    type: userTypes.USERS_EXISTS,
+                    status: true
+                });
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setStatus({success: false, message: error});
+            });
+    }
+}
+
 export const userActions = {
     auth,
     login,
@@ -564,4 +599,5 @@ export const userActions = {
     disconnectSocialAccount,
     activateLicense,
     requestNewLicense,
+    createAdminUser,
 };

@@ -8,6 +8,7 @@ const emptyMessage = {
 }
 
 type UserState = {
+    usersExists: boolean,
     username?: string | null,
     id: number | null,
     avatar?: string | null,
@@ -27,9 +28,11 @@ type UserState = {
     isSuperUser: boolean | null,
     newLicenseData: infoStatusResponse,
     activateLicenseData: infoStatusResponse,
+    createAdminUserData: infoStatusResponse,
 }
 
 const initialState: UserState = {
+    usersExists: true,
     username: null,
     id: null,
     isAuthenticated: false,
@@ -49,6 +52,7 @@ const initialState: UserState = {
     isSuperUser: null,
     newLicenseData: emptyMessage,
     activateLicenseData: emptyMessage,
+    createAdminUserData: emptyMessage,
 }
 
 type ActionType = {
@@ -155,6 +159,16 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 activateLicenseData: action.infoStatus,
+            }
+        case userTypes.CREATE_ADMIN_USER:
+            return {
+                ...state,
+                createAdminUserData: action.infoStatus,
+            }
+        case userTypes.USERS_EXISTS:
+            return {
+                ...state,
+                usersExists: action.status
             }
         default:
             return state;
