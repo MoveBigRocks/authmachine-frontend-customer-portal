@@ -3,6 +3,7 @@ import {Switch, Route, Link, Redirect} from "react-router-dom";
 import Error404 from "../../pages/Error404";
 import {Avatar, Button, Divider, Layout, Menu, Spin} from "antd";
 import logoSm from "../../staticfiles/images/logo-sm.png";
+import Logo from "../../staticfiles/images/logo.png"
 import {
     BorderOutlined,
     HistoryOutlined, KeyOutlined,
@@ -127,8 +128,7 @@ const CustomerPortal = ({
                 <Layout>
                     <Header className="bg-white logo-header" style={{width: "100%"}}>
                         <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
-                            <img src={logoSm} alt="logo-img"/>
-                            {!collapsed && <div className="logo-text">authmachine</div>}
+                            {collapsed ? <img src={logoSm} alt="logo-img"/> : <img src={Logo} alt="logo"/>}
                         </div>
                         <div className="mobile-hide">
                             {
