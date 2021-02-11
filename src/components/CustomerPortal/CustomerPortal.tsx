@@ -9,7 +9,7 @@ import {
     HistoryOutlined, KeyOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
-    MenuUnfoldOutlined, ReloadOutlined,
+    MenuUnfoldOutlined,
     UserOutlined,
     DeploymentUnitOutlined,
     SplitCellsOutlined,
@@ -25,7 +25,7 @@ import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {CustomerPortalProps} from "../../interfaces/customerPortal/customerPortal";
 import helpers from "../../helpers";
-import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
+// import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
 import {mainActions} from "../../redux/actions/mainActions";
 import LoginOptions from "../../pages/Dashboard/LoginOptions/LoginOptions";
 import './CustomerPortal.scss';
@@ -185,9 +185,9 @@ const CustomerPortal = ({
                                 <Menu.Item key="change-password" icon={<KeyOutlined/>}>
                                     <Link to={pageLinks.changePassword}>Change Password</Link>
                                 </Menu.Item>
-                                <Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>
-                                    <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
-                                </Menu.Item>
+                                {/*<Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>*/}
+                                {/*    <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>*/}
+                                {/*</Menu.Item>*/}
                                 <Menu.Item key="admin-portal" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
                                     <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal"} rel="noreferrer">Admin Portal</a>
@@ -213,7 +213,7 @@ const CustomerPortal = ({
                                 {eventsExists && <Route path={pageLinks.activity} component={RecentActivity}/>}
                                 <Route path={pageLinks.changePassword} component={ChangePassword}/>
                                 <Route path={pageLinks.loginOptions} component={LoginOptions}/>
-                                <Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>
+                                {/*<Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>*/}
 
                                 <Route path="**" exact={true} component={Error404}/>
                             </Switch>
