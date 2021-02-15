@@ -122,6 +122,8 @@ const CustomerPortal = ({
         return <Redirect to="/new-admin-user" />
     }
 
+    const showErrorPage = Object.keys(pageLinks).map((key: string) => pageLinks[key]).includes(history.location.pathname);
+
     return (
         <div className="customer-portal">
             <Spin tip="Loading..." spinning={loading}>
@@ -215,7 +217,7 @@ const CustomerPortal = ({
                                 <Route path={pageLinks.loginOptions} component={LoginOptions}/>
                                 {/*<Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>*/}
 
-                                <Route path="**" exact={true} component={Error404}/>
+                                {!showErrorPage && <Route path="**" component={Error404} />}
                             </Switch>
                         </Content>
                     </Layout>

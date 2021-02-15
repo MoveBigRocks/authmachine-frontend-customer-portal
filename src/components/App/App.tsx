@@ -30,7 +30,7 @@ const App = ({pageTitle, auth, loading}: AppProps) => {
                 <Switch>
                     <Route path={"/customer-portal"} component={CustomerPortal} />
                     <Route path={"/socials/:provider/login"} component={SocialLogin} />
-                    <Route exact path={""} component={Auth} />
+                    <Route exact path={["", "/"]} component={Auth} />
                     <Route path="**" exact={true} component={Error404} />
                 </Switch>
             </Spin>

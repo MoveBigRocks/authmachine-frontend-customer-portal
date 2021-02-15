@@ -16,7 +16,7 @@ import ActivateLicense from "../../pages/Auth/ActivateLicense";
 import NewLicense from "../../pages/Auth/NewLicense";
 import CreateAdminUser from "../../pages/Auth/CreateAdminUser";
 
-const onlyNotAuthLinks = ["/", "/registration", "/login", "/license-activation", "/new-license"];
+const onlyNotAuthLinks = ["/", "/registration", "/login"];
 
 
 const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {

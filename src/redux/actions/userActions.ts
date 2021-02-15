@@ -38,7 +38,6 @@ const auth = () => {
         axios.post(request.getApiUrl(), {query}, authHeader())
             .then((result) => {
                 mainActions.authLoading(false, dispatch);
-                console.log("result", result)
                 try {
                     dispatch({
                         type: userTypes.USER_AUTH_SUCCESS,
