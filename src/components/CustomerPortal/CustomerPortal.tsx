@@ -114,7 +114,7 @@ const CustomerPortal = ({
     }
 
     if (!isAuthenticated) {
-        setPageLink(history.location.pathname);
+        setPageLink(username !== "" ? "/" : history.location.pathname);
         return <Redirect to="/"/>
     }
 
@@ -209,12 +209,13 @@ const CustomerPortal = ({
                         </Sider>
                         <Content className="bg-white site-layout" style={{minHeight: 280}}>
                             <Switch>
-                                <Route exact path={`${path}/`} component={SitesEnabled}/>
-                                <Route path={`${path}/profile`} component={MyProfile}/>
-                                <Route path={`${path}/"profile-edit`} component={MyProfileEdit}/>
-                                {eventsExists && <Route path={`${path}/recent-activity`} component={RecentActivity}/>}
-                                <Route path={`${path}/change-password`} component={ChangePassword}/>
-                                <Route path={`${path}/login-options`} component={LoginOptions}/>
+                                <Route exact path={[pageLinks.sites, `/${pageLinks.sites}`]} component={SitesEnabled}/>
+                                <Route path={[pageLinks.profile, `/${pageLinks.profile}`]} component={MyProfile}/>
+                                <Route path={[pageLinks.profileEdit, `/${pageLinks.profileEdit}`]} component={MyProfileEdit}/>
+                                {eventsExists && <Route path={[pageLinks.activity, `/${pageLinks.activity}`]} component={RecentActivity}/>}
+                                <Route path={[pageLinks.changePassword, `/${pageLinks.changePassword}`]} component={ChangePassword}/>
+                                <Route path={[pageLinks.loginOptions, `/${pageLinks.loginOptions}`]} component={LoginOptions}/>
+
                                 {/*<Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>*/}
 
                                 {!showErrorPage && <Route path="**" component={Error404} />}

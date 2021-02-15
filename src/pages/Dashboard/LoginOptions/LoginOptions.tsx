@@ -483,8 +483,13 @@ const mapStateToProps = (state: RootState) => {
     } = state.tfa;
     const {socialLink} = state.user;
     const {user} = state.user;
-    const {phoneNumbers, googleAuthenticatorTested} = user;
-
+    // eslint-disable-next-line no-empty-pattern
+    let phoneNumbers = [];
+    let googleAuthenticatorTested = false;
+    if (user) {
+        // @ts-ignore
+        phoneNumbers = user?.phoneNumbers; googleAuthenticatorTested = user?.googleAuthenticatorTested;
+    }
     return {
         googleAuthenticatorValue,
         socialsByUser,
