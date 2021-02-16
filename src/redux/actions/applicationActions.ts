@@ -14,6 +14,7 @@ const getApplications = () => {
             siteUrl,
             sloUrl,
             forgetUrl,
+            loginUrl,
             protocol,
             options {
               requireConsent,
@@ -30,6 +31,7 @@ const getApplications = () => {
             siteUrl,
             sloUrl,
             forgetUrl,
+            loginUrl,
             protocol,
             options {
               apiKey,
@@ -45,6 +47,7 @@ const getApplications = () => {
             siteUrl,
             sloUrl,
             forgetUrl,
+            loginUrl,
             protocol,
             options {
               metadataFile,
