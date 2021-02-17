@@ -190,13 +190,13 @@ const CustomerPortal = ({
                                 {/*<Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>*/}
                                 {/*    <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>*/}
                                 {/*</Menu.Item>*/}
-                                <Menu.Item key="admin-portal" icon={<DesktopOutlined />}
+                                <Menu.Item key="admin-console" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal"} rel="noreferrer">Admin Portal</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-console"} rel="noreferrer">Admin Console</a>
                                 </Menu.Item>
-                                <Menu.Item key="admin-portal-deprecated" icon={<DeploymentUnitOutlined/>}
+                                <Menu.Item key="admin-console-deprecated" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Portal Deprecated</a>
+                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Console Deprecated</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&
