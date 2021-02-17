@@ -192,11 +192,15 @@ const CustomerPortal = ({
                                 {/*</Menu.Item>*/}
                                 <Menu.Item key="admin-console" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-console"} rel="noreferrer">Admin Console</a>
+                                    <a href={process.env.NODE_ENV === "development"
+                                        ? "http://localhost:4000" : "/admin-console"}
+                                       rel="noreferrer">Admin Console</a>
                                 </Menu.Item>
                                 <Menu.Item key="admin-console-deprecated" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Console Deprecated</a>
+                                    <a href={process.env.NODE_ENV === "development"
+                                        ? "http://localhost:3000" : "/admin/dashboard"}
+                                       rel="noreferrer">Admin Console Deprecated</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&

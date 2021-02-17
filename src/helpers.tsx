@@ -124,6 +124,42 @@ const helpers = {
     setValueInLocalStorage: (key: string, value: string) => localStorage.setItem(key, value),
     getValueFromLocalStorage: (value: string) => localStorage.getItem(value),
     removeValueFromLocalStorage: (value: string) => localStorage.removeItem(value),
+    getLicenseErrorReason: (message: string) => {
+        if (message.startsWith("Feature")) {
+            return {
+                message: "Click here to review the options and get a subscription",
+                title: "This feature is available on one of our premium tiers",
+                buttonText: "Review",
+            }
+        }
+        switch (message) {
+            case "No active license":
+               return {
+                   message: "Click here to request a license",
+                   title: "You do not have active licenses",
+                   buttonText: "Request License"
+               }
+            case "Users limit is exceeded":
+            case "Invalid license":
+                return {
+                    message: "Please, upgrade your subscription in order to add more users",
+                    title: "You've reached seats limit available on your plan",
+                    buttonText: "Upgrade"
+                }
+            case "license error":
+                return {
+                    message: "Click here to request a license",
+                    title: message,
+                    buttonText: "Request License"
+                }
+            default:
+                return {
+                    message,
+                    buttonText: "Request License",
+                    title: "Permission Denied"
+                }
+        }
+    }
 }
 
 export default helpers;

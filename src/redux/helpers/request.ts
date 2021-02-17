@@ -25,6 +25,20 @@ const request = {
                 if (error) error(err);
             });
     },
+    simpleQueryPost: (dispatch: AppDispatch, query: string, success: (result: any) => void, error?: (errorMessage?: any) => void) => {
+        let url = request.getApiUrl();
+        mainActions.loading(true, dispatch);
+        axios.post(url, {query}, authHeader())
+            .then((result) => {
+                let {data} = result;
+                mainActions.loading(false, dispatch);
+                success(data);
+            })
+            .catch((err: any) => {
+                mainActions.loading(false, dispatch);
+                if (error) error(err);
+            });
+    },
     postWithoutErrors: (dispatch: AppDispatch, query: string, success?: (result: any) => void, error?: (errorMessage?: any) => void) => {
         let url = request.getApiUrl();
         mainActions.loading(true, dispatch);

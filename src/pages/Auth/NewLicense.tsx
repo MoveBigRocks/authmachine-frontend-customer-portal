@@ -55,7 +55,7 @@ const NewLicense = ({setPageTitle, requestNewLicense, newLicenseData}: newLicens
                     <Form.Item style={{marginBottom: 0}}>
                         <Button type="primary" size="large" htmlType="submit">Submit license request</Button>
                     </Form.Item>
-                    {(!success && message !== "") && <Alert style={{marginTop: 20}} message={message} type="error" showIcon />}
+                    {(message !== "") && <Alert style={{marginTop: 20}} message={message} type={success ? "success" : "error"} showIcon />}
                 </Form>
             </div>
             <ul className="additional-actions">

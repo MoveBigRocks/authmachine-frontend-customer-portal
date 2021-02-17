@@ -159,8 +159,6 @@ const LoginOptions = (props: ILoginOptionsProps) => {
                     message: 'Error!',
                     description: pinCodeVerifyData.message
                 });
-
-                console.log('wef');
             }
         }
     }, [pinCodeVerifyData]);

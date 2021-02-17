@@ -1,5 +1,4 @@
 import {AppDispatch} from "../store";
-import {mainActions} from "./mainActions";
 import request from '../helpers/request';
 import {getEventsData} from "../../interfaces/events";
 import eventTypes from "../types/eventTypes";
@@ -39,17 +38,23 @@ const getEvents = (data: getEventsData) => {
           }
         }`;
 
-        request.post(dispatch, query, (data: any) => {
-            let {allEventsPaginate} = data.data;
-            mainActions.loading(false, dispatch);
-            dispatch({
-                type: eventTypes.GET_EVENTS,
-                data: allEventsPaginate.objects,
-                total: allEventsPaginate.total,
-                page,
-                pageSize,
-                eventType
-            });
+        request.simpleQueryPost(dispatch, query, (data: any) => {
+            if (data.hasOwnProperty("errors")) {
+                dispatch({
+                    type: eventTypes.EVENTS_NOT_AVAILABLE,
+                    notAvailableReason: data.errors[0].message,
+                });
+            } else {
+                let {allEventsPaginate} = data.data;
+                dispatch({
+                    type: eventTypes.GET_EVENTS,
+                    data: allEventsPaginate.objects,
+                    total: allEventsPaginate.total,
+                    page,
+                    pageSize,
+                    eventType
+                });
+            }
         })
     }
 }
