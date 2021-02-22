@@ -142,13 +142,20 @@ const login = (values: {username: string, password: string, remember: boolean, p
     }
 };
 
-const register = (values: {username: string, email: string}) => {
-    const {username, email} = values;
+const register = (values: {
+    username: string,
+    email: string,
+    fullName: string,
+    password: string,
+}) => {
+    const {username, email, fullName, password} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           register(input: {
             username: "${username}",
             email: "${email}",
+            fullName: "${fullName}",
+            password: "${password}"
           }) {
             success, message
           }

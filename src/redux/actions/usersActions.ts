@@ -309,6 +309,7 @@ const getUser = (userId: string) => {
             externalId,
             nickName,
             displayName,
+            fullName,
             profileUrl,
             userType,
             title,

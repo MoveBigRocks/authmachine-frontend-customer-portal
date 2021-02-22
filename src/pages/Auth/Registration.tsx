@@ -17,23 +17,21 @@ const Registration = ({message, isRegister, register, setPageTitle}: Registratio
     useEffect(() => setPageTitle("Registration"), [setPageTitle])
 
     useEffect(() => {
-        let formErrors = [];
+        let formErrors: import("rc-field-form/es/interface").FieldData[] | { name: string; errors: any[]; }[] = [];
         try {
             let errors = JSON.parse(message);
-            if (errors.hasOwnProperty("username")) {
-                formErrors.push({
-                    name: "username",
-                    errors: [errors.username[0].message],
-                })
-                setFormErrors(true);
-            }
-            if (errors.hasOwnProperty("email")) {
-                formErrors.push({
-                    name: "email",
-                    errors: [errors.email[0].message],
-                })
-            }
-            setFormErrors(true);
+            let hasError = false;
+            Object.keys(errors).map((key: string) => {
+                if (errors.hasOwnProperty(key)) {
+                    formErrors.push({
+                        name: key,
+                        errors: [errors[key][0].message],
+                    });
+                    hasError = true;
+                }
+                return key;
+            })
+            if (hasError) setFormErrors(true);
             form.setFields(formErrors);
         } catch (Exception) {
             setFormErrors(false);
@@ -52,13 +50,45 @@ const Registration = ({message, isRegister, register, setPageTitle}: Registratio
                                rules={[{ required: true, message: "Please input your username" }]}>
                         <Input size="large" placeholder="Username" />
                     </Form.Item>
+                    <Form.Item name="fullName"
+                               rules={[
+                                   { required: true, message: "Please input your full name" },
+                                   () => ({
+                                        validator(_, value) {
+                                            let fullNameSeparated = value ? value.trim().split(" ") : [];
+                                            if (!value || [2, 3].includes(fullNameSeparated.length)) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject("The full name is not valid. " +
+                                                "Please input the correct value.");
+                                        },
+                                   })
+                               ]}>
+                        <Input size="large" placeholder="Full Name" />
+                    </Form.Item>
                     <Form.Item name="email"
                                rules={[{ required: true, message: "Please input your email" }]}>
                         <Input size="large" placeholder="Email" type="email" />
                     </Form.Item>
-                    {/*<Form.Item>*/}
-                    {/*    <Input.Password size="large" placeholder="Password" />*/}
-                    {/*</Form.Item>*/}
+                    <Form.Item name="password"
+                               rules={[{ required: true, message: "Please input your password" }]}>
+                        <Input.Password size="large" placeholder="Password" />
+                    </Form.Item>
+                    <Form.Item name="confirmPassword"
+                               dependencies={["password"]}
+                               rules={[
+                                   { required: true, message: "Please confirm your password" },
+                                   ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue("password") === value) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject("The two passwords that you entered do not match!");
+                                        },
+                                   })
+                               ]}>
+                        <Input.Password size="large" placeholder="Confirm Password" />
+                    </Form.Item>
                     <Form.Item>
                         <Button type="primary" size="large" htmlType="submit">Create Account</Button>
                     </Form.Item>

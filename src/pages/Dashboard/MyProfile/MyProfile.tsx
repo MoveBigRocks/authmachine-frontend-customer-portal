@@ -63,7 +63,7 @@ export const MyProfile = ({user, getUser, setPageTitle}: MyProfileProps) => {
                 <Col span={24}>
                     <Row justify="space-between">
                         <Col sm={6}>Full Name</Col>
-                        <Col sm={11}>{user?.displayName}</Col>
+                        <Col sm={11}>{user?.fullName}</Col>
                     </Row>
                 </Col>
                 <Col span={24}>

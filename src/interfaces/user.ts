@@ -11,6 +11,7 @@ export interface UserInterface {
     avatar: string,
     username: string,
     displayName: string | null,
+    fullName: string,
     nickName: string | null,
     isSuperuser: boolean,
     emails: any[],
