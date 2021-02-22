@@ -424,15 +424,11 @@ const updateUser = () => {
 
         user.emails = user.emails.filter((email: any) => {
             let re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
             return re.test(email.value);
         });
 
-        console.log(user.emails);
-
         user.phoneNumbers = user.phoneNumbers.filter((phone: any) => {
             let re = /^\D*(\d\D*){9,14}$/;
-
             return re.test(phone.value);
         });
 
@@ -440,6 +436,7 @@ const updateUser = () => {
         mutation {
           userUpdate(id: "${user.id}", input: {
             username: "${user.username}",
+            fullName: "${user.fullName}",
             nickName: "${user.nickName ? user.nickName : ""}",
             emails: [${user.emails.map((e: any) =>
             `{value: "${e.value}", primary: ${e.primary} ${e.type ? `, type: "${e.type}"` : ""} ${e.hasOwnProperty("id") ? `, id: ${e.id}` : ""}}`)}],
