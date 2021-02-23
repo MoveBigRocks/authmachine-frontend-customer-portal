@@ -140,10 +140,15 @@ const helpers = {
                    buttonText: "Request License"
                }
             case "Users limit is exceeded":
-            case "Invalid license":
                 return {
                     message: "Please, upgrade your subscription in order to add more users",
                     title: "You've reached seats limit available on your plan",
+                    buttonText: "Upgrade"
+                }
+            case "Invalid license":
+                return {
+                    message: "Please, upgrade your subscription",
+                    title: "Your license is expired",
                     buttonText: "Upgrade"
                 }
             case "license error":
