@@ -130,7 +130,9 @@ const CustomerPortal = ({
                 <Layout>
                     <Header className="bg-white logo-header" style={{width: "100%"}}>
                         <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
-                            {collapsed ? <img src={logoSm} alt="logo-img"/> : <img src={Logo} alt="logo"/>}
+                            {collapsed
+                              ? <img src={logoSm} className="small-logo" alt="logo-img" />
+                              : <img src={Logo} className="full-logo" alt="logo" />}
                         </div>
                         <div className="mobile-hide">
                             {
