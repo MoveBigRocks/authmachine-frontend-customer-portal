@@ -12,3 +12,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.auth-page-container {
+  background: url("./staticfiles/images/auth-background.jpg") no-repeat center center;
+  background-size: cover;
+}

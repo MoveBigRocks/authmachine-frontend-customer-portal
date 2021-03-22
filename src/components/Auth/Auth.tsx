@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 import SignIn from "../../pages/Auth/SignIn";
 import {AuthProps} from "../../interfaces/auth";
 import "./Auth.scss";
-import Background from "../../staticfiles/images/auth-background.jpg";
 import RecoveryPassword from "../../pages/Auth/RecoveryPassword";
 import ResetPassword from "../../pages/Auth/ResetPassword";
 import Registration from "../../pages/Auth/Registration";
@@ -15,6 +14,7 @@ import ActivateFinish from "../../pages/Auth/ActivateFinish";
 import ActivateLicense from "../../pages/Auth/ActivateLicense";
 import NewLicense from "../../pages/Auth/NewLicense";
 import CreateAdminUser from "../../pages/Auth/CreateAdminUser";
+import {landingPagesRouter} from "../../landing-pages-router";
 
 const onlyNotAuthLinks = ["/", "/registration", "/login"];
 
@@ -36,7 +36,7 @@ const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
     }
 
     return (
-        <div className="auth-page-container" style={{background: `url(${Background}) no-repeat center center`, backgroundSize: "cover"}}>
+        <div className="auth-page-container">
             <Switch>
                 <Route exact path={["/", "/login"]} component={SignIn} />
                 <Route exact path="/registration" component={Registration} />
@@ -48,6 +48,13 @@ const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
                 <Route exact path="/license-activation" component={ActivateLicense} />
                 <Route exact path="/new-license" component={NewLicense} />
                 <Route exact path="/new-admin-user" component={CreateAdminUser} />
+
+                {/* Landing pages router */}
+                {landingPagesRouter.map((page: {path: string, component: any}, index: number) => {
+                    let pagePath = `landing-pages/${page.path}`;
+                    return <Route exact path={[pagePath, `/${pagePath}`]} key={`landing-${index}`} component={page.component}/>
+                })}
+
             </Switch>
         </div>
     );
