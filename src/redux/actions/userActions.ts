@@ -147,15 +147,17 @@ const register = (values: {
     email: string,
     fullName: string,
     password: string,
+    additionalRegistrationData?: any,
 }) => {
-    const {username, email, fullName, password} = values;
+    const {username, email, fullName, password, additionalRegistrationData} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           register(input: {
-            username: "${username}",
+            username: "${username ? username : fullName}",
             email: "${email}",
             fullName: "${fullName}",
-            password: "${password}"
+            password: "${password ? password : ""}"
+            ${additionalRegistrationData ? `additionalRegistrationData: ${JSON.stringify(JSON.stringify(additionalRegistrationData))}` : ""}
           }) {
             success, message
           }
