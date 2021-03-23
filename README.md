@@ -15,3 +15,12 @@ It correctly bundles React in production mode and optimizes the build for the be
     
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
+
+
+## Change admin console url
+The admin pathname is `/admin-console`. Define the env variable `REACT_APP_ADMIN_CONSOLE_PATH_PREFIX` in the `.env` file to set unique 
+admin console pathname
+```
+$ export REACT_APP_ADMIN_CONSOLE_PATH_PREFIX=ae65f7c32
+```
+The admin console be available here `/admin-console/ae65f7c32`

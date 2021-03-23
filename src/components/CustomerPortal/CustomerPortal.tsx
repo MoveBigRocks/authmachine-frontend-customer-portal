@@ -30,6 +30,7 @@ import {mainActions} from "../../redux/actions/mainActions";
 import LoginOptions from "../../pages/Dashboard/LoginOptions/LoginOptions";
 import './CustomerPortal.scss';
 import {useHistory} from "react-router";
+import {configEnv} from "../../config";
 
 const {Header, Sider, Content} = Layout;
 
@@ -194,14 +195,12 @@ const CustomerPortal = ({
                                 {/*</Menu.Item>*/}
                                 <Menu.Item key="admin-console" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development"
-                                        ? "http://localhost:4000" : "/admin-console"}
+                                    <a href={configEnv.adminConsoleUrl}
                                        rel="noreferrer">Admin Console</a>
                                 </Menu.Item>
                                 <Menu.Item key="admin-console-deprecated" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development"
-                                        ? "http://localhost:3000" : "/admin/dashboard"}
+                                    <a href={configEnv.adminConsoleDeprecated}
                                        rel="noreferrer">Admin Console Deprecated</a>
                                 </Menu.Item>
                                 {
