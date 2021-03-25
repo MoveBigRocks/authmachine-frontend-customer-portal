@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+.auth-page-container .register-landing-page-container {
+  width: 100%;
+  max-width: unset;
+  border-radius: 0;
+  margin-top: unset;
+  height: 100%;
+  box-shadow: none;
+  padding: 0;
+  background: url("../../../staticfiles/custom-brand/assets/images/bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  * {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .form-content {
+    margin: 0 auto;
+    //padding: 30px 20px 20px 20px;
+    max-width: 1200px;
+    min-height: 100vh;
+  }
+
+
+  .f-container {
+    box-shadow: 0 3px 8px 0 rgba(33, 33, 33, 0.5);
+    background-color: #00a1e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .f-form-container {
+      width: 100%;
+      > div {
+        padding: 20px 30px;
+      }
+    }
+    .ant-typography {
+      color: white;
+    }
+
+    .ant-checkbox-wrapper {
+      color: white;
+    }
+
+    .ant-btn-link {
+      color: white;
+    }
+
+    form .ant-form-item {
+      margin-bottom: 10px;
+    }
+
+    .ant-input {
+      padding: 7px 14px;
+    }
+
+    .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+      padding: 3px 14px;
+      height: 38px;
+    }
+  }
+
+  .t-container {
+    padding-right: 40px;
+    display: flex;
+    align-items: center;
+    img:not(.logo) {
+      width: 100%;
+    }
+
+    .logo {
+      width: 180px;
+      margin-bottom: 25px;
+    }
+  }
+
+  .title-wrapper {
+    display: flex;
+    padding: 0 15px;
+    align-items: center;
+    .ant-typography {
+      padding: 0 10px;
+    }
+    .line {
+      flex: 1;
+      display: block;
+      height: 1px;
+      background: white;
+    }
+  }
+
+  .join-btn {
+    //background: linear-gradient(to right, #36d1dc , #5b86e5);
+    &:hover {
+      transform:  scale(1.02);
+      //color: #ffffff;
+    }
+  }
+}
+
+@media (max-width: 1240px) {
+  .auth-page-container .register-landing-page-container {
+    .t-container {
+      padding-left: 40px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .auth-page-container .register-landing-page-container {
+    .t-container {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .auth-page-container .register-landing-page-container {
+    .t-container {
+      padding: 30px 20px 20px 20px;
+    }
+
+    .f-container {
+      min-height: auto;
+      margin-bottom: 20px;
+
+    }
+  }
+}
