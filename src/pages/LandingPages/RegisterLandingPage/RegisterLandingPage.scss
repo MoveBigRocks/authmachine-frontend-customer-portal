@@ -1,4 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+
+.pt-sans {
+  font-family: 'PT Sans', sans-serif !important;
+}
+
+.raleway {
+  font-family: 'Raleway', sans-serif !important;
+}
+
+.video-modal {
+  .ant-modal-close-x {
+    width: 30px;
+    height: 30px;
+    line-height: 32px;
+  }
+}
 
 .auth-page-container .register-landing-page-container {
   width: 100%;
@@ -8,8 +26,8 @@
   height: 100%;
   box-shadow: none;
   padding: 0;
-  background: url("../../../staticfiles/custom-brand/assets/images/bg.png");
-  background-position: center;
+  background-image: url("../../../staticfiles/custom-brand/assets/images/bg.png");
+  background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   * {
@@ -18,28 +36,79 @@
 
   .form-content {
     margin: 0 auto;
-    //padding: 30px 20px 20px 20px;
-    max-width: 1200px;
-    min-height: 100vh;
+    max-width: 1240px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    width: 100%;
+
+    p {
+      max-width: 490px;
+    }
+  }
+
+  .header {
+    background-color: #3DAFE4;
+
+    .header-content {
+      max-width: 1240px;
+      margin: auto;
+      transition: .3s ease;
+      max-height: 140px;
+      height: 13.4vh;
+      min-height: 100px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+
+      img {
+        height: 37px;
+      }
+    }
   }
 
 
   .f-container {
-    box-shadow: 0 3px 8px 0 rgba(33, 33, 33, 0.5);
-    background-color: #00a1e0;
-    min-height: 100vh;
+    background-color: #fdfbfc;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-radius: 25px;
+    padding: 42px 32px;
+    max-width: 443px;
+    margin-left: auto;
+
+    h3.ant-typography, .ant-typography h3 {
+      font-size: 2.125rem;
+      line-height: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    h5.ant-typography, .ant-typography h5 {
+      text-transform: uppercase;
+      margin: 1.5rem 0;
+    }
 
     .f-form-container {
       width: 100%;
-      > div {
-        padding: 20px 30px;
-      }
     }
     .ant-typography {
-      color: white;
+      color: #3DAFE4;
     }
 
     .ant-checkbox-wrapper {
@@ -51,7 +120,7 @@
     }
 
     form .ant-form-item {
-      margin-bottom: 10px;
+      margin-bottom: 16px;
     }
 
     .ant-input {
@@ -65,11 +134,54 @@
   }
 
   .t-container {
-    padding-right: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    color: white;
+
+    .ant-typography {
+      color: white;
+    }
+
+    h1.ant-typography, .ant-typography h1 {
+      font-size: 3.125rem;
+      line-height: 4rem;
+      text-transform: uppercase;
+    }
+
+    h3.ant-typography, .ant-typography h3 {
+      font-size: 2.375rem;
+      line-height: 2.5rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+
     img:not(.logo) {
       width: 100%;
+    }
+
+    .link-btn {
+      padding: 16px 40px;
+      background-color: transparent;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      height: auto;
+      color: white;
+      font-weight: 700;
+      border: 2px solid #67BEB4;
+      transition: .3s ease;
+      margin-top: 1rem;
+      border-radius: 4px;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: #67BEB4;
+      }
     }
 
     .logo {
@@ -78,57 +190,97 @@
     }
   }
 
-  .title-wrapper {
-    display: flex;
-    padding: 0 15px;
-    align-items: center;
-    .ant-typography {
-      padding: 0 10px;
-    }
-    .line {
-      flex: 1;
-      display: block;
-      height: 1px;
-      background: white;
-    }
-  }
-
   .join-btn {
-    //background: linear-gradient(to right, #36d1dc , #5b86e5);
+    background-color: #67BEB4;
+    border-radius: 4px;
+    font-size: 1.25rem;
+    color: white;
+    height: auto;
+    border-color: transparent;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 5px;
     &:hover {
-      transform:  scale(1.02);
-      //color: #ffffff;
+      background-color: #4ba097;
     }
   }
 }
 
 @media (max-width: 1240px) {
   .auth-page-container .register-landing-page-container {
+    .ant-row {
+      padding: 0 20px;
+    }
+    .header {
+      .header-content {
+        padding: 0 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .auth-page-container .register-landing-page-container {
     .t-container {
-      padding-left: 40px;
+
+      h1.ant-typography, .ant-typography h1 {
+        font-size: 2.75rem;
+        line-height: 3.25rem;
+      }
+
+      h3.ant-typography, .ant-typography h3 {
+        font-size: 2rem;
+        line-height: 2.25rem;
+      }
     }
   }
 }
 
 @media (max-width: 767px) {
   .auth-page-container .register-landing-page-container {
-    .t-container {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-  }
-}
 
-@media (max-width: 575px) {
-  .auth-page-container .register-landing-page-container {
+    .d-sm-none {
+      display: none;
+    }
+
+    .ant-row {
+      padding: 0;
+    }
+
     .t-container {
-      padding: 30px 20px 20px 20px;
+      padding: 50px 20px 0 20px;
+
+      .t-text-container {
+        margin: auto;
+      }
+
+      h1.ant-typography, .ant-typography h1 {
+        font-size: 2.25rem;
+        line-height: 2.75rem;
+      }
+
+      h3.ant-typography, .ant-typography h3 {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+
+      .link-btn {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 14px 10px;
+      }
     }
 
     .f-container {
-      min-height: auto;
-      margin-bottom: 20px;
+      margin: auto;
+      padding-top: 40px;
+    }
 
+    .content-form-wrapper {
+      padding: 40px 20px;
+      width: 100%;
+      background-image: url("../../../staticfiles/custom-brand/assets/images/background-gradient.png");
+      background-size: cover;
     }
   }
 }
