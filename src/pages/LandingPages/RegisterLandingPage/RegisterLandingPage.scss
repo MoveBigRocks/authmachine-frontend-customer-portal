@@ -284,3 +284,13 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .auth-page-container .register-landing-page-container {
+    //background-position: top left 65%;
+    //background-size: auto;
+    background-position: top 100px left 65%;
+    background-size: 185%;
+    background-image: url("../../../staticfiles/custom-brand/assets/images/bg-sm.png");
+  }
+}
