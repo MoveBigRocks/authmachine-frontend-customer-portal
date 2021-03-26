@@ -29,7 +29,7 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: '/images/'
+                        outputPath: 'images/'
                     }
                 }]
             },
@@ -51,7 +51,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: '/fonts/',
+                            outputPath: 'fonts/',
                             mimetype: 'application/font-woff'
                         }
                     }
@@ -62,6 +62,7 @@ module.exports = {
     output: {
         filename: 'js/[name].[contenthash].js',
         path: path.resolve(__dirname, 'build'),
+        publicPath: "/"
     },
     plugins: [
         new LiveReloadPlugin(),
