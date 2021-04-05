@@ -15,11 +15,17 @@ const {Option} = Select;
 const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: RegistrationProps) => {
     const [formErrors, setFormErrors] = useState(false);
     const [modal, setModal] = useState(false);
+    const [playing, setPlaying] = useState(false);
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
       values["additionalRegistrationData"] = Object.assign({}, values);
       register(values);
+    };
+
+    const showModal = () => {
+        setModal(!modal);
+        setPlaying(true);
     };
 
     useEffect(() => setPageTitle("Start Free 30-Day Trial - OpenUnited"), [setPageTitle])
@@ -46,6 +52,11 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
         }
     }, [form, message]);
 
+    useEffect(() => {
+        if (!playing) setModal(false);
+    }, [playing])
+
+
     return (
         <div className="form-container register-landing-page-container">
             <div className="header">
@@ -67,7 +78,7 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
                             </p>
                             <p style={{fontSize: "1rem"}}>Improve your skills and get the recognition you deserve.<br/>
                                 Expand your professional network and discover new career opportunities.</p>
-                            <Button className="link-btn pt-sans" onClick={() => setModal(!modal)}>
+                            <Button className="link-btn pt-sans" onClick={() => showModal()}>
                                 Watch explainer video
                             </Button>
                         </div>
@@ -122,9 +133,11 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
               title={null}
               closeIcon={null}
               className="video-modal"
-              onCancel={() => setModal(false)}
+              onCancel={() => setPlaying(false)}
               footer={null}>
                 <ReactPlayer url="https://www.youtube.com/watch?v=Q2kE3Wf4Who"
+                             playing={playing}
+                             playsinline={true}
                              width="100%" />
             </Modal>
         </div>

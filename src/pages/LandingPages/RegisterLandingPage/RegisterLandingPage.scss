@@ -247,8 +247,19 @@
       padding: 0;
     }
 
+    .header {
+      .header-content {
+        height: auto;
+        img {
+          margin: auto;
+          height: 32px;
+        }
+      }
+    }
+
     .t-container {
       padding: 50px 20px 0 20px;
+      margin: auto;
 
       .t-text-container {
         margin: auto;
@@ -257,6 +268,7 @@
       h1.ant-typography, .ant-typography h1 {
         font-size: 2.25rem;
         line-height: 2.75rem;
+        text-align: center;
       }
 
       h3.ant-typography, .ant-typography h3 {
@@ -268,6 +280,10 @@
         width: 100%;
         background: rgba(0, 0, 0, 0.3);
         padding: 14px 10px;
+      }
+
+      p {
+        text-align: center;
       }
     }
 
@@ -292,5 +308,11 @@
     background-position: top 100px left 65%;
     background-size: 185%;
     background-image: url("../../../staticfiles/custom-brand/assets/images/bg-sm.png");
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-page-container .register-landing-page-container {
+    background-size: 220%;
   }
 }

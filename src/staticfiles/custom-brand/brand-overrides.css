@@ -13,12 +13,6 @@
     background: url("../custom-brand/assets/images/open-united-bg.jpg") center center / cover no-repeat !important;
 }
 
-@media (max-width: 768px) {
-    .auth-page-container {
-        min-height: auto !important;
-        height: auto !important;
-    }
-}
 
 input[type='email'] {
     -webkit-appearance: none;
