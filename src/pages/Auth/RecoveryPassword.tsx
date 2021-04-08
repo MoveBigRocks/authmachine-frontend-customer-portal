@@ -6,12 +6,14 @@ import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {mainActions} from "../../redux/actions/mainActions";
+import {useHistory} from "react-router";
 
 const {Password} = Input;
 
 const RecoveryPassword = (props: RecoveryPasswordProps) => {
     const [form] = Form.useForm();
-    const {status, message, recoveryPassword, setPageTitle} = props;
+    const history = useHistory();
+    const {status, message, recoveryPassword, setPageTitle, setSystemInformation} = props;
     const {token} = props.match.params;
 
     useEffect(() => {
@@ -19,6 +21,18 @@ const RecoveryPassword = (props: RecoveryPasswordProps) => {
     }, [status, form]);
 
     useEffect(() => setPageTitle("Recovery Password"), [setPageTitle]);
+
+    useEffect(() => {
+        if (status && message !== "") {
+            setSystemInformation({
+                show: true,
+                success: true,
+                title: "Password changed!",
+                description: message
+            })
+            history.push("/login");
+        }
+    }, [status, message])
 
     const onFinish = (values: any) => {
         if (values.password !== values.confirmPassword) {
@@ -68,6 +82,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = {
     recoveryPassword: userActions.recoveryPassword,
     setPageTitle: mainActions.setPageTitle,
+    setSystemInformation: mainActions.setSystemInformation,
 }
 
 export default connect(
