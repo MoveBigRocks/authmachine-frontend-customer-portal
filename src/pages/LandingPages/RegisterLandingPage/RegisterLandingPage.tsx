@@ -106,7 +106,7 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
                                                    rules={[{ required: true, message: "Please input your email" }]}>
                                             <Input placeholder="Email" type="email" />
                                         </Form.Item>
-                                        <Form.Item name="employees"
+                                        <Form.Item name="country"
                                                    rules={[{ required: true, message: "Please select your country" }]}>
                                             <Select placeholder="Country">
                                                 {Countries.map((c: {country: string}, index: number) =>
