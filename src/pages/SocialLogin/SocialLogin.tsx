@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Alert, Spin, Space} from "antd";
+import {Alert, Spin} from "antd";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
@@ -28,7 +28,7 @@ const SocialLogin = (props: SocialLoginProps) => {
     }
 
     return (
-        <Space size="middle" className="d-flex-cc" style={{height: "100%"}}>
+        <div className="customer-portal d-flex-cc" style={{minHeight: "100vh"}}>
             {loading && <Spin size="large" spinning={loading} tip="Loading..." style={{width: "100%"}}/>}
             {(!loading && !status) &&
                 <Alert
@@ -39,7 +39,7 @@ const SocialLogin = (props: SocialLoginProps) => {
                     showIcon
                 />
             }
-        </Space>
+        </div>
     )
 };
 

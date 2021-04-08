@@ -7,6 +7,12 @@ type mainState = {
     pageSize: string,
     showRightSider: boolean
     pageLink: string,
+    systemInfo: {
+        show: boolean,
+        success: boolean,
+        description: string,
+        title: string,
+    },
 };
 
 const initialState: mainState = {
@@ -16,6 +22,12 @@ const initialState: mainState = {
     pageSize: "lg",
     showRightSider: false,
     pageLink: "/",
+    systemInfo: {
+        show: false,
+        success: false,
+        description: "",
+        title: "",
+    },
 };
 
 type ActionType = {
@@ -25,6 +37,12 @@ type ActionType = {
     pageSize: string,
     showRightSider: boolean,
     pageLink: string,
+    systemInfo: {
+        show: boolean,
+        success: boolean,
+        description: string,
+        title: string,
+    },
 };
 
 const mainReducer = (state = initialState, action: ActionType) => {
@@ -33,6 +51,11 @@ const mainReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 pageTitle: action.pageTitle
+            }
+        case mainTypes.SET_SYSTEM_INFO:
+            return {
+                ...state,
+                systemInfo: action.systemInfo
             }
         case mainTypes.SET_PAGE_LINK:
             return {

@@ -11,6 +11,16 @@ const setPageTitle = (pageTitle: string) => {
     }
 }
 
+const setSystemInformation = (systemInfo: {description: string, success: boolean, show: boolean, title: string}) => {
+    return (dispatch: AppDispatch) => {
+        // @ts-ignore
+        dispatch({
+            type: mainTypes.SET_SYSTEM_INFO,
+            systemInfo
+        })
+    }
+}
+
 const setPageLink = (pageLink: string) => {
     return (dispatch: AppDispatch) => {
         // @ts-ignore
@@ -53,4 +63,5 @@ export const mainActions = {
     showRightSider,
     authLoading,
     setPageLink,
+    setSystemInformation,
 };

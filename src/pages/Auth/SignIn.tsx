@@ -10,7 +10,7 @@ import SocialAccounts from "../../components/Auth/SocialAccounts";
 import {mainActions} from "../../redux/actions/mainActions";
 
 const SignIn = (props: SignInProps) => {
-    const {login, isAuthenticated, message, setPageTitle} = props;
+    const {login, isAuthenticated, message, setPageTitle, systemInfo, setSystemInformation} = props;
     const [form] = Form.useForm();
 
     useEffect(() => setPageTitle("Sign In"), [setPageTitle]);
@@ -22,17 +22,39 @@ const SignIn = (props: SignInProps) => {
         login(values, nextUrl);
     };
 
+    useEffect(() => {
+        return () => setSystemInformation({
+            show: false,
+            success: false,
+            title: "",
+            description: "",
+        })
+    }, [setSystemInformation])
+
     return (
         <div className="form-container auth-form">
             <div className="form-content">
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo" />
                 </div>
+
+                {systemInfo.show && (
+                    <div style={{marginBottom: 20}}>
+                        <Alert
+                          style={{width: "100%"}}
+                          message={systemInfo.title}
+                          description={systemInfo.description}
+                          type={systemInfo.success ? "success" : "error"}
+                          showIcon
+                        />
+                    </div>
+                )}
+
                 <Typography.Title level={3}>Login</Typography.Title>
                 <Form form={form} onFinish={onFinish} initialValues={{remember: false}}>
                     <Form.Item name="username"
                                rules={[{ required: true, message: "Please input your username" }]}>
-                        <Input size="large" placeholder="Username" />
+                        <Input size="large" placeholder="Username or Email" />
                     </Form.Item>
                     <Form.Item name="password"
                                rules={[{ required: true, message: "Please input your password" }]}>
@@ -63,15 +85,18 @@ const SignIn = (props: SignInProps) => {
 
 const mapStateToProps = (state: any) => {
     const {isAuthenticated, loginMessage} = state.user;
+    const {systemInfo} = state.main;
     return {
         isAuthenticated,
         message: loginMessage,
+        systemInfo,
     }
 };
 
 const mapDispatchToProps = {
     login: userActions.login,
     setPageTitle: mainActions.setPageTitle,
+    setSystemInformation: mainActions.setSystemInformation,
 }
 
 export default connect(
