@@ -211,6 +211,11 @@
     .ant-row {
       padding: 0 20px;
     }
+    .ant-form {
+      .ant-row {
+        padding: 0;
+      }
+    }
     .header {
       .header-content {
         padding: 0 20px;
