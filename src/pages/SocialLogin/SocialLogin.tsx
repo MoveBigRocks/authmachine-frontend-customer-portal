@@ -26,7 +26,9 @@ const SocialLogin = (props: SocialLoginProps) => {
             ? "/customer-portal" : "/customer-portal/login-options";
         helpers.removeValueFromLocalStorage("connectionType");
         const nextUrl = localStorage.getItem("nextUrl");
-        if (nextUrl === null) {
+        const redirectFromProvider = localStorage.getItem("redirectFromProvider");
+
+        if (nextUrl === null && redirectFromProvider === null) {
             return <Redirect to={redirectUrl}/>
         }
     }
