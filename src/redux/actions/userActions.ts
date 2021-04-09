@@ -430,6 +430,7 @@ const socialCallback = (provider: string, queryString: string, nextUrl: string |
                 if (success) {
                   if (nextUrl !== null) {
                     localStorage.removeItem("nextUrl");
+                    localStorage.setItem("redirectFromProvider", "1");
                     window.location.replace(nextUrl);
                   } else {
                     // @ts-ignore
