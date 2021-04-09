@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "antd/dist/antd.css";
 import "./App.scss";
 import {Router, Switch, Route} from "react-router-dom";
@@ -15,18 +15,32 @@ import {Spin} from "antd";
 import SocialLogin from "../../pages/SocialLogin/SocialLogin";
 
 const App = ({pageTitle, auth, loading}: AppProps) => {
-    const startAuth = !window.location.pathname.startsWith("/socials");
+    const [startAuth, setStartAuth] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("Loading");
 
     useEffect(() => {
-        if (startAuth) auth();
+        const redirectFromProvider = localStorage.getItem("redirectFromProvider");
+        if (redirectFromProvider) {
+            localStorage.removeItem("redirectFromProvider");
+            setShowLoading(true);
+            setLoadingMessage("Login successful. One moment please");
+        } else {
+            if (startAuth) auth();
+        }
+
     }, [startAuth, auth]);
+
+    useEffect(() => setStartAuth(window.location.pathname.startsWith("/socials")), [setStartAuth])
 
     return (
         <Router history={history}>
             <Helmet>
                 <title>{pageTitle}</title>
             </Helmet>
-            <Spin tip="Loading..." spinning={startAuth ? loading : false} wrapperClassName="bg-white">
+            <Spin tip={`${loadingMessage}...`}
+                  spinning={startAuth || showLoading ? loading : false}
+                  wrapperClassName="bg-white">
                 <Switch>
                     <Route path={"/customer-portal"} component={CustomerPortal} />
                     <Route path={"/socials/:provider/login"} component={SocialLogin} />
