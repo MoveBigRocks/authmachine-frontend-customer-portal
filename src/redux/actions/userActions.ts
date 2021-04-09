@@ -431,7 +431,7 @@ const socialCallback = (provider: string, queryString: string, nextUrl: string |
                   if (nextUrl !== null) {
                     localStorage.removeItem("nextUrl");
                     localStorage.setItem("redirectFromProvider", "1");
-                    // window.location.replace(nextUrl);
+                    window.location.replace(nextUrl);
                   } else {
                     // @ts-ignore
                     dispatch(userActions.auth());
