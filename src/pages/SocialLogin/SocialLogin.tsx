@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Alert, Spin} from "antd";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
@@ -11,8 +11,12 @@ import {mainActions} from "../../redux/actions/mainActions";
 
 const SocialLogin = (props: SocialLoginProps) => {
     const {status, message, match, socialCallback, location, setPageTitle} = props;
+    const [socialLoading, setSocialLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
     const {provider} = match.params;
     const loading = !status && message === "";
+    const redirectUrl = helpers.getValueFromLocalStorage("connectionType") === "login"
+                ? "/customer-portal" : "/customer-portal/login-options";
 
     useEffect(() => {
         const nextUrl = localStorage.getItem("nextUrl");
@@ -21,21 +25,26 @@ const SocialLogin = (props: SocialLoginProps) => {
 
     useEffect(() => setPageTitle("Social Authorization"), [setPageTitle]);
 
-    if (status) {
-        const redirectUrl = helpers.getValueFromLocalStorage("connectionType") === "login"
-            ? "/customer-portal" : "/customer-portal/login-options";
-        helpers.removeValueFromLocalStorage("connectionType");
-        const nextUrl = localStorage.getItem("nextUrl");
-        const redirectFromProvider = localStorage.getItem("redirectFromProvider");
+    useEffect(() => {
+        if (status) {
+            helpers.removeValueFromLocalStorage("connectionType");
+            const nextUrl = localStorage.getItem("nextUrl");
+            const redirectFromProvider = localStorage.getItem("redirectFromProvider");
 
-        if (nextUrl === null && redirectFromProvider === null) {
-            return <Redirect to={redirectUrl}/>
+            if (nextUrl === null && redirectFromProvider === null) {
+                setRedirect(true);
+            } else {
+                setSocialLoading(true);
+            }
         }
-    }
+    }, [status])
+
+    if (redirect) return <Redirect to={redirectUrl}/>
 
     return (
         <div className="customer-portal d-flex-cc" style={{minHeight: "100vh"}}>
-            {loading && <Spin size="large" spinning={loading} tip="Loading..." style={{width: "100%"}}/>}
+            {(socialLoading || loading) &&
+                <Spin size="large" spinning={socialLoading || loading} tip={socialLoading ? "Login successful. One moment please" : "Loading..."} style={{width: "100%"}}/>}
             {(!loading && !status) &&
                 <Alert
                     style={{width: "90%", margin: "auto"}}
