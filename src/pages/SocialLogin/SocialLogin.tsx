@@ -15,7 +15,8 @@ const SocialLogin = (props: SocialLoginProps) => {
     const loading = !status && message === "";
 
     useEffect(() => {
-        socialCallback(provider, location.search);
+        const nextUrl = localStorage.getItem("nextUrl");
+        socialCallback(provider, location.search, nextUrl);
     }, [socialCallback, provider, location]);
 
     useEffect(() => setPageTitle("Social Authorization"), [setPageTitle]);
@@ -25,11 +26,8 @@ const SocialLogin = (props: SocialLoginProps) => {
             ? "/customer-portal" : "/customer-portal/login-options";
         helpers.removeValueFromLocalStorage("connectionType");
         const nextUrl = localStorage.getItem("nextUrl");
-        if (nextUrl) {
-            localStorage.removeItem("nextUrl");
-            window.location.replace(nextUrl);
-        } else {
-            return <Redirect to={redirectUrl} />
+        if (nextUrl === null) {
+            return <Redirect to={redirectUrl}/>
         }
     }
 

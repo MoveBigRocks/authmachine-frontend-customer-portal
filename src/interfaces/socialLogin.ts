@@ -10,6 +10,6 @@ export interface SocialLoginProps {
     location: {
         search: string,
     },
-    socialCallback: (provider: string, queryString: string) => void,
+    socialCallback: (provider: string, queryString: string, nextUrl: string | null) => void,
     setPageTitle: (pageTitle: string) => void,
 }
