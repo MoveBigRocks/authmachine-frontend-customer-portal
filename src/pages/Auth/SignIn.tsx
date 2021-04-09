@@ -29,7 +29,15 @@ const SignIn = (props: SignInProps) => {
             title: "",
             description: "",
         })
-    }, [setSystemInformation])
+    }, [setSystemInformation]);
+
+    useEffect(() => {
+        let nextUrl = new URLSearchParams(props.location.search).get("next");
+        if (nextUrl) localStorage.setItem("nextUrl", nextUrl);
+        return () => {
+            localStorage.removeItem("nextUrl");
+        }
+    }, [props.location])
 
     return (
         <div className="form-container auth-form">
