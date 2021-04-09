@@ -405,7 +405,7 @@ const getPrivacyPolicyList = () => {
     }
 }
 
-const socialCallback = (provider: string, queryString: string) => {
+const socialCallback = (provider: string, queryString: string, nextUrl: string | null = null) => {
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           socialCallback(provider: "${provider}", queryString: "${queryString}") {
@@ -427,8 +427,15 @@ const socialCallback = (provider: string, queryString: string) => {
             (result: any) => {
                 let {success, message} = result.data.socialCallback;
 
-                // @ts-ignore
-                if (success) dispatch(userActions.auth());
+                if (success) {
+                  if (nextUrl !== null) {
+                    localStorage.removeItem("nextUrl");
+                    window.location.replace(nextUrl);
+                  } else {
+                    // @ts-ignore
+                    dispatch(userActions.auth());
+                  }
+                }
 
                 setSocialCallbackStatus(success, success ? "" : message);
             },
