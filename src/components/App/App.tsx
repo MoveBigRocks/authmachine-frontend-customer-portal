@@ -23,8 +23,8 @@ const App = ({pageTitle, auth, loading}: AppProps) => {
         const redirectFromProvider = localStorage.getItem("redirectFromProvider");
         if (redirectFromProvider) {
             localStorage.removeItem("redirectFromProvider");
-            setShowLoading(true);
-            setLoadingMessage("Login successful. One moment please");
+            // setShowLoading(true);
+            // setLoadingMessage("Login successful. One moment please");
         } else {
             if (startAuth) auth();
         }
