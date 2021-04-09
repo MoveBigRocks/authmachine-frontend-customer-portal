@@ -31,7 +31,7 @@ const App = ({pageTitle, auth, loading}: AppProps) => {
 
     }, [startAuth, auth]);
 
-    useEffect(() => setStartAuth(window.location.pathname.startsWith("/socials")), [setStartAuth])
+    useEffect(() => setStartAuth(!window.location.pathname.startsWith("/socials")), [setStartAuth]);
 
     return (
         <Router history={history}>
@@ -39,7 +39,7 @@ const App = ({pageTitle, auth, loading}: AppProps) => {
                 <title>{pageTitle}</title>
             </Helmet>
             <Spin tip={`${loadingMessage}...`}
-                  spinning={startAuth || showLoading ? loading : false}
+                  spinning={showLoading ? true : startAuth ? loading : false}
                   wrapperClassName="bg-white">
                 <Switch>
                     <Route path={"/customer-portal"} component={CustomerPortal} />
