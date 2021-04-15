@@ -9,6 +9,7 @@ import "./RegisterLandingPage.scss";
 import CustomSocialAccounts from "../CustomSocialAccounts/CustomSocialAccounts";
 import Countries from "../countries.json";
 import ReactPlayer from 'react-player'
+import { Link } from "react-router-dom";
 
 const {Option} = Select;
 
@@ -61,7 +62,9 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
         <div className="form-container register-landing-page-container">
             <div className="header">
                 <div className="header-content">
-                    <img src={Logo} alt="AuthMachine" />
+                    <Link to="/">
+                        <img src={Logo} alt="AuthMachine" />
+                    </Link>
                 </div>
             </div>
             <div className="form-content">
@@ -102,6 +105,12 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
                                                    ]}>
                                             <Input placeholder="Full name" />
                                         </Form.Item>
+                                        <Form.Item name="username"
+                                                   rules={[
+                                                       { required: true, message: "Please input your username" }
+                                                   ]}>
+                                            <Input placeholder="Username" />
+                                        </Form.Item>
                                         <Form.Item name="email"
                                                    rules={[{ required: true, message: "Please input your email" }]}>
                                             <Input placeholder="Email" type="email" />
@@ -135,7 +144,7 @@ const RegisterLandingPage = ({message, isRegister, register, setPageTitle}: Regi
               className="video-modal"
               onCancel={() => setPlaying(false)}
               footer={null}>
-                <ReactPlayer url="https://www.youtube.com/watch?v=Q2kE3Wf4Who"
+                <ReactPlayer url="https://www.youtube.com/watch?v=OWXVryhdoVA"
                              playing={playing}
                              playsinline={true}
                              width="100%" />
