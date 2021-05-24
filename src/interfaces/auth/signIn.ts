@@ -22,4 +22,5 @@ export interface SignInProps {
         description: string,
         success: boolean,
     }) => void,
+    status: boolean
 }

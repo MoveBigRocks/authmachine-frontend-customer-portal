@@ -8,13 +8,14 @@ import {AuthProps} from "../../interfaces/auth";
 import "./Auth.scss";
 import RecoveryPassword from "../../pages/Auth/RecoveryPassword";
 import ResetPassword from "../../pages/Auth/ResetPassword";
-import Registration from "../../pages/Auth/Registration";
+// import Registration from "../../pages/Auth/Registration";
 import ActivateAccount from "../../pages/Auth/ActivateAccount";
 import ActivateFinish from "../../pages/Auth/ActivateFinish";
 import ActivateLicense from "../../pages/Auth/ActivateLicense";
 import NewLicense from "../../pages/Auth/NewLicense";
 import CreateAdminUser from "../../pages/Auth/CreateAdminUser";
 import {landingPagesRouter} from "../../landing-pages-router";
+import RegistrationSteps from "../../pages/Auth/RegistrationSteps";
 
 const onlyNotAuthLinks = ["/", "/registration", "/login"];
 
@@ -39,7 +40,7 @@ const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
         <div className="auth-page-container">
             <Switch>
                 <Route exact path={["/", "/login"]} component={SignIn} />
-                <Route exact path="/registration" component={Registration} />
+                <Route exact path="/registration" component={RegistrationSteps} />
                 <Route exact path="/reset-password" component={ResetPassword} />
                 <Route exact path="/recovery-password/:token" component={RecoveryPassword} />
                 <Route exact path="/activation" component={ActivateAccount} />

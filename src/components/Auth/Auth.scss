@@ -1,17 +1,18 @@
 .auth-page-container {
   min-width: 100%;
   min-height: 100%;
-  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  letter-spacing: 0.02em;
+
 
   .form-container {
     width: calc(100% - 30px);
-    max-width: 480px;
+    max-width: 540px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 100px;
     padding: 30px;
     display: flex;
@@ -22,8 +23,32 @@
       padding: 0;
 
       .form-content {
-        padding: 30px 30px 25px 30px;
+        padding: 39px 32px 32px 32px;
       }
+
+      @media screen and (max-width: 550px) {
+        .form-content {
+          padding: 20px 16px 16px 16px;
+        }
+      }
+    }
+
+    .subtitle {
+      margin: 0 auto 20px;
+      width: 75%;
+    }
+
+    .reset-remember {
+      margin-top: -10px;
+
+      .password-reset-link {
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+
+    .dyha {
+      margin-top: -20px;
     }
 
     .additional-actions {
@@ -31,63 +56,185 @@
       margin: 0;
       padding: 20px 30px 30px 30px;
       font-size: 15px;
-      border-top: 1px solid #ededf2;
-      background-color: #f5f8fa;
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
+      //border-top: 1px solid #ededf2;
+      background-color: #e8f4ff;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+
+      .social-btn-auth {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        color: #1e1e1c;
+        border: none;
+        width: 100%;
+        min-height: 51px;
+        font-weight: normal;
+      }
+
+      .social-btn-content {
+        display: flex;
+        justify-content: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+          margin-right: 10px;
+        }
+      }
+
+      .back-button {
+        display: flex;
+        color: #1e1e1c;
+        line-height: 19px;
+        float: left;
+        align-items: baseline;
+      }
+
+      .google-auth{
+        &:hover{
+          background-color: #1890ff;
+          color: #fff;
+        }
+      }
+      .github-auth{
+        &:hover{
+          background-color: #000;
+          color: #fff;
+        }
+      }
 
       li {
         color: #959595;
+
         &:not(:last-of-type) {
           margin-bottom: 10px;
         }
       }
     }
 
+    .head-panel {
+      border-radius: 20px 20px 0 0;
+      max-height: 51px;
+      padding: 16px;
+      background-color: #e8f4ff;
+      color: #1E1E1C;
+      display: flex;
+      justify-content: space-between;
+      align-items: revert;
+    }
+
+    .sign-type-panel {
+      margin: 0 auto 32px;
+      width: 45%;
+      display: flex;
+      flex: auto;
+      justify-content: space-between;
+      flex-flow: row wrap;
+      max-width: 100%;
+    }
+
+    @media screen and (max-width: 550px){
+      .sign-type-panel {
+        width: 70%;
+        font-size: 10px;
+      }
+
+    }
+
     .logo {
       width: 220px;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
+
     form {
       font-size: 16px;
+      line-height: 19px;
       padding-top: 5px;
+
+      span {
+        padding: 0 4px 0 0;
+      }
 
       input, button,
       .ant-input-affix-wrapper {
         border-radius: 3px;
       }
+
+      input {
+        padding: 16px;
+        max-height: 51px;
+      }
+
       button[type="submit"] {
         width: 100%;
+        font-weight: 600;
+        min-height: 51px;
+        line-height: 19px;
       }
+
       .ant-form-item {
-        margin-bottom: 20px;
+        //margin-bottom: 20px;
       }
     }
+
     .space-between {
       .ant-form-item-control-input-content {
         display: flex;
         justify-content: space-between;
         font-size: 15px;
+
         label {
           font-size: 15px;
         }
       }
     }
+
+    .six-digits-title {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .digit-field {
+      padding: 0;
+      text-align: center;
+      width: 53px;
+      height: 53px;
+    }
+
     .socials {
       display: flex;
       flex-direction: column;
-      padding-top: 20px;
       border-top: 1px solid #ededf2;
+
       button {
         border-radius: 3px;
+
         img {
           width: 20px;
           margin-right: 5px;
         }
+
         &:not(:last-of-type) {
           margin-bottom: 10px;
         }
       }
     }
   }
+
+  @media screen and (max-width: 550px) {
+    .form-container {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
