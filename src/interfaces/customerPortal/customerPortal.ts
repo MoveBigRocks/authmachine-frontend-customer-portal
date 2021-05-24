@@ -17,4 +17,5 @@ export interface CustomerPortalProps {
     setPageLink: (pageLink: string) => void,
     username: string,
     isSuperuser: boolean,
+    usersExists: boolean,
 }

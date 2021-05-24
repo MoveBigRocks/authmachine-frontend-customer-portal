@@ -29,7 +29,7 @@ module.exports = {
                     loader: 'file-loader',
                     options: {
                         name: '[name].[ext]',
-                        outputPath: '/images/'
+                        outputPath: 'images/'
                     }
                 }]
             },
@@ -51,7 +51,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: '/fonts/',
+                            outputPath: 'fonts/',
                             mimetype: 'application/font-woff'
                         }
                     }
@@ -60,19 +60,21 @@ module.exports = {
         ],
     },
     output: {
-        filename: 'js/[name].js',
+        filename: 'js/[name].[contenthash].js',
         path: path.resolve(__dirname, 'build'),
+        publicPath: "/"
     },
     plugins: [
         new LiveReloadPlugin(),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: '[name].css',
+            filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',
         }),
         new HtmlWebpackPlugin({
-          template: "./public/index.html",
+            title: "Caching",
+            template: "./public/index.html",
         }),
     ]
 }

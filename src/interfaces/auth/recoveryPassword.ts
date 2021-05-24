@@ -12,4 +12,10 @@ export interface RecoveryPasswordProps {
         token: string
     }) => void,
     setPageTitle: (pageTitle: string) => void,
+    setSystemInformation: (info: {
+        show: boolean,
+        title: string,
+        description: string,
+        success: boolean,
+    }) => void,
 }

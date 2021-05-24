@@ -95,35 +95,73 @@ const helpers = {
         return word.charAt(0).toUpperCase() + word.slice(1)
     },
     getPagePath: (path: string, pagePath: string) => `${path}/${pagePath}`,
+    getSocialBtnClasses: (name: string) => {
+      const classes = {
+          github: "github-auth",
+          google: "google-auth"
+      };
+      return classes[name];
+    },
     getIconByProvider: (name: string) => {
-        switch (name) {
-            case 'amazon':
-                return Amazon
-            case 'facebook':
-                return Facebook
-            case 'github':
-                return Github
-            case 'google':
-                return Google
-            case 'linkedin':
-                return LinkedIn
-            case 'oauth':
-                return OAuth
-            case 'openid':
-                return OpenId
-            case 'paypal':
-                return Paypal
-            case 'salesforce':
-                return SalesForce
-            case 'twitter':
-                return Twitter
-            case 'windowslive':
-                return WindowsLive
-        }
+        const icons = {
+            amazon: Amazon,
+            facebook: Facebook,
+            github: Github,
+            google: Google,
+            linkedin: LinkedIn,
+            oauth: OAuth,
+            openid: OpenId,
+            paypal: Paypal,
+            salesforce: SalesForce,
+            twitter: Twitter,
+            windowslive: WindowsLive
+        };
+        return icons[name];
     },
     setValueInLocalStorage: (key: string, value: string) => localStorage.setItem(key, value),
     getValueFromLocalStorage: (value: string) => localStorage.getItem(value),
     removeValueFromLocalStorage: (value: string) => localStorage.removeItem(value),
+    getLicenseErrorReason: (message: string) => {
+        if (message.startsWith("Feature")) {
+            return {
+                message: "Click here to review the options and get a subscription",
+                title: "This feature is available on one of our premium tiers",
+                buttonText: "Review",
+            }
+        }
+        switch (message) {
+            case "No active license":
+               return {
+                   message: "Click here to request a license",
+                   title: "You do not have active licenses",
+                   buttonText: "Request License"
+               }
+            case "Users limit is exceeded":
+                return {
+                    message: "Please, upgrade your subscription in order to add more users",
+                    title: "You've reached seats limit available on your plan",
+                    buttonText: "Upgrade"
+                }
+            case "Invalid license":
+                return {
+                    message: "Please, upgrade your subscription",
+                    title: "Your license is expired",
+                    buttonText: "Upgrade"
+                }
+            case "license error":
+                return {
+                    message: "Click here to request a license",
+                    title: message,
+                    buttonText: "Request License"
+                }
+            default:
+                return {
+                    message,
+                    buttonText: "Request License",
+                    title: "Permission Denied"
+                }
+        }
+    }
 }
 
 export default helpers;

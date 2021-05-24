@@ -1,0 +1,15 @@
+.back-icon {
+  display: flex;
+  text-align: center;
+  cursor: pointer;
+
+  .back-svg {
+    margin-right: 6px;
+  }
+
+  .back-title {
+    color: black;
+    text-align: justify;
+    margin-top: -2px;
+  }
+}

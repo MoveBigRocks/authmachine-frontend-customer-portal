@@ -1,16 +1,48 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Logo from "../../staticfiles/images/logo.png"
-import {Alert, Spin, Space} from "antd";
+import {Spin} from "antd";
 import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {ActivateFinishProps} from "../../interfaces/auth/activateFinish";
 import {mainActions} from "../../redux/actions/mainActions";
+import {useHistory} from "react-router";
 
 
-const ActivateFinish = ({status, message, finishActivation, match, setPageTitle}: ActivateFinishProps) => {
+const ActivateFinish = ({status, message, finishActivation, match, setPageTitle, setSystemInformation}: ActivateFinishProps) => {
+    const history = useHistory();
     const {token} = match.params;
-    const loading = !status && message === "";
+    const [loading, setLoading] = useState(!status && message === "");
+
+    useEffect(() => {
+        if (!loading) {
+            let systemInfo;
+            if (status) {
+                systemInfo = {
+                    description: "Congratulations! Your account has been successfully activated!",
+                    title: "Registration is complete!",
+                    success: true
+                }
+            } else {
+                systemInfo = {
+                    description: message,
+                    title: "Registration is not complete!",
+                    success: false
+                }
+            }
+
+            setSystemInformation({
+                show: true,
+                ...systemInfo,
+            })
+            history.push("/login");
+        }
+    }, [loading, message]);
+
+    useEffect(() => {
+        setLoading(!status && message === "");
+    }, [status, message])
+
 
     useEffect(() => setPageTitle("Finish the activation"), [setPageTitle])
 
@@ -24,30 +56,9 @@ const ActivateFinish = ({status, message, finishActivation, match, setPageTitle}
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo" />
                 </div>
-                <Space size="middle" className="d-flex-cc" >
+                <div className="text-center">
                     {loading && <Spin size="large" spinning={loading} />}
-                    {!loading && (
-                        status ? (
-                            <Alert
-                              style={{width: "100%"}}
-                              message="Registration was finished!"
-                              description="Congratulations! Your account is successfully activated! You can log in now."
-                              type="success"
-                              showIcon
-                            />
-                        ) : (
-                            <Alert
-                              style={{width: "100%"}}
-                              message="Error!"
-                              description={message}
-                              type="error"
-                              showIcon
-                            />
-                        )
-                    )}
-
-                </Space>
-
+                </div>
             </div>
         </div>
     )
@@ -64,6 +75,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = {
     finishActivation: userActions.finishActivation,
     setPageTitle: mainActions.setPageTitle,
+    setSystemInformation: mainActions.setSystemInformation,
 }
 
 export default connect(

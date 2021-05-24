@@ -1,5 +1,5 @@
 import {ISocialByUser} from '../socialsByUser'
-import {ITFAResponse} from '../auth/tfaResponse'
+import {infoStatusResponse} from '../infoStatusResponse';
 import {IPhone} from "../phone";
 
 
@@ -13,9 +13,9 @@ export interface ILoginOptionsProps {
     getSocialLink: (provider: string, connectionType: string) => void,
     setPageTitle: (pageTitle: string) => void,
 
-    pinCodeData: ITFAResponse,
-    pinCodeVerifyData: ITFAResponse,
-    tokenVerifyData: ITFAResponse,
+    pinCodeData: infoStatusResponse,
+    pinCodeVerifyData: infoStatusResponse,
+    tokenVerifyData: infoStatusResponse,
     getPinCode: (phone: string) => void,
     verifyPinCode: (phone: string, pin: string) => void,
     verifyToken: (token: string) => void,
@@ -24,10 +24,10 @@ export interface ILoginOptionsProps {
     getBackupCodes: () => void,
     backupCodes: [],
     disablePinCode: () => void,
-    sendDisablePinData: ITFAResponse,
+    sendDisablePinData: infoStatusResponse,
     clearVerificationState: () => void,
     disableGoogleAuthenticator: (pin: string) => void,
-    disableGoogleAuthData: ITFAResponse,
+    disableGoogleAuthData: infoStatusResponse,
     getUser: (userId: string) => void,
 };
 

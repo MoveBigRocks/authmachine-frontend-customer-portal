@@ -10,4 +10,17 @@ export interface SignInProps {
     location: {
         search: string,
     },
+    systemInfo: {
+        show: boolean,
+        success: boolean,
+        description: string,
+        title: string,
+    },
+    setSystemInformation: (info: {
+        show: boolean,
+        title: string,
+        description: string,
+        success: boolean,
+    }) => void,
+    status: boolean
 }

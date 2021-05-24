@@ -261,13 +261,21 @@ $light-gray: #D9D9D9;
 }
 
 .d-flex-justify {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .user-form {
   .ant-form-item-label {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     label {
       &:after {
@@ -295,9 +303,14 @@ $light-gray: #D9D9D9;
 }
 
 .address-info-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   margin-top: 10px;
   margin-bottom: 10px;
   padding-bottom: 20px;
@@ -386,13 +399,23 @@ $light-gray: #D9D9D9;
   }
 }
 .d-flex-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .d-flex-cc {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   .ant-space-item {
     width: 100%;
   }
@@ -406,6 +429,20 @@ $light-gray: #D9D9D9;
     font-size: 15px;
   }
 }
+.fs-16 {
+  font-size: 16px;
+  label {
+    font-size: 16px;
+  }
+
+  .ant-radio-group {
+    .ant-radio-wrapper {
+      &:not(:last-of-type) {
+        margin-bottom: 2px;
+      }
+    }
+  }
+}
 .ant-input-affix-wrapper {
   border-radius: 3px;
 }
@@ -414,4 +451,16 @@ button,
 .ant-picker,
 .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
   border-radius: 3px;
+}
+.loading-page-container {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }

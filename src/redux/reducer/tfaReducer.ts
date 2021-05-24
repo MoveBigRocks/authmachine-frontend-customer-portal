@@ -1,21 +1,21 @@
 import tfaTypes from '../types/tfaTypes';
-import {ITFAResponse} from '../../interfaces/auth/tfaResponse';
+import {infoStatusResponse} from '../../interfaces/infoStatusResponse';
 
 const emptyMessage = {
     success: null,
     message: '',
 };
 
-export type usersState = {
-    pinCodeData: ITFAResponse,
-    pinCodeVerifyData: ITFAResponse,
-    tokenVerifyData: ITFAResponse,
-    sendDisablePinData: ITFAResponse,
-    disableGoogleAuthData: ITFAResponse,
+export type tfaState = {
+    pinCodeData: infoStatusResponse,
+    pinCodeVerifyData: infoStatusResponse,
+    tokenVerifyData: infoStatusResponse,
+    sendDisablePinData: infoStatusResponse,
+    disableGoogleAuthData: infoStatusResponse,
     backupCodes: string[],
 }
 
-const initialState: usersState = {
+const initialState: tfaState = {
     pinCodeData: emptyMessage,
     pinCodeVerifyData: emptyMessage,
     tokenVerifyData: emptyMessage,

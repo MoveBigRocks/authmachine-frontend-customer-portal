@@ -7,6 +7,9 @@ import {mainActions} from "./mainActions";
 import request from "../helpers/request";
 import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
+import {newLicenseValues} from "../../interfaces/auth/newLicense";
+import {createAdminUserValues} from "../../interfaces/auth/createAdminUser";
+import {message} from "antd";
 
 
 const auth = () => {
@@ -33,7 +36,7 @@ const auth = () => {
           }
         }`;
 
-        axios.post(request.getApiUrl(true), {query}, authHeader())
+        axios.post(request.getApiUrl(), {query}, authHeader())
             .then((result) => {
                 mainActions.authLoading(false, dispatch);
                 try {
@@ -50,11 +53,17 @@ const auth = () => {
                 }
             })
             .catch((err: any) => {
+                if (err.response!.status === 404) {
+                    dispatch({
+                        type: userTypes.USERS_EXISTS,
+                        status: false
+                    });
+                }
                 mainActions.authLoading(false, dispatch);
                 dispatch({
                     type: userTypes.USER_AUTH_FAILURE,
                     isAuthenticated: false
-                })
+                });
             });
     }
 };
@@ -63,7 +72,7 @@ const logout = () => {
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           logout {
-            status
+            success
           }
         }`;
 
@@ -71,33 +80,31 @@ const logout = () => {
             dispatch,
             query,
             (result: any) => {
-                let {status} = result.data.logout;
+                let {success} = result.data.logout;
                 dispatch({
                     type: userTypes.USER_LOGOUT,
-                    status
+                    status: success
                 });
                 // @ts-ignore
-                if (status) dispatch(userActions.auth());
+                if (success) dispatch(userActions.auth());
             },
             () => {
                 dispatch({
                     type: userTypes.USER_LOGOUT,
                     status: false
                 });
-            },
-            false);
+            });
     }
 };
 
-const login = (values: {username: string, password: string, remember: boolean, policies: string[]}, nextUrl: null | string = null) => {
-    const {username, password, remember, policies} = values;
+const login = (values: { username: string, password: string, remember: boolean }, nextUrl: null | string = null) => {
+    const {username, password, remember} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           login(input: {
             username: "${username}",
             password: "${password}",
             rememberMe: ${remember},
-            policies: [${policies.map(p => `"${p}"`)}]
           }) {
             success, message
           }
@@ -117,10 +124,13 @@ const login = (values: {username: string, password: string, remember: boolean, p
                 let {success, message} = result.data.login;
 
                 if (success) {
-                    // @ts-ignore
-                    dispatch(userActions.auth());
-                    setLogin(true);
-                    if (nextUrl) window.location.replace(nextUrl);
+                    if (nextUrl) {
+                        window.location.replace(nextUrl);
+                    } else {
+                        // @ts-ignore
+                        dispatch(userActions.auth());
+                        setLogin(true);
+                    }
                 } else {
                     setLogin(false, message);
                 }
@@ -128,46 +138,129 @@ const login = (values: {username: string, password: string, remember: boolean, p
             (error: any) => {
                 error = request.isServerError(error);
                 setLogin(false, error)
-            },
-            false);
+            });
     }
 };
 
-const register = (values: {username: string, email: string}) => {
-    const {username, email} = values;
+const registerStepOne = (values: {
+    firstName: string,
+    email: string,
+    additionalRegistrationData?: any,
+}) => {
+    const {firstName, email, additionalRegistrationData} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
-          register(input: {
-            username: "${username}",
+          registerStepOne(input: {
+            firstName: "${firstName}",
             email: "${email}",
+            ${additionalRegistrationData ? `additionalRegistrationData: ${JSON.stringify(JSON.stringify(additionalRegistrationData))}` : ""}
           }) {
-            success, message
+            success, message, userId
           }
         }`;
 
-        const setRegister = (status: boolean, message: string = "") =>
+        const setRegisterStepOne = (status: boolean, message: string, userId: string) =>
             dispatch({
-                type: userTypes.USER_REGISTER,
+                type: userTypes.REGISTER_STEP_ONE,
                 status,
-                message
+                message: status ? "" : message,
+                id: userId,
+                registerStep: status ? 1 : 0
             });
 
         request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {
-                let {success, message} = result.data.register;
-                setRegister(success, message);
+                let {success, message, userId} = result.data.registerStepOne;
+                setRegisterStepOne(success, message, userId);
             },
             (error: any) => {
                 error = request.isServerError(error);
-                setRegister(false, error);
-            },
-            false);
+                setRegisterStepOne(false, error, '');
+            });
     }
 };
 
-const resetPassword = (values: {username: string}) => {
+const registerStepTwo = (values: {
+    id: string
+    activationCode: string
+}) => {
+    const {id, activationCode} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          registerStepTwo(input: {
+            id: "${id}",
+            activationCode: "${activationCode}",
+          }) {
+            success, message, userId
+          }
+        }`;
+
+        const setRegisterStepTwo = (status: boolean, message: string, userId: string) =>
+            dispatch({
+                type: userTypes.REGISTER_STEP_TWO,
+                status,
+                message: status ? "" : message,
+                id: userId,
+                registerStep: status ? 2 : 1
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message, userId} = result.data.registerStepTwo;
+                setRegisterStepTwo(success, message, userId);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setRegisterStepTwo(false, error, '');
+            });
+    }
+};
+
+const registerStepThree = (values: {
+    userId: string
+    username: string
+    password: string,
+}) => {
+    const {username, password, userId} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          registerStepThree(input: {
+          
+            username: "${username}",
+            password: "${password}",
+            id: "${userId}",
+          }) {
+            success, message
+          }
+        }`;
+
+        const setRegisterStepThree = (status: boolean, message: string) =>
+            dispatch({
+                type: userTypes.REGISTER_STEP_THREE,
+                status,
+                message: status ? "" : message,
+                registerStep: status ? 3 : 2
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.registerStepThree;
+                setRegisterStepThree(success, message);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setRegisterStepThree(false, error);
+            });
+    }
+};
+
+const resetPassword = (values: { username: string }) => {
     const {username} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
@@ -196,8 +289,7 @@ const resetPassword = (values: {username: string}) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setResetStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -234,8 +326,7 @@ const recoveryPassword = (values: { password: string, confirmPassword: string, t
             (error: any) => {
                 error = request.isServerError(error);
                 setRecoveryStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -268,8 +359,7 @@ const activationFirstStep = (values: { username?: string, code: string }) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setActivationStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -305,8 +395,7 @@ const activationSecondStep = (values: { password: string, confirmPassword: strin
             (error: any) => {
                 error = request.isServerError(error);
                 setActivationStatus(false, error);
-            },
-            false);
+            });
     }
 };
 
@@ -336,18 +425,27 @@ const finishActivation = (token: string) => {
             (error: any) => {
                 error = request.isServerError(error);
                 setFinishActivationStatus(false, error)
-            },
-            false);
+            });
     }
 }
 
 const authSuccess = () => {
-  return typedAction(userTypes.USER_AUTH_SUCCESS);
+    return typedAction(userTypes.USER_AUTH_SUCCESS);
 };
 
 const authFailure = () => {
-  return typedAction(userTypes.USER_AUTH_FAILURE);
+    return typedAction(userTypes.USER_AUTH_FAILURE);
 };
+
+const changeMessage = (message: string) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(
+            {
+                type: userTypes.CHANGE_MESSAGE,
+                message
+            });
+    }
+}
 
 const getFeaturesList = () => {
     const headers = authHeader();
@@ -367,7 +465,7 @@ const getFeaturesList = () => {
 const getPrivacyPolicyList = () => {
     return (dispatch: AppDispatch) => {
         let query = `query {
-          allPolicies {
+          allPublicPolicies {
             id,
             title,
             acceptOnActivation,
@@ -386,15 +484,14 @@ const getPrivacyPolicyList = () => {
             dispatch,
             query,
             (result: any) => {
-                let {allPolicies} = result.data;
-                updatePolicies(allPolicies);
+                let {allPublicPolicies} = result.data;
+                updatePolicies(allPublicPolicies);
             },
-            () => updatePolicies([]),
-            false);
+            () => updatePolicies([]));
     }
 }
 
-const socialCallback = (provider: string, queryString: string) => {
+const socialCallback = (provider: string, queryString: string, nextUrl: string | null = null) => {
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           socialCallback(provider: "${provider}", queryString: "${queryString}") {
@@ -416,16 +513,23 @@ const socialCallback = (provider: string, queryString: string) => {
             (result: any) => {
                 let {success, message} = result.data.socialCallback;
 
-                // @ts-ignore
-                if (success) dispatch(userActions.auth());
+                if (success) {
+                    if (nextUrl !== null) {
+                        localStorage.removeItem("nextUrl");
+                        localStorage.setItem("redirectFromProvider", "1");
+                        window.location.replace(nextUrl);
+                    } else {
+                        // @ts-ignore
+                        dispatch(userActions.auth());
+                    }
+                }
 
                 setSocialCallbackStatus(success, success ? "" : message);
             },
             (error: any) => {
                 error = request.isServerError(error);
                 setSocialCallbackStatus(false, error);
-            },
-            false);
+            });
     }
 }
 
@@ -462,8 +566,7 @@ const disconnectSocialAccount = (accountId: number) => {
             (error: any) => {
                 error = request.isServerError(error);
                 alertActions.error(error);
-            },
-            true);
+            });
     }
 }
 
@@ -484,15 +587,108 @@ const getSocialLink = (provider: string, connectionType: string = "login") => {
                     message
                 });
             },
-            () => {},
-            false);
+            () => {
+            });
+    }
+}
+
+const activateLicense = (values: { activationCode: string }) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          activateLicense(input: {
+            activationCode: "${values.activationCode}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setActivationStatus = (infoStatus: { status: boolean, message: string }) =>
+            dispatch({
+                type: userTypes.ACTIVATE_LICENSE,
+                infoStatus
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {activateLicense} = result.data;
+                setActivationStatus(activateLicense);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setActivationStatus({status: false, message: error});
+            });
+    }
+};
+
+const requestNewLicense = (values: newLicenseValues) => {
+    const {email, endUserName, endUserType, licenseType} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          newLicense(input: {
+            licenseType: "${licenseType}",
+            endUserType: "${endUserType}",
+            endUserName: "${endUserName}",
+            email: "${email}"
+          }) {
+            success, message
+          }
+        }`;
+
+        const setStatus = (infoStatus: { status: boolean, message: string }) =>
+            dispatch({
+                type: userTypes.NEW_LICENSE,
+                infoStatus
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {newLicense} = result.data;
+                setStatus(newLicense);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setStatus({status: false, message: error});
+            });
+    }
+};
+
+const createAdminUser = (values: createAdminUserValues) => {
+    return (dispatch: AppDispatch) => {
+
+        const setStatus = (infoStatus: { success: boolean, message: string }) =>
+            dispatch({
+                type: userTypes.CREATE_ADMIN_USER,
+                infoStatus
+            });
+
+        request.simplePost(
+            dispatch,
+            "new-admin-user",
+            values,
+            (result: any) => {
+                setStatus(result);
+                dispatch({
+                    type: userTypes.USERS_EXISTS,
+                    status: true
+                });
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setStatus({success: false, message: error});
+            });
     }
 }
 
 export const userActions = {
     auth,
     login,
-    register,
+    registerStepOne,
+    registerStepTwo,
+    registerStepThree,
     authSuccess,
     authFailure,
     getFeaturesList,
@@ -506,4 +702,8 @@ export const userActions = {
     socialCallback,
     getSocialLink,
     disconnectSocialAccount,
+    activateLicense,
+    requestNewLicense,
+    createAdminUser,
+    changeMessage,
 };

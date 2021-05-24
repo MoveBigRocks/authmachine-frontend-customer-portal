@@ -1,6 +1,14 @@
 import userTypes from "../types/userTypes";
 
+import {infoStatusResponse} from '../../interfaces/infoStatusResponse';
+
+const emptyMessage = {
+    success: null,
+    message: '',
+}
+
 type UserState = {
+    usersExists: boolean,
     username?: string | null,
     id: number | null,
     avatar?: string | null,
@@ -9,6 +17,7 @@ type UserState = {
     policies: any[],
     eventsExists: boolean,
     message: string,
+    registerStep: number,
     registerMessage: string,
     loginMessage: string,
     activateMessage: string,
@@ -18,9 +27,14 @@ type UserState = {
     activationSecondStepStatus: boolean,
     socialLink: string,
     isSuperUser: boolean | null,
+    newLicenseData: infoStatusResponse,
+    activateLicenseData: infoStatusResponse,
+    createAdminUserData: infoStatusResponse,
+    userId: string
 }
 
 const initialState: UserState = {
+    usersExists: true,
     username: null,
     id: null,
     isAuthenticated: false,
@@ -30,6 +44,7 @@ const initialState: UserState = {
     policies: [],
     eventsExists: false,
     message: "",
+    registerStep: 0,
     registerMessage: "",
     loginMessage: "",
     activateMessage: "",
@@ -38,15 +53,22 @@ const initialState: UserState = {
     activationSecondStepStatus: false,
     socialLink: "",
     isSuperUser: null,
+    newLicenseData: emptyMessage,
+    activateLicenseData: emptyMessage,
+    createAdminUserData: emptyMessage,
+    userId: ""
 }
 
 type ActionType = {
     type: string,
     user: { username: string, id: number, avatar: string, isSuperuser: boolean },
+    registerStep?: number,
+    id?: string
     isAuthenticated?: boolean,
     data: any[],
     status: boolean,
-    message?: string
+    message?: string,
+    infoStatus: {status: boolean, message: string}
 }
 
 const userReducer = (state = initialState, action: ActionType) => {
@@ -133,6 +155,51 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 operationStatus: action.status,
+            }
+        case userTypes.NEW_LICENSE:
+            return {
+                ...state,
+                newLicenseData: action.infoStatus,
+            }
+        case userTypes.ACTIVATE_LICENSE:
+            return {
+                ...state,
+                activateLicenseData: action.infoStatus,
+            }
+        case userTypes.CREATE_ADMIN_USER:
+            return {
+                ...state,
+                createAdminUserData: action.infoStatus,
+            }
+        case userTypes.USERS_EXISTS:
+            return {
+                ...state,
+                usersExists: action.status
+            }
+        case userTypes.REGISTER_STEP_ONE:
+            return {
+                ...state,
+                id: action.id,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.REGISTER_STEP_TWO:
+            return {
+                ...state,
+                id: action.id,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.REGISTER_STEP_THREE:
+            return {
+                ...state,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.CHANGE_MESSAGE:
+            return {
+                ...state,
+                registerMessage: action.message,
             }
         default:
             return state;
