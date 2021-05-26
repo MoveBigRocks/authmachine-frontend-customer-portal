@@ -15,7 +15,7 @@ import '../../components/Auth/Auth.scss';
 import MessageLabel from "../../components/Auth/MessageLabel/MessageLabel";
 
 const SignIn = (props: SignInProps) => {
-    const {login, isAuthenticated, message, setPageTitle, setSystemInformation, status} = props;
+    const {login, isAuthenticated, message, setPageTitle, setSystemInformation, status, registerStep, changeRegisterStep} = props;
     const [form] = Form.useForm();
 
     useEffect(() => setPageTitle("Sign In"), [setPageTitle]);
@@ -41,8 +41,6 @@ const SignIn = (props: SignInProps) => {
         return () => {
             localStorage.removeItem("nextUrl");
         }
-
-
     }, [props.location]);
 
     useEffect(() => {
@@ -59,6 +57,10 @@ const SignIn = (props: SignInProps) => {
             ]);
         }
     }, [form, isAuthenticated, message]);
+
+    if (registerStep !== 0) {
+        changeRegisterStep(0);
+    }
 
     return (
         <div className="form-container auth-form">
@@ -118,13 +120,14 @@ const SignIn = (props: SignInProps) => {
 };
 
 const mapStateToProps = (state: any) => {
-        const {isAuthenticated, loginMessage, status} = state.user;
+        const {isAuthenticated, loginMessage, status, registerStep} = state.user;
         const {systemInfo} = state.main;
         return {
             isAuthenticated,
             message: loginMessage,
             systemInfo,
-            status
+            status,
+            registerStep
         }
     }
 ;
@@ -133,6 +136,7 @@ const mapDispatchToProps = {
     login: userActions.login,
     setPageTitle: mainActions.setPageTitle,
     setSystemInformation: mainActions.setSystemInformation,
+    changeRegisterStep: userActions.changeRegisterStep
 };
 
 export default connect(

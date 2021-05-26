@@ -52,4 +52,4 @@ interface RegisterStepThreeProps {
     id: string
 }
 
-export type {RegisterStepOneProps, RegisterStepTwoProps, RegisterStepThreeProps, RegistrationStepsProps};
+export type {RegisterStepOneProps, RegisterStepTwoProps, RegisterStepThreeProps, RegistrationStepsProps, RegistrationProps};
