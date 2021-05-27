@@ -40,7 +40,7 @@ const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
         <div className="auth-page-container">
             <Switch>
                 <Route exact path={["/", "/login"]} component={SignIn} />
-                <Route exact path="/registration" component={RegistrationSteps} />
+                <Route exact path="/register" component={RegistrationSteps} />
                 <Route exact path="/reset-password" component={ResetPassword} />
                 <Route exact path="/recovery-password/:token" component={RecoveryPassword} />
                 <Route exact path="/activation" component={ActivateAccount} />

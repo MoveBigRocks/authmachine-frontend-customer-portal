@@ -27,9 +27,17 @@ const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, stat
     };
 
     const inputChange = (e: React.FormEvent<HTMLInputElement>) => {
-        setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + e.currentTarget.value + code.substr(Number.parseInt(e.currentTarget.id) + 1))
-        form.setFieldsValue({code: code});
-        autoFocus(e);
+        if (e.currentTarget.value.length > 1) {
+            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + e.currentTarget.value[0] + code.substr(Number.parseInt(e.currentTarget.id) + 1));
+            form.setFieldsValue({code: code});
+        } else if (e.currentTarget.value.length === 0 || e.currentTarget.value <= '0' || e.currentTarget.value >= '9') {
+            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + ' ' + code.substr(Number.parseInt(e.currentTarget.id) + 1));
+            form.setFieldsValue({code: code});
+        } else {
+            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + e.currentTarget.value + code.substr(Number.parseInt(e.currentTarget.id) + 1));
+            form.setFieldsValue({code: code});
+            autoFocus(e);
+        }
     };
 
     const validate = (value: string) => {
@@ -49,18 +57,18 @@ const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, stat
                 <div className="form-title">Six digits code</div>
 
                 <Form.Item className="space-between">
-                    <Input id={"0"} type="number" autoFocus={true} size="large" className="digit-field" max={9} min={0}
-                           maxLength={1} onChange={inputChange}/>
-                    <Input id={"1"} type="number" size="large" className="digit-field" max={9} min={0} maxLength={1}
-                           onChange={inputChange}/>
-                    <Input id={"2"} type="number" size="large" className="digit-field" max={9} min={0} maxLength={1}
-                           onChange={inputChange}/>
-                    <Input id={"3"} type="number" size="large" className="digit-field" max={9} min={0} maxLength={1}
-                           onChange={inputChange}/>
-                    <Input id={"4"} type="number" size="large" className="digit-field" max={9} min={0} maxLength={1}
-                           onChange={inputChange}/>
-                    <Input id={"5"} type="number" size="large" className="digit-field" max={9} min={0} maxLength={1}
-                           onChange={inputChange}/>
+                    <Input id={"0"} type="number" autoFocus={true} size="large" className="digit-field"
+                           onChange={inputChange} value={code[0]}/>
+                    <Input id={"1"} type="number" size="large" className="digit-field" onChange={inputChange}
+                           value={code[1]}/>
+                    <Input id={"2"} type="number" size="large" className="digit-field" onChange={inputChange}
+                           value={code[2]}/>
+                    <Input id={"3"} type="number" size="large" className="digit-field" onChange={inputChange}
+                           value={code[3]}/>
+                    <Input id={"4"} type="number" size="large" className="digit-field" onChange={inputChange}
+                           value={code[4]}/>
+                    <Input id={"5"} type="number" size="large" className="digit-field" onChange={inputChange}
+                           value={code[5]}/>
                 </Form.Item>
 
                 <div className="form-context-q">
