@@ -13,6 +13,12 @@ code {
     monospace;
 }
 .auth-page-container {
-  background: url("./staticfiles/images/auth-background.jpg") no-repeat center center;
+  background: url("./staticfiles/images/auth-background.jpg") no-repeat;
   background-size: cover;
+}
+
+@media screen and (max-width: 550px) {
+  .auth-page-container {
+    background: url("./staticfiles/images/auth-background.jpg");
+  }
 }
