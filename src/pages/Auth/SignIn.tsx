@@ -62,6 +62,7 @@ const SignIn = (props: SignInProps) => {
         changeRegisterStep(0);
     }
 
+
     return (
         <div className="form-container auth-form">
             <div className="head-panel">
@@ -75,7 +76,7 @@ const SignIn = (props: SignInProps) => {
                 <div>
                     <div className="space-between sign-type-panel">
                         <Switcher link="/" active title="Sign In"/>
-                        <Switcher link="/registration" title="Register"/>
+                        <Switcher link="/register" title="Register"/>
                     </div>
                     <div style={{marginTop: '30px'}}>
                         <Form form={form} onFinish={onFinish} initialValues={{remember: false}}>
@@ -105,7 +106,7 @@ const SignIn = (props: SignInProps) => {
                                 <Button type="primary" size="large" htmlType="submit">Sign in</Button>
                             </Form.Item>
                             <div className="form-context-q">
-                                Don't have an Account? <Link to="/registration">Register</Link>
+                                Don't have an Account? <Link to="/register">Register</Link>
                             </div>
                         </Form>
                     </div>

@@ -499,7 +499,6 @@ const changeRegisterStep = (step: number) => {
         )
     }
 }
-
 const getFeaturesList = () => {
     const headers = authHeader();
 
@@ -761,4 +760,5 @@ export const userActions = {
     changeMessage,
     register,
     changeRegisterStep
+
 };
