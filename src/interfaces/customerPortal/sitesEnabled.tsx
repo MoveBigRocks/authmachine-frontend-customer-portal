@@ -9,5 +9,6 @@ export interface SiteItemProps {
         id: number,
         name: string,
         siteUrl: string,
+        loginUrl: string | null,
     }
 }

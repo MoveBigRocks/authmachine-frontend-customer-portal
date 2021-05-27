@@ -8,6 +8,8 @@ export type eventState = {
     events: EventInterface[],
     total: number,
     dateRange: any[],
+    eventsAvailable: boolean,
+    notAvailableReason: string,
 }
 
 const initialState: eventState = {
@@ -17,6 +19,8 @@ const initialState: eventState = {
     events: [],
     eventType: "all",
     dateRange: [],
+    eventsAvailable: false,
+    notAvailableReason: "",
 }
 
 type ActionType = {
@@ -26,7 +30,9 @@ type ActionType = {
     page?: number,
     pageSize?: number,
     eventType?: string,
-    dateRange?: any[]
+    dateRange?: any[],
+    eventsAvailable: boolean,
+    notAvailableReason: string,
 }
 
 const eventReducer = (state = initialState, action: ActionType) => {
@@ -40,7 +46,14 @@ const eventReducer = (state = initialState, action: ActionType) => {
                 pageSize: action.pageSize,
                 eventType: action.eventType,
                 dateRange: action.dateRange,
+                eventsAvailable: true
             };
+        case eventTypes.EVENTS_NOT_AVAILABLE:
+            return {
+                ...state,
+                eventsAvailable: false,
+                notAvailableReason: action.notAvailableReason,
+            }
         default:
             return state;
     }

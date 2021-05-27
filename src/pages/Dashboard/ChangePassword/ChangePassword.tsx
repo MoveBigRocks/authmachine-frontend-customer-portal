@@ -59,7 +59,7 @@ const ChangePassword = ({setPageTitle, changePassword, status}: ChangePasswordPr
                                            onChange={e => setNewPass(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Confirm Password" name="confirmPassword"
-                                   dependencies={['newPassword']}
+                                   dependencies={["newPassword"]}
                                    hasFeedback
                                    rules={[
                                        {
@@ -68,10 +68,10 @@ const ChangePassword = ({setPageTitle, changePassword, status}: ChangePasswordPr
                                        },
                                        ({ getFieldValue }) => ({
                                             validator(_, value) {
-                                                if (!value || getFieldValue('newPassword') === value) {
+                                                if (!value || getFieldValue("newPassword") === value) {
                                                     return Promise.resolve();
                                                 }
-                                                return Promise.reject('The two passwords that you entered do not match!');
+                                                return Promise.reject("The two passwords that you entered do not match!");
                                             },
                                        }),
                                    ]}>

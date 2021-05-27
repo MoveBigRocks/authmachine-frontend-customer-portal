@@ -1,15 +1,15 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Switch, Route, Link, Redirect} from "react-router-dom";
-import {history} from "../../redux/helpers/history";
 import Error404 from "../../pages/Error404";
 import {Avatar, Button, Divider, Layout, Menu, Spin} from "antd";
 import logoSm from "../../staticfiles/images/logo-sm.png";
+import Logo from "../../staticfiles/images/logo.png"
 import {
     BorderOutlined,
     HistoryOutlined, KeyOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
-    MenuUnfoldOutlined, ReloadOutlined,
+    MenuUnfoldOutlined,
     UserOutlined,
     DeploymentUnitOutlined,
     SplitCellsOutlined,
@@ -25,10 +25,12 @@ import {userActions} from "../../redux/actions/userActions";
 import {connect} from "react-redux";
 import {CustomerPortalProps} from "../../interfaces/customerPortal/customerPortal";
 import helpers from "../../helpers";
-import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
+// import PermissionDelegation from "../../pages/Dashboard/PermissionDelegation/PermissionDelegation";
 import {mainActions} from "../../redux/actions/mainActions";
 import LoginOptions from "../../pages/Dashboard/LoginOptions/LoginOptions";
 import './CustomerPortal.scss';
+import {useHistory} from "react-router";
+import {configEnv} from "../../config";
 
 const {Header, Sider, Content} = Layout;
 
@@ -53,7 +55,9 @@ const CustomerPortal = ({
                             isSuperuser,
                             username,
                             logout,
+                            usersExists,
                         }: CustomerPortalProps) => {
+    const history = useHistory();
     const [collapsed, setCollapsed] = useState(false);
     const [selectedMenuItems, setSelectedMenuItems] = useState(['sites']);
     const [isMobileSize, setIsMobileSize] = useState(false);
@@ -66,15 +70,12 @@ const CustomerPortal = ({
         setMenuInitialState();
 
         checkMobileSize();
-        window.addEventListener('resize', () => {
-            checkMobileSize();
-        });
+        window.addEventListener('resize', () => checkMobileSize());
 
         return () => {
-            window.removeEventListener('resize', () => {
-                checkMobileSize();
-            });
+            window.removeEventListener('resize', () => checkMobileSize());
         }
+    // eslint-disable-next-line
     }, [isAuthenticated, getFeaturesList]);
 
     const checkMobileSize = () => {
@@ -114,9 +115,15 @@ const CustomerPortal = ({
     }
 
     if (!isAuthenticated) {
-        setPageLink(history.location.pathname);
+        setPageLink(username !== "" ? "/" : history.location.pathname);
         return <Redirect to="/"/>
     }
+
+    if (!usersExists) {
+        return <Redirect to="/new-admin-user" />
+    }
+
+    const showErrorPage = Object.keys(pageLinks).map((key: string) => pageLinks[key]).includes(history.location.pathname);
 
     return (
         <div className="customer-portal">
@@ -124,8 +131,9 @@ const CustomerPortal = ({
                 <Layout>
                     <Header className="bg-white logo-header" style={{width: "100%"}}>
                         <div style={{width: collapsed ? 55 : 225}} className="d-flex-center">
-                            <img src={logoSm} alt="logo-img"/>
-                            {!collapsed && <div className="logo-text f-bold">AuthMachine</div>}
+                            {collapsed
+                              ? <img src={logoSm} className="small-logo" alt="logo-img" />
+                              : <img src={Logo} className="full-logo" alt="logo" />}
                         </div>
                         <div className="mobile-hide">
                             {
@@ -182,16 +190,18 @@ const CustomerPortal = ({
                                 <Menu.Item key="change-password" icon={<KeyOutlined/>}>
                                     <Link to={pageLinks.changePassword}>Change Password</Link>
                                 </Menu.Item>
-                                <Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>
-                                    <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>
-                                </Menu.Item>
-                                <Menu.Item key="admin-portal" icon={<DesktopOutlined />}
+                                {/*<Menu.Item key="permission-delegation" icon={<ReloadOutlined/>}>*/}
+                                {/*    <Link to={pageLinks.permissionDelegation}>Permission Delegation</Link>*/}
+                                {/*</Menu.Item>*/}
+                                <Menu.Item key="admin-console" icon={<DesktopOutlined />}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:4000" : "/admin-portal"} rel="noreferrer">Admin Portal</a>
+                                    <a href={configEnv.adminConsoleUrl}
+                                       rel="noreferrer">Admin Console</a>
                                 </Menu.Item>
-                                <Menu.Item key="admin-portal-deprecated" icon={<DeploymentUnitOutlined/>}
+                                <Menu.Item key="admin-console-deprecated" icon={<DeploymentUnitOutlined/>}
                                            disabled={!isSuperuser}>
-                                    <a href={process.env.NODE_ENV === "development" ? "http://localhost:3000" : "/admin/dashboard"} rel="noreferrer">Admin Portal Deprecated</a>
+                                    <a href={configEnv.adminConsoleDeprecated}
+                                       rel="noreferrer">Admin Console Deprecated</a>
                                 </Menu.Item>
                                 {
                                     isMobileSize &&
@@ -204,15 +214,16 @@ const CustomerPortal = ({
                         </Sider>
                         <Content className="bg-white site-layout" style={{minHeight: 280}}>
                             <Switch>
-                                <Route exact path={pageLinks.sites} component={SitesEnabled}/>
-                                <Route path={pageLinks.profile} component={MyProfile}/>
-                                <Route path={pageLinks.profileEdit} component={MyProfileEdit}/>
-                                {eventsExists && <Route path={pageLinks.activity} component={RecentActivity}/>}
-                                <Route path={pageLinks.changePassword} component={ChangePassword}/>
-                                <Route path={pageLinks.loginOptions} component={LoginOptions}/>
-                                <Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>
+                                <Route exact path={[pageLinks.sites, `/${pageLinks.sites}`]} component={SitesEnabled}/>
+                                <Route path={[pageLinks.profile, `/${pageLinks.profile}`]} component={MyProfile}/>
+                                <Route path={[pageLinks.profileEdit, `/${pageLinks.profileEdit}`]} component={MyProfileEdit}/>
+                                {eventsExists && <Route path={[pageLinks.activity, `/${pageLinks.activity}`]} component={RecentActivity}/>}
+                                <Route path={[pageLinks.changePassword, `/${pageLinks.changePassword}`]} component={ChangePassword}/>
+                                <Route path={[pageLinks.loginOptions, `/${pageLinks.loginOptions}`]} component={LoginOptions}/>
 
-                                <Route path="**" exact={true} component={Error404}/>
+                                {/*<Route path={pageLinks.permissionDelegation} component={PermissionDelegation}/>*/}
+
+                                {!showErrorPage && <Route path="**" component={Error404} />}
                             </Switch>
                         </Content>
                     </Layout>
@@ -224,7 +235,7 @@ const CustomerPortal = ({
 
 
 const mapStateToProps = (state: RootState) => {
-    const {username, isAuthenticated, eventsExists, isSuperUser} = state.user;
+    const {username, isAuthenticated, eventsExists, isSuperUser, usersExists} = state.user;
     return {
         username,
         user: state.user,
@@ -232,6 +243,7 @@ const mapStateToProps = (state: RootState) => {
         isAuthenticated,
         eventsExists,
         isSuperuser: isSuperUser,
+        usersExists,
     }
 };
 

@@ -8,4 +8,10 @@ export interface ActivateFinishProps {
         }
     },
     setPageTitle: (pageTitle: string) => void,
+    setSystemInformation: (info: {
+        show: boolean,
+        title: string,
+        description: string,
+        success: boolean,
+    }) => void,
 }

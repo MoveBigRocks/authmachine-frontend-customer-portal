@@ -41,10 +41,12 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
             const username = this.getUserProperty("username");
             const email = this.getUserPrimaryEmail();
             const nickName = this.getUserProperty("nickName");
+            const fullName = this.getUserProperty("fullName");
             this.formRef.current.setFieldsValue({
                 username,
                 email,
                 nickName,
+                fullName,
             });
         }
     }
@@ -358,6 +360,10 @@ class MyProfileEdit extends React.Component<MyProfileEditProps, MyProfileEditSta
                         <Input placeholder="Enter username"
                                name="username"
                                onChange={(e) => this.updateUserProperty(e, "username")}/>
+                    </Form.Item>
+                    <Form.Item label="Full Name" name="fullName">
+                        <Input placeholder="Enter full name"
+                               onChange={(e) => this.updateUserProperty(e, "fullName")}/>
                     </Form.Item>
                     <Form.Item label="Nick Name" name="nickName">
                         <Input placeholder="Enter nick name"
