@@ -22,5 +22,7 @@ export interface SignInProps {
         description: string,
         success: boolean,
     }) => void,
-    status: boolean
+    status: boolean,
+    registerStep: number,
+    changeRegisterStep: (step: number) => void
 }
