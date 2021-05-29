@@ -42,7 +42,7 @@ jobs:
         run: echo "${{ secrets.PRODUCTION_UPDATER_SSH_KEY }}" > /tmp/ssh-key && chmod 600 /tmp/ssh-key
 
       - name: upload the dist
-        run: scp -i /tmp/ssh-key -o "StrictHostKeyChecking=no" $GITHUB_WORKSPACE/authmachine-frontend-customer-portal.tar.bz2 production-updater@vanhalen.openunited.com:/
+        run: scp -i /tmp/ssh-key -o "StrictHostKeyChecking=no" $GITHUB_WORKSPACE/authmachine-frontend-customer-portal.tar.bz2 production-updater@vanhalen.openunited.com:/home/production-updater/
 
       - name: trigger deploy
         run: ssh -i /tmp/ssh-key -o "StrictHostKeyChecking=no" production-updater@vanhalen.openunited.com /home/production-updater/update-authmachine-frontend-customer-portal.sh
