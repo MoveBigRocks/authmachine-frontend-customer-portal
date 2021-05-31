@@ -95,31 +95,28 @@ const helpers = {
         return word.charAt(0).toUpperCase() + word.slice(1)
     },
     getPagePath: (path: string, pagePath: string) => `${path}/${pagePath}`,
+    getSocialBtnClasses: (name: string) => {
+      const classes = {
+          github: "github-auth",
+          google: "google-auth"
+      };
+      return classes[name];
+    },
     getIconByProvider: (name: string) => {
-        switch (name) {
-            case 'amazon':
-                return Amazon
-            case 'facebook':
-                return Facebook
-            case 'github':
-                return Github
-            case 'google':
-                return Google
-            case 'linkedin':
-                return LinkedIn
-            case 'oauth':
-                return OAuth
-            case 'openid':
-                return OpenId
-            case 'paypal':
-                return Paypal
-            case 'salesforce':
-                return SalesForce
-            case 'twitter':
-                return Twitter
-            case 'windowslive':
-                return WindowsLive
-        }
+        const icons = {
+            amazon: Amazon,
+            facebook: Facebook,
+            github: Github,
+            google: Google,
+            linkedin: LinkedIn,
+            oauth: OAuth,
+            openid: OpenId,
+            paypal: Paypal,
+            salesforce: SalesForce,
+            twitter: Twitter,
+            windowslive: WindowsLive
+        };
+        return icons[name];
     },
     setValueInLocalStorage: (key: string, value: string) => localStorage.setItem(key, value),
     getValueFromLocalStorage: (value: string) => localStorage.getItem(value),

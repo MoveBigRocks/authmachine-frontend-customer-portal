@@ -1,0 +1,40 @@
+.success {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #00B400;
+  background-color: #DBFFDB;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.info {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #1890ff;
+  background-color: #e6f7ff;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.warning {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #F5222D;
+  background-color: rgba(245, 34, 45, .08);
+  text-align: center;
+  margin: 30px 0;
+
+}
+
+.error {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #F5222D;
+  background-color: rgba(245, 34, 45, .08);
+  margin: 30px 0;
+
+  svg {
+    margin-right: 14px;
+    margin-top: 4px;
+  }
+}

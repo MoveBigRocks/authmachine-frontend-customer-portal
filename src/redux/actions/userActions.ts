@@ -96,15 +96,14 @@ const logout = () => {
     }
 };
 
-const login = (values: {username: string, password: string, remember: boolean, policies: string[]}, nextUrl: null | string = null) => {
-    const {username, password, remember, policies} = values;
+const login = (values: { username: string, password: string, remember: boolean }, nextUrl: null | string = null) => {
+    const {username, password, remember} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           login(input: {
             username: "${username}",
             password: "${password}",
             rememberMe: ${remember},
-            policies: [${policies.map(p => `"${p}"`)}]
           }) {
             success, message
           }
@@ -142,49 +141,125 @@ const login = (values: {username: string, password: string, remember: boolean, p
     }
 };
 
-const register = (values: {
-    username: string,
+const registerStepOne = (values: {
+    firstName: string,
     email: string,
-    fullName: string,
-    password: string,
     additionalRegistrationData?: any,
 }) => {
-    const {username, email, fullName, password, additionalRegistrationData} = values;
+    const {firstName, email, additionalRegistrationData} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
-          register(input: {
-            username: "${username ? username : fullName}",
+          registerStepOne(input: {
+            firstName: "${firstName}",
             email: "${email}",
-            fullName: "${fullName}",
-            password: "${password ? password : ""}"
             ${additionalRegistrationData ? `additionalRegistrationData: ${JSON.stringify(JSON.stringify(additionalRegistrationData))}` : ""}
           }) {
-            success, message
+            success, message, userId
           }
         }`;
 
-        const setRegister = (status: boolean, message: string = "") =>
+        const setRegisterStepOne = (status: boolean, message: string, userId: string) =>
             dispatch({
-                type: userTypes.USER_REGISTER,
+                type: userTypes.REGISTER_STEP_ONE,
                 status,
-                message
+                message: status ? "" : message,
+                id: userId,
+                registerStep: status ? 1 : 0
             });
 
         request.postWithoutErrors(
             dispatch,
             query,
             (result: any) => {
-                let {success, message} = result.data.register;
-                setRegister(success, message);
+                let {success, message, userId} = result.data.registerStepOne;
+                setRegisterStepOne(success, message, userId);
             },
             (error: any) => {
                 error = request.isServerError(error);
-                setRegister(false, error);
+                setRegisterStepOne(false, error, '');
             });
     }
 };
 
-const resetPassword = (values: {username: string}) => {
+const registerStepTwo = (values: {
+    id: string
+    activationCode: string
+}) => {
+    const {id, activationCode} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          registerStepTwo(input: {
+            id: "${id}",
+            activationCode: "${activationCode}",
+          }) {
+            success, message, userId
+          }
+        }`;
+
+        const setRegisterStepTwo = (status: boolean, message: string, userId: string) =>
+            dispatch({
+                type: userTypes.REGISTER_STEP_TWO,
+                status,
+                message: status ? "" : message,
+                id: userId,
+                registerStep: status ? 2 : 1
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message, userId} = result.data.registerStepTwo;
+                setRegisterStepTwo(success, message, userId);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setRegisterStepTwo(false, error, '');
+            });
+    }
+};
+
+const registerStepThree = (values: {
+    userId: string
+    username: string
+    password: string,
+}) => {
+    const {username, password, userId} = values;
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          registerStepThree(input: {
+          
+            username: "${username}",
+            password: "${password}",
+            id: "${userId}",
+          }) {
+            success, message
+          }
+        }`;
+
+        const setRegisterStepThree = (status: boolean, message: string) =>
+            dispatch({
+                type: userTypes.REGISTER_STEP_THREE,
+                status,
+                message: status ? "" : message,
+                registerStep: status ? 3 : 2
+            });
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success, message} = result.data.registerStepThree;
+                setRegisterStepThree(success, message);
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                setRegisterStepThree(false, error);
+            });
+    }
+};
+
+const resetPassword = (values: { username: string }) => {
     const {username} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
@@ -354,12 +429,34 @@ const finishActivation = (token: string) => {
 }
 
 const authSuccess = () => {
-  return typedAction(userTypes.USER_AUTH_SUCCESS);
+    return typedAction(userTypes.USER_AUTH_SUCCESS);
 };
 
 const authFailure = () => {
-  return typedAction(userTypes.USER_AUTH_FAILURE);
+    return typedAction(userTypes.USER_AUTH_FAILURE);
 };
+
+const changeMessage = (message: string) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(
+            {
+                type: userTypes.CHANGE_MESSAGE,
+                message
+            });
+    }
+}
+
+const changeStep = (step: number, message: string) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(
+            {
+                type: userTypes.CHANGE_STEP,
+                registerStep: step,
+                registerMessage: message
+            }
+        );
+    }
+}
 
 const getFeaturesList = () => {
     const headers = authHeader();
@@ -428,14 +525,14 @@ const socialCallback = (provider: string, queryString: string, nextUrl: string |
                 let {success, message} = result.data.socialCallback;
 
                 if (success) {
-                  if (nextUrl !== null) {
-                    localStorage.removeItem("nextUrl");
-                    localStorage.setItem("redirectFromProvider", "1");
-                    window.location.replace(nextUrl);
-                  } else {
-                    // @ts-ignore
-                    dispatch(userActions.auth());
-                  }
+                    if (nextUrl !== null) {
+                        localStorage.removeItem("nextUrl");
+                        localStorage.setItem("redirectFromProvider", "1");
+                        window.location.replace(nextUrl);
+                    } else {
+                        // @ts-ignore
+                        dispatch(userActions.auth());
+                    }
                 }
 
                 setSocialCallbackStatus(success, success ? "" : message);
@@ -501,7 +598,8 @@ const getSocialLink = (provider: string, connectionType: string = "login") => {
                     message
                 });
             },
-            () => {});
+            () => {
+            });
     }
 }
 
@@ -515,7 +613,7 @@ const activateLicense = (values: { activationCode: string }) => {
           }
         }`;
 
-        const setActivationStatus = (infoStatus: {status: boolean, message: string}) =>
+        const setActivationStatus = (infoStatus: { status: boolean, message: string }) =>
             dispatch({
                 type: userTypes.ACTIVATE_LICENSE,
                 infoStatus
@@ -549,7 +647,7 @@ const requestNewLicense = (values: newLicenseValues) => {
           }
         }`;
 
-        const setStatus = (infoStatus: {status: boolean, message: string}) =>
+        const setStatus = (infoStatus: { status: boolean, message: string }) =>
             dispatch({
                 type: userTypes.NEW_LICENSE,
                 infoStatus
@@ -572,7 +670,7 @@ const requestNewLicense = (values: newLicenseValues) => {
 const createAdminUser = (values: createAdminUserValues) => {
     return (dispatch: AppDispatch) => {
 
-        const setStatus = (infoStatus: {success: boolean, message: string}) =>
+        const setStatus = (infoStatus: { success: boolean, message: string }) =>
             dispatch({
                 type: userTypes.CREATE_ADMIN_USER,
                 infoStatus
@@ -599,7 +697,9 @@ const createAdminUser = (values: createAdminUserValues) => {
 export const userActions = {
     auth,
     login,
-    register,
+    registerStepOne,
+    registerStepTwo,
+    registerStepThree,
     authSuccess,
     authFailure,
     getFeaturesList,
@@ -616,4 +716,6 @@ export const userActions = {
     activateLicense,
     requestNewLicense,
     createAdminUser,
+    changeMessage,
+    changeStep
 };

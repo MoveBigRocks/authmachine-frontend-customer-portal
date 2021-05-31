@@ -1,0 +1,22 @@
+.sign-link {
+  font-size: 24px;
+  color: #8C8C8C;
+  border-bottom: 2px solid #ffffff;
+  line-height: 29px;
+  letter-spacing: 0.03em;
+
+  &:active {
+    color: #1890FF;
+    font-weight: 600;
+    border-bottom: 2px solid #1890ff;
+  }
+}
+
+.active {
+  line-height: 29px;
+  font-size: 24px;
+  color: #1890FF;
+  font-weight: 600;
+  border-bottom: 2px solid #1890ff;
+  letter-spacing: 0.03em;
+}

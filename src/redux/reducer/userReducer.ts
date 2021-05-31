@@ -17,6 +17,7 @@ type UserState = {
     policies: any[],
     eventsExists: boolean,
     message: string,
+    registerStep: number,
     registerMessage: string,
     loginMessage: string,
     activateMessage: string,
@@ -29,6 +30,7 @@ type UserState = {
     newLicenseData: infoStatusResponse,
     activateLicenseData: infoStatusResponse,
     createAdminUserData: infoStatusResponse,
+    userId: string
 }
 
 const initialState: UserState = {
@@ -42,6 +44,7 @@ const initialState: UserState = {
     policies: [],
     eventsExists: false,
     message: "",
+    registerStep: 0,
     registerMessage: "",
     loginMessage: "",
     activateMessage: "",
@@ -53,11 +56,15 @@ const initialState: UserState = {
     newLicenseData: emptyMessage,
     activateLicenseData: emptyMessage,
     createAdminUserData: emptyMessage,
+    userId: ""
 }
 
 type ActionType = {
     type: string,
     user: { username: string, id: number, avatar: string, isSuperuser: boolean },
+    registerStep?: number,
+    registerMessage?: string,
+    id?: string
     isAuthenticated?: boolean,
     data: any[],
     status: boolean,
@@ -169,6 +176,37 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 usersExists: action.status
+            }
+        case userTypes.REGISTER_STEP_ONE:
+            return {
+                ...state,
+                id: action.id,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.REGISTER_STEP_TWO:
+            return {
+                ...state,
+                id: action.id,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.REGISTER_STEP_THREE:
+            return {
+                ...state,
+                registerMessage: action.message,
+                registerStep: action.registerStep
+            }
+        case userTypes.CHANGE_MESSAGE:
+            return {
+                ...state,
+                registerMessage: action.message,
+            }
+        case userTypes.CHANGE_STEP:
+            return {
+                ...state,
+                registerStep: action.registerStep,
+                registerMessage: action.registerMessage
             }
         default:
             return state;
