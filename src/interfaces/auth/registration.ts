@@ -36,7 +36,8 @@ interface RegisterStepTwoProps {
     isRegister: boolean,
     message: string,
     id: string,
-    changeMessage: (message: string) => void
+    changeMessage: (message: string) => void,
+    changeStep: (step: number, message: string) => void
 }
 
 interface RegisterStepThreeProps {

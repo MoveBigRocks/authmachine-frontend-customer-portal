@@ -447,6 +447,18 @@ const changeMessage = (message: string) => {
     }
 }
 
+const changeStep = (step: number, message: string) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(
+            {
+                type: userTypes.CHANGE_STEP,
+                registerStep: step,
+                registerMessage: message
+            }
+        );
+    }
+}
+
 const getFeaturesList = () => {
     const headers = authHeader();
 
@@ -706,4 +718,5 @@ export const userActions = {
     requestNewLicense,
     createAdminUser,
     changeMessage,
+    changeStep
 };

@@ -26,6 +26,7 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
     }
 
     const getStepForm = (step: number) => {
+        console.log(step);
         return stepForms[step];
     }
 

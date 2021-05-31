@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Form, Input} from "antd";
 import {Button} from "antd";
 import MessageLabel from "../MessageLabel/MessageLabel";
@@ -8,13 +8,20 @@ import {userActions} from "../../../redux/actions/userActions";
 import {RegisterStepTwoProps} from "../../../interfaces/auth/registration";
 
 
-const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, status}: RegisterStepTwoProps) => {
+const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, status, changeStep}: RegisterStepTwoProps) => {
     const [form] = Form.useForm();
     const [code, setCode] = useState('      ');
+    const [attempt, setAttempt] = useState(0);
 
     const onFinish = () => {
         if (validate(code)) {
             register({activationCode: code, id});
+            if (!status) {
+                if (attempt < 1) setAttempt(attempt + 1);
+                else {
+                    setTimeout(() => changeStep(0, "You've entered wrong verification code twice. Please try a new verification code."), 1000);
+                }
+            }
         } else {
             changeMessage("Activation code is incorrect!");
         }
@@ -28,17 +35,19 @@ const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, stat
 
     const inputChange = (e: React.FormEvent<HTMLInputElement>) => {
         if (e.currentTarget.value.length > 1) {
-            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + e.currentTarget.value[0] + code.substr(Number.parseInt(e.currentTarget.id) + 1));
-            form.setFieldsValue({code: code});
-        } else if (e.currentTarget.value.length === 0 || e.currentTarget.value <= '0' || e.currentTarget.value >= '9') {
-            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + ' ' + code.substr(Number.parseInt(e.currentTarget.id) + 1));
-            form.setFieldsValue({code: code});
+            changeCode(e.currentTarget.value[0], e.currentTarget.id);
+        } else if (e.currentTarget.value.length === 0 || e.currentTarget.value < '0' || e.currentTarget.value > '9') {
+            changeCode(' ', e.currentTarget.id);
         } else {
-            setCode(code.substr(0, Number.parseInt(e.currentTarget.id)) + e.currentTarget.value + code.substr(Number.parseInt(e.currentTarget.id) + 1));
-            form.setFieldsValue({code: code});
+            changeCode(e.currentTarget.value, e.currentTarget.id);
             autoFocus(e);
         }
     };
+
+    const changeCode = (value: string, id: string) => {
+        setCode(code.substr(0, Number.parseInt(id)) + value + code.substr(Number.parseInt(id) + 1));
+        form.setFieldsValue({code: code});
+    }
 
     const validate = (value: string) => {
         return value.length === 6 && Number.parseInt(value);
@@ -96,7 +105,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
     register: userActions.registerStepTwo,
-    changeMessage: userActions.changeMessage
+    changeMessage: userActions.changeMessage,
+    changeStep: userActions.changeStep
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterStepTwo);
