@@ -45,7 +45,7 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
                 <div>
                     <div className="space-between sign-type-panel">
                         <Switcher link="/" active title="Sign In"/>
-                        <Switcher link="/registration" title="Register"/>
+                        <Switcher link="/register" title="Register"/>
                     </div>
                     <div style={{marginTop: '30px'}}>
                         <Form form={form} onFinish={onFinish}>

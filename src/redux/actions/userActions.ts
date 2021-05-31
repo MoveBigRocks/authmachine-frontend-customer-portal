@@ -9,7 +9,6 @@ import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
 import {newLicenseValues} from "../../interfaces/auth/newLicense";
 import {createAdminUserValues} from "../../interfaces/auth/createAdminUser";
-import {message} from "antd";
 
 
 const auth = () => {

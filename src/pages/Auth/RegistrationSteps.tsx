@@ -16,7 +16,7 @@ import RegisterSuccess from "../../components/Auth/RegistrationSteps/RegisterSuc
 
 const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
 
-    useEffect(() => setPageTitle("Registration"), [setPageTitle]);
+    useEffect(() => setPageTitle("Register"), [setPageTitle]);
 
     const stepForms = {
         0: <RegisterStepOne/>,
@@ -43,7 +43,7 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
                 <div>
                     <div className="space-between sign-type-panel">
                         <Switcher link="/" title="Sign In"/>
-                        <Switcher link="/registration" active title="Register"/>
+                        <Switcher link="/register" active title="Register"/>
                     </div>
                     <StepWidget first={step === 1 || step === 2 || step === 3} second={step === 2 || step === 3} third={step === 3}/>
                     <div style={{marginTop: '30px'}}>

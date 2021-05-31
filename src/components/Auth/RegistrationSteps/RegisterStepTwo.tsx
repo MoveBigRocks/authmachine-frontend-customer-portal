@@ -18,9 +18,7 @@ const RegisterStepTwo = ({id, register, isRegister, message, changeMessage, stat
             register({activationCode: code, id});
             if (!status) {
                 if (attempt < 1) setAttempt(attempt + 1);
-                else {
-                    setTimeout(() => changeStep(0, "You've entered wrong verification code twice. Please try a new verification code."), 1000);
-                }
+                else setTimeout(() => changeStep(0, "You've entered wrong verification code twice. Please try a new verification code."), 1000);
             }
         } else {
             changeMessage("Activation code is incorrect!");

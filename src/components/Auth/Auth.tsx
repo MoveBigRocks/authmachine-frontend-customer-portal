@@ -17,7 +17,7 @@ import CreateAdminUser from "../../pages/Auth/CreateAdminUser";
 import {landingPagesRouter} from "../../landing-pages-router";
 import RegistrationSteps from "../../pages/Auth/RegistrationSteps";
 
-const onlyNotAuthLinks = ["/", "/registration", "/login"];
+const onlyNotAuthLinks = ["/", "/register", "/login"];
 
 
 const Auth = ({isAuthenticated, initialLink, usersExists}: AuthProps) => {
