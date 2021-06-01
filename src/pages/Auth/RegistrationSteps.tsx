@@ -26,7 +26,6 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
     }
 
     const getStepForm = (step: number) => {
-        console.log(step);
         return stepForms[step];
     }
 
@@ -45,7 +44,7 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
                         <Switcher link="/" title="Sign In"/>
                         <Switcher link="/register" active title="Register"/>
                     </div>
-                    <StepWidget first={step === 1 || step === 2 || step === 3} second={step === 2 || step === 3} third={step === 3}/>
+                    <StepWidget step={step} first={step === 1 || step === 2 || step === 3} second={step === 2 || step === 3} third={step === 3}/>
                     <div style={{marginTop: '30px'}}>
                         {getStepForm(step)}
                     </div>

@@ -15,8 +15,8 @@
 //
 //    .step {
 //      .bullet {
-//        height: 32px;
-//        width: 32px;
+//        height: 39px;
+//        width: 39px;
 //        border: 1px solid #bfbfbf;
 //        display: inline-block;
 //        border-radius: 50%;
@@ -136,13 +136,18 @@
   position: relative;
   padding: 0 20px;
 
-  .grey-line {
+  .register-line {
     height: 2px;
-    background: #f5f5f5;
     width: 100%;
     margin: 0 15px;
     position: relative;
     top: 15px;
+  }
+  .grey-line {
+    background: #f5f5f5;
+  }
+  .blue-line {
+    background: #1890ff;
   }
 
   .step-wrapper {
@@ -151,8 +156,8 @@
     align-items: center;
 
     .full-blue-border-wrapper {
-      height: 32px;
-      width: 32px;
+      height: 39px;
+      width: 39px;
       border-radius: 50%;
       border: 2px solid #1890ff;
       position: relative;
@@ -169,38 +174,43 @@
     }
 
     .grey-border-wrapper {
-      height: 32px;
-      width: 32px;
+      height: 39px;
+      width: 39px;
       border-radius: 50%;
       border: 2px solid #bfbfbf;
       position: relative;
 
-      .blue-border-wrapper {
+      .border-wrapper {
         position: absolute;
-        height: 32px;
-        width: 32px;
+        height: 39px;
+        width: 39px;
         top: -2px;
         left: -2px;
         border-radius: 50%;
-        border-top: 2px solid #1890ff;
         border-left: 2px solid transparent;
+        transform: rotate(34deg);
+      }
+      .blue-border-wrapper {
+        border-top: 2px solid #1890ff;
         border-right: 2px solid #1890ff;
         border-bottom: 2px solid #1890ff;
-        transform: rotate(34deg);
       }
 
       .content-wrapper {
         position: absolute;
-        height: 25px;
-        width: 25px;
+        height: 32px;
+        width: 32px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #1890ff;
+        color: #bfbfbf;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .content-wrapper-blue {
+        background: #1890ff;
         color: white;
       }
     }
@@ -212,6 +222,9 @@
       top: 100%;
       text-align: center;
       font-size: 12px;
+      color: #bfbfbf;
+    }
+    .step-description-blue {
       color: #1890FF;
     }
 
