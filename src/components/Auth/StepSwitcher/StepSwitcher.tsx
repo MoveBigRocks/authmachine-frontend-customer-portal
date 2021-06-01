@@ -1,6 +1,6 @@
 import React from "react";
 import "./StepSwitcher.scss"
-import StepSwitcherProps from "../../../interfaces/auth/stepWidget";
+import {StepSwitcherProps, StepProps} from "../../../interfaces/auth/stepWidget";
 
 const doneIcon = () => {
     return (
@@ -12,30 +12,30 @@ const doneIcon = () => {
     )
 }
 
-function StepTemplate({step,description, valid}: any){
+function StepTemplate({step, description, valid, current}: StepProps) {
     return <div className="step-wrapper">
         {valid ? (
-            <div className="full-blue-border-wrapper"/>
-        ) :( <div className="grey-border-wrapper">
-                <div className="blue-border-wrapper"/>
-                <div className="content-wrapper">{step}</div>
-            </div>)
-          }
-        <div className="step-description">{description}</div>
+            <div className={"full-blue-border-wrapper"}/>
+        ) : (<div className="grey-border-wrapper">
+            <div className={current ? "border-wrapper blue-border-wrapper" : "border-wrapper"}/>
+            <div className={current ? "content-wrapper content-wrapper-blue" : "content-wrapper"}>{step}</div>
+        </div>)
+        }
+        <div className={current ? "step-description step-description-blue" : "step-description"}>{description}</div>
     </div>
 }
 
-const StepWidget = ({first, second, third}: StepSwitcherProps) => {
+const StepWidget = ({first, second, third, step}: StepSwitcherProps) => {
+    console.log(step);
     return (
         <div className="container">
-
             <div className="steps-bar-wrapper">
                 <div className="steps-content-wrapper">
-                    <StepTemplate step='1' description='Name & Email' valid={first}/>
-                    <div className="grey-line"/>
-                    <StepTemplate step='2' description='Email Verification' valid={second}/>
-                    <div className="grey-line"/>
-                    <StepTemplate step='3' description='Username & Password' valid={third}/>
+                    <StepTemplate step={1} description='Name & Email' current={step === 0} valid={first}/>
+                    <div className={step > 0 ? "register-line blue-line" : "register-line grey-line"}/>
+                    <StepTemplate step={2} description='Email Verification' current={step === 1} valid={second}/>
+                    <div className={step > 1 ? "register-line blue-line" : "register-line grey-line"}/>
+                    <StepTemplate step={3} description='Username & Password' current={step === 2} valid={third}/>
                 </div>
             </div>
         </div>

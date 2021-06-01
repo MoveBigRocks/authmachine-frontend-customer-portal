@@ -87,7 +87,7 @@ const RegisterStepThree = ({register, isRegister, message, changeMessage, id, st
 
             <PrivacyPolicies form={form} formType="activation"/>
 
-            <Form.Item style={{marginBottom: 0}}>
+            <Form.Item style={{marginBottom: 20}}>
                 <Button type="primary" size="large" htmlType="submit">Submit</Button>
             </Form.Item>
             <div className="form-context-q">
