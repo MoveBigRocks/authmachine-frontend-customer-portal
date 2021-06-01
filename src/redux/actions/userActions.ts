@@ -9,7 +9,6 @@ import {alertActions} from "./alertActions";
 import {usersActions} from "./usersActions";
 import {newLicenseValues} from "../../interfaces/auth/newLicense";
 import {createAdminUserValues} from "../../interfaces/auth/createAdminUser";
-import {message} from "antd";
 
 
 const auth = () => {
@@ -489,16 +488,18 @@ const changeMessage = (message: string) => {
     }
 }
 
-const changeRegisterStep = (step: number) => {
+const changeStep = (step: number, message: string) => {
     return (dispatch: AppDispatch) => {
         dispatch(
             {
-                type: userTypes.CHANGE_REGISTER_STEP,
-                step
+                type: userTypes.CHANGE_STEP,
+                registerStep: step,
+                registerMessage: message
             }
-        )
+        );
     }
 }
+
 const getFeaturesList = () => {
     const headers = authHeader();
 
@@ -758,7 +759,6 @@ export const userActions = {
     requestNewLicense,
     createAdminUser,
     changeMessage,
-    register,
-    changeRegisterStep
-
+    changeStep,
+    register
 };

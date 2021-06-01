@@ -63,6 +63,7 @@ type ActionType = {
     type: string,
     user: { username: string, id: number, avatar: string, isSuperuser: boolean },
     registerStep?: number,
+    registerMessage?: string,
     id?: string
     isAuthenticated?: boolean,
     data: any[],
@@ -202,10 +203,11 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 registerMessage: action.message,
             }
-        case userTypes.CHANGE_REGISTER_STEP:
+        case userTypes.CHANGE_STEP:
             return {
                 ...state,
-                registerStep: action.step
+                registerStep: action.registerStep,
+                registerMessage: action.registerMessage
             }
         default:
             return state;

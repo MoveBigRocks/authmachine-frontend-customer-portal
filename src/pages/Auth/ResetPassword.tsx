@@ -45,7 +45,7 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
                 <div>
                     <div className="space-between sign-type-panel">
                         <Switcher link="/" active title="Sign In"/>
-                        <Switcher link="/registration" title="Register"/>
+                        <Switcher link="/register" title="Register"/>
                     </div>
                     <div style={{marginTop: '30px'}}>
                         <Form form={form} onFinish={onFinish}>
@@ -64,7 +64,7 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
                             </Form.Item>
                             <Form.Item>
                                 <div className="form-context-q">
-                                    Didn't recieve the recovery link? <Link to="/registration">Resend it</Link>
+                                    Didn't recieve the recovery link? <Link to="/register">Resend it</Link>
                                 </div>
                             </Form.Item>
 

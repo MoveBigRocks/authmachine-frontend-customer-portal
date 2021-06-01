@@ -59,7 +59,7 @@ const SignIn = (props: SignInProps) => {
     }, [form, isAuthenticated, message]);
 
     if (registerStep !== 0) {
-        changeRegisterStep(0);
+        changeRegisterStep(0, '');
     }
 
 
@@ -110,7 +110,6 @@ const SignIn = (props: SignInProps) => {
                             </div>
                         </Form>
                     </div>
-
                 </div>
             </div>
             <div className="additional-actions form-content">
@@ -137,7 +136,7 @@ const mapDispatchToProps = {
     login: userActions.login,
     setPageTitle: mainActions.setPageTitle,
     setSystemInformation: mainActions.setSystemInformation,
-    changeRegisterStep: userActions.changeRegisterStep
+    changeRegisterStep: userActions.changeStep
 };
 
 export default connect(
