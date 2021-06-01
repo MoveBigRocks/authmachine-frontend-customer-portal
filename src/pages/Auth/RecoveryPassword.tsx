@@ -61,11 +61,11 @@ const RecoveryPassword = (props: RecoveryPasswordProps) => {
                            rules={[{ required: true, message: "Please input confirm password" }]}>
                     <Password size="large" placeholder="Confirm new password" />
                 </Form.Item>
+                {(!status && message !== "") && <Alert style={{marginTop: 20, marginBottom:20}} message={message} type="error" showIcon />}
+                {(status && message !== "") && <Alert style={{marginTop: 20, marginBottom:20}} message={message} type="success" showIcon />}
                 <Form.Item style={{marginBottom: 0}}>
                     <Button type="primary" size="large" htmlType="submit">Submit New Password</Button>
                 </Form.Item>
-                {(!status && message !== "") && <Alert style={{marginTop: 20}} message={message} type="error" showIcon />}
-                {(status && message !== "") && <Alert style={{marginTop: 20}} message={message} type="success" showIcon />}
             </Form>
         </div>
     )

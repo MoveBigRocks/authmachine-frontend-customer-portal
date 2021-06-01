@@ -64,7 +64,7 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
                             </Form.Item>
                             <Form.Item>
                                 <div className="form-context-q">
-                                    Didn't recieve the recovery link? <Link to="/registration">Resend it</Link>
+                                    Didn't recieve the recovery link? <Link to="/register">Resend it</Link>
                                 </div>
                             </Form.Item>
 

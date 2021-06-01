@@ -112,7 +112,6 @@ const SignIn = (props: SignInProps) => {
                             </div>
                         </Form>
                     </div>
-
                 </div>
             </div>
             <div className="additional-actions form-content">
