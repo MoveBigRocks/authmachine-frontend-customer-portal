@@ -17,10 +17,12 @@ const RegisterStepThree = ({register, isRegister, message, changeMessage, id, st
     const [passwordCheckerStatus, setPasswordCheckedStatus] = useState(false);
 
     const onFinish = (values: any) => {
-        if (passwordLevel === 'medium' || passwordLevel === 'strong') {
-            register({...values, userId: id});
-        } else {
+        if (passwordLevel !== 'medium' && passwordLevel !== 'strong') {
             changeMessage("Password is too weak!");
+        } else if (values.password !== values.confirmPassword) {
+            changeMessage("The passwords entered do not match!");
+        } else {
+            register({...values, userId: id});
         }
     };
 
@@ -56,11 +58,11 @@ const RegisterStepThree = ({register, isRegister, message, changeMessage, id, st
         return /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>_-])(?=.{8,})/.test(password);
     };
 
-    const onChangeConfirmPassword = (e: React.FormEvent<HTMLInputElement>) => {
-        if (form.getFieldValue('password') === e.currentTarget.value) {
-            changeMessage("The passwords entered do not match");
-        }
-    };
+    // const onChangeConfirmPassword = (e: React.FormEvent<HTMLInputElement>) => {
+    //     if (form.getFieldValue('password') === e.currentTarget.value) {
+    //         changeMessage("The passwords entered do not match");
+    //     }
+    // };
 
     return (
         <Form form={form} onFinish={onFinish}>
@@ -80,8 +82,7 @@ const RegisterStepThree = ({register, isRegister, message, changeMessage, id, st
             </Form.Item>
             <Form.Item name="confirmPassword"
                        rules={[{required: true, message: "Please confirm a password"}]}>
-                <FormInput label="Confirm password" type="password" name="password" placeholder="Confirm password"
-                           onChange={onChangeConfirmPassword}/>
+                <FormInput label="Confirm password" type="password" name="password" placeholder="Confirm password"/>
             </Form.Item>
 
             <PrivacyPolicies form={form} formType="activation"/>
