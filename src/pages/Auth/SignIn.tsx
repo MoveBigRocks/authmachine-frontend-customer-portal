@@ -65,10 +65,10 @@ const SignIn = (props: SignInProps) => {
 
     return (
         <div className="form-container auth-form">
-            <div className="head-panel">
-                <BackIcon display/>
-                <CrossIcon/>
-            </div>
+            {/*<div className="head-panel">*/}
+            {/*    <BackIcon display/>*/}
+            {/*    <CrossIcon/>*/}
+            {/*</div>*/}
             <div className="form-content">
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo"/>
@@ -112,9 +112,9 @@ const SignIn = (props: SignInProps) => {
                     </div>
                 </div>
             </div>
-            <div className="additional-actions form-content">
-                <SocialAccounts type="login"/>
-            </div>
+            {/*<div className="additional-actions form-content">*/}
+            {/*    <SocialAccounts type="login"/>*/}
+            {/*</div>*/}
         </div>
     )
 };

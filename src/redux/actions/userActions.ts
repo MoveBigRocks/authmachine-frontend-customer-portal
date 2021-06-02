@@ -192,7 +192,7 @@ const registerStepOne = (values: {
     return (dispatch: AppDispatch) => {
         let query = `mutation {
           registerStepOne(input: {
-            firstName: "${firstName}",
+            firstname: "${firstName}",
             email: "${email}",
             ${additionalRegistrationData ? `additionalRegistrationData: ${JSON.stringify(JSON.stringify(additionalRegistrationData))}` : ""}
           }) {

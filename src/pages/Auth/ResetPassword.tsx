@@ -6,14 +6,15 @@ import {RootState} from "../../redux/reducer";
 import {userActions} from "../../redux/actions/userActions";
 import {ResetPasswordProps} from "../../interfaces/auth/resetPassword";
 import {mainActions} from "../../redux/actions/mainActions";
-import BackIcon from "../../components/Icons/BackIcon/BackIcon";
-import CrossIcon from "../../components/Icons/CrossIcon/CrossIcon";
+// import BackIcon from "../../components/Icons/BackIcon/BackIcon";
+// import CrossIcon from "../../components/Icons/CrossIcon/CrossIcon";
 import Switcher from "../../components/Auth/Switcher/Switcher";
 import FormInput from "../../components/Auth/FormInput/FormInput";
 import {Link, Redirect} from "react-router-dom";
-import SocialAccounts from "../../components/Auth/SocialAccounts";
+import MessageLabel from "../../components/Auth/MessageLabel/MessageLabel";
+// import SocialAccounts from "../../components/Auth/SocialAccounts";
 
-const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps) => {
+const ResetPassword = ({status, resetPassword, setPageTitle, message}: ResetPasswordProps) => {
     const [form] = Form.useForm();
     const [done, setDone] = useState(false);
 
@@ -34,10 +35,10 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
 
     return (
         <div className="form-container auth-form">
-            <div className="head-panel">
-                <BackIcon display/>
-                <CrossIcon/>
-            </div>
+            {/*<div className="head-panel">*/}
+            {/*    <BackIcon display/>*/}
+            {/*    <CrossIcon/>*/}
+            {/*</div>*/}
             <div className="form-content">
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo"/>
@@ -56,6 +57,11 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
                                 </Typography.Text>
                             </Form.Item>
                             <Typography.Title level={3} style={{marginBottom: 25}}>Password Recovery</Typography.Title>
+                            {message !== "" ?
+                                <Form.Item>
+                                    <MessageLabel level={status ? 'success' : 'error'} message={message}/>
+                                </Form.Item>
+                                : null}
                             <Form.Item name="username"
                                        rules={[{required: true, message: "Please input your username"}]}>
 
@@ -80,9 +86,10 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
 };
 
 const mapStateToProps = (state: RootState) => {
-    const {operationStatus} = state.user;
+    const {operationStatus, message} = state.user;
     return {
         status: operationStatus,
+        message: message
     }
 };
 
