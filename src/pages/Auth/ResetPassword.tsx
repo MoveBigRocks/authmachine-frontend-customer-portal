@@ -34,10 +34,10 @@ const ResetPassword = ({status, resetPassword, setPageTitle}: ResetPasswordProps
 
     return (
         <div className="form-container auth-form">
-            <div className="head-panel">
-                <BackIcon display/>
-                <CrossIcon/>
-            </div>
+            {/*<div className="head-panel">*/}
+            {/*    <BackIcon display/>*/}
+            {/*    <CrossIcon/>*/}
+            {/*</div>*/}
             <div className="form-content">
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo"/>
