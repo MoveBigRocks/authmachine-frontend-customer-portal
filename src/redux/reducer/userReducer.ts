@@ -196,12 +196,14 @@ const userReducer = (state = initialState, action: ActionType) => {
             return {
                 ...state,
                 registerMessage: action.message,
-                registerStep: action.registerStep
+                registerStep: action.registerStep,
+                message: action.message
             }
         case userTypes.CHANGE_MESSAGE:
             return {
                 ...state,
                 registerMessage: action.message,
+                message: action.message
             }
         case userTypes.CHANGE_STEP:
             return {
