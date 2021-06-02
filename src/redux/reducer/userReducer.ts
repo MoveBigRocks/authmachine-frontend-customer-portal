@@ -30,7 +30,9 @@ type UserState = {
     newLicenseData: infoStatusResponse,
     activateLicenseData: infoStatusResponse,
     createAdminUserData: infoStatusResponse,
-    userId: string
+    userId: string,
+    resetStep: number,
+    resetId: string
 }
 
 const initialState: UserState = {
@@ -56,7 +58,9 @@ const initialState: UserState = {
     newLicenseData: emptyMessage,
     activateLicenseData: emptyMessage,
     createAdminUserData: emptyMessage,
-    userId: ""
+    userId: "",
+    resetStep: 0,
+    resetId: ""
 }
 
 type ActionType = {
@@ -69,8 +73,10 @@ type ActionType = {
     data: any[],
     status: boolean,
     message?: string,
-    infoStatus: {status: boolean, message: string},
-    step: number
+    infoStatus: { status: boolean, message: string },
+    step: number,
+    resetStep: number,
+    resetId: string
 }
 
 const userReducer = (state = initialState, action: ActionType) => {
@@ -208,6 +214,13 @@ const userReducer = (state = initialState, action: ActionType) => {
                 ...state,
                 registerStep: action.registerStep,
                 registerMessage: action.registerMessage
+            }
+        case userTypes.RESET_PASSWORD_:
+            return {
+                ...state,
+                resetStep: action.resetStep,
+                message: action.message,
+                resetId: action.resetId ? action.resetId : ''
             }
         default:
             return state;
