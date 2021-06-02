@@ -5,9 +5,9 @@ import Switcher from "../../components/Auth/Switcher/Switcher";
 import {RegistrationStepsProps} from "../../interfaces/auth/registration";
 import {mainActions} from "../../redux/actions/mainActions";
 import {connect} from "react-redux";
-import CrossIcon from "../../components/Icons/CrossIcon/CrossIcon";
-import BackIcon from "../../components/Icons/BackIcon/BackIcon";
-import SocialAccounts from "../../components/Auth/SocialAccounts";
+// import CrossIcon from "../../components/Icons/CrossIcon/CrossIcon";
+// import BackIcon from "../../components/Icons/BackIcon/BackIcon";
+// import SocialAccounts from "../../components/Auth/SocialAccounts";
 import "../../components/Auth/Auth.scss";
 import RegisterStepOne from "../../components/Auth/RegistrationSteps/RegisterStepOne";
 import RegisterStepTwo from "../../components/Auth/RegistrationSteps/RegisterStepTwo";
@@ -31,10 +31,10 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
 
     return (
         <div className="form-container auth-form">
-            <div className="head-panel">
-                <BackIcon display/>
-                <CrossIcon/>
-            </div>
+            {/*<div className="head-panel">*/}
+            {/*    <BackIcon display/>*/}
+            {/*    <CrossIcon/>*/}
+            {/*</div>*/}
             <div className="form-content">
                 <div className="text-center">
                     <img src={Logo} alt="AuthMachine" className="logo"/>
@@ -51,9 +51,9 @@ const RegistrationSteps = ({step, setPageTitle}: RegistrationStepsProps) => {
 
                 </div>
             </div>
-            <div className="additional-actions form-content">
-                <SocialAccounts type="register"/>
-            </div>
+            {/*<div className="additional-actions form-content">*/}
+            {/*    <SocialAccounts type="register"/>*/}
+            {/*</div>*/}
         </div>
     )
 }

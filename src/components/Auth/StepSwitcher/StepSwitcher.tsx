@@ -17,7 +17,6 @@ function StepTemplate({step, description, valid, current}: StepProps) {
         {valid ? (
             <div className={"full-blue-border-wrapper"}/>
         ) : (<div className="grey-border-wrapper">
-            <div className={current ? "border-wrapper blue-border-wrapper" : "border-wrapper"}/>
             <div className={current ? "content-wrapper content-wrapper-blue" : "content-wrapper"}>{step}</div>
         </div>)
         }
@@ -43,3 +42,9 @@ const StepWidget = ({first, second, third, step}: StepSwitcherProps) => {
 };
 
 export default StepWidget;
+
+
+// (<div className="grey-border-wrapper">
+//     <div className={current ? "border-wrapper blue-border-wrapper" : "border-wrapper"}/>
+//     <div className={current ? "content-wrapper content-wrapper-blue" : "content-wrapper"}>{step}</div>
+// </div>)
