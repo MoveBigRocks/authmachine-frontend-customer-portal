@@ -151,6 +151,7 @@ const login = (values: { username: string, password: string, remember: boolean }
           }
         }`;
 
+        console.log('login');
         const setLogin = (status: boolean, message: string = "") =>
             dispatch({
                 type: userTypes.USER_LOGIN,
@@ -265,7 +266,7 @@ const registerStepThree = (values: {
     userId: string
     username: string
     password: string,
-}) => {
+}, nextUrl: string | null = null) => {
     const {username, password, userId} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
@@ -292,6 +293,12 @@ const registerStepThree = (values: {
             (result: any) => {
                 let {success, message} = result.data.registerStepThree;
                 setRegisterStepThree(success, message);
+                if (success) {
+                    setTimeout(() => {
+                        // @ts-ignore
+                        dispatch(userActions.login({username, password, remember: false}, nextUrl));
+                    }, 1000);
+                }
             },
             (error: any) => {
                 error = request.isServerError(error);
@@ -314,11 +321,10 @@ const activationFailed = (userId: string) => {
             dispatch,
             query,
             (result: any) => {
-                let {success} = result.data.registerStepThree;
+                let {success} = result.data.activationFailed;
                 console.log(success)
             },
-            (error: any) => {
-                error = request.isServerError(error);
+            () => {
                 console.log(false);
             });
     }

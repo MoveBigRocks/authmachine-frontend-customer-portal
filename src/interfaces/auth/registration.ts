@@ -1,5 +1,3 @@
-import {message} from "antd";
-
 interface RegistrationProps {
     isRegister: boolean,
     message: string,
@@ -52,10 +50,16 @@ interface RegisterStepThreeProps {
         userId: string,
         username: string,
         password: string
-    }) => void,
+    }, nextUrl: string | null) => void,
     changeMessage: (message: string) => void,
     id: string
 }
 
 
-export type {RegisterStepOneProps, RegisterStepTwoProps, RegisterStepThreeProps, RegistrationStepsProps, RegistrationProps};
+export type {
+    RegisterStepOneProps,
+    RegisterStepTwoProps,
+    RegisterStepThreeProps,
+    RegistrationStepsProps,
+    RegistrationProps
+};
