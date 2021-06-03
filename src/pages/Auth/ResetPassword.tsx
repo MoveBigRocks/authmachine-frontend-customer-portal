@@ -15,7 +15,7 @@ import ResetPasswordSuccess from "../../components/Auth/ResetPassword/ResetPassw
 import {userActions} from "../../redux/actions/userActions";
 // import SocialAccounts from "../../components/Auth/SocialAccounts";
 
-const ResetPassword = ({setPageTitle, step, changeMessage}: ResetPasswordProps) => {
+const ResetPassword = ({setPageTitle, step, changeMessage, changeStep}: ResetPasswordProps) => {
 
     useEffect(() => {
         setPageTitle("Password Reset");
@@ -23,6 +23,7 @@ const ResetPassword = ({setPageTitle, step, changeMessage}: ResetPasswordProps) 
     }, [setPageTitle]);
 
     if (step === 3) {
+        changeStep(0, '');
         return <Redirect to={'/'}/>
     }
 
@@ -71,7 +72,8 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     setPageTitle: mainActions.setPageTitle,
-    changeMessage: userActions.changeMessage
+    changeMessage: userActions.changeMessage,
+    changeStep: userActions.changeResetStep
 }
 
 export default connect(

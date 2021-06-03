@@ -1,9 +1,8 @@
-import {message} from "antd";
-
 interface ResetPasswordProps {
     step: number,
     setPageTitle: (pageTitle: string) => void,
-    changeMessage: (message: string) => void
+    changeMessage: (message: string) => void,
+    changeStep: (step: number, message: string) => void
 }
 
 interface ResetPasswordStepOneProps {
