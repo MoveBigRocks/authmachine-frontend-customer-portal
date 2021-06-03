@@ -99,9 +99,9 @@ const RegisterStepThree = ({register, isRegister, message, changeMessage, id, st
 };
 
 const mapStateToProps = (state: any) => {
-    const {registerMessage, isRegister, id, status} = state.user;
+    const {message, isRegister, id, status} = state.user;
     return {
-        message: registerMessage,
+        message: message,
         isRegister,
         id,
         status

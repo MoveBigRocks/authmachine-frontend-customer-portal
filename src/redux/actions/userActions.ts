@@ -269,8 +269,7 @@ const registerStepThree = (values: {
     const {username, password, userId} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
-          registerStepThree(input: {
-          
+          registerStepThree(input: {   
             username: "${username}",
             password: "${password}",
             id: "${userId}",
@@ -301,6 +300,30 @@ const registerStepThree = (values: {
     }
 };
 
+const activationFailed = (userId: string) => {
+    return (dispatch: AppDispatch) => {
+        let query = `mutation {
+          activationFailed(input: {
+            id: "${userId}",
+          }) {
+            success, message
+          }
+        }`;
+
+        request.postWithoutErrors(
+            dispatch,
+            query,
+            (result: any) => {
+                let {success} = result.data.registerStepThree;
+                console.log(success)
+            },
+            (error: any) => {
+                error = request.isServerError(error);
+                console.log(false);
+            });
+    }
+}
+
 const resetPasswordStepOne = (values: { username: string }) => {
     const {username} = values;
     return (dispatch: AppDispatch) => {
@@ -312,11 +335,11 @@ const resetPasswordStepOne = (values: { username: string }) => {
           }
         }`;
 
-        const setResetStatus = (status: boolean, message: string = "", resetId: string) =>
+        const setResetStatus = (status: boolean, message: string, resetId: string) =>
             dispatch({
-                type: userTypes.RESET_PASSWORD,
+                type: userTypes.RESET_PASSWORD_,
                 status,
-                message,
+                message: status ? "" : message,
                 resetId,
                 resetStep: status ? 1 : 0
             });
@@ -325,7 +348,8 @@ const resetPasswordStepOne = (values: { username: string }) => {
             dispatch,
             query,
             (result: any) => {
-                let {success, message, resetId} = result.data.resetPassword;
+                let {success, message, resetId} = result.data.resetPasswordStepOne;
+                console.log(result.data);
                 setResetStatus(success, message, resetId);
             },
             (error: any) => {
@@ -339,7 +363,7 @@ const resetPasswordStepTwo = (values: { resetId: string, code: string }) => {
     const {resetId, code} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
-          resetPasswordStepOne(input: {
+          resetPasswordStepTwo(input: {
             resetId: "${resetId}",
             code: "${code}"
           }) {
@@ -347,11 +371,11 @@ const resetPasswordStepTwo = (values: { resetId: string, code: string }) => {
           }
         }`;
 
-        const setResetStatus = (status: boolean, message: string = "", resetId: string) =>
+        const setResetStatus = (status: boolean, message: string, resetId: string) =>
             dispatch({
-                type: userTypes.RESET_PASSWORD,
+                type: userTypes.RESET_PASSWORD_,
                 status,
-                message,
+                message: status ? "" : message,
                 resetId,
                 resetStep: status ? 2 : 1
             });
@@ -360,7 +384,7 @@ const resetPasswordStepTwo = (values: { resetId: string, code: string }) => {
             dispatch,
             query,
             (result: any) => {
-                let {success, message, resetId} = result.data.resetPassword;
+                let {success, message, resetId} = result.data.resetPasswordStepTwo;
                 setResetStatus(success, message, resetId);
             },
             (error: any) => {
@@ -383,9 +407,9 @@ const resetPasswordStepThree = (values: { resetId: string, password: string, con
           }
         }`;
 
-        const setResetStatus = (status: boolean, message: string = "") =>
+        const setResetStatus = (status: boolean, message: string) =>
             dispatch({
-                type: userTypes.RESET_PASSWORD,
+                type: userTypes.RESET_PASSWORD_STEP_THREE,
                 status,
                 message,
                 resetStep: status ? 3 : 2
@@ -395,7 +419,7 @@ const resetPasswordStepThree = (values: { resetId: string, password: string, con
             dispatch,
             query,
             (result: any) => {
-                let {success, message} = result.data.resetPassword;
+                let {success, message} = result.data.resetPasswordStepThree;
                 setResetStatus(success, message);
             },
             (error: any) => {
@@ -565,9 +589,21 @@ const changeStep = (step: number, message: string) => {
             {
                 type: userTypes.CHANGE_STEP,
                 registerStep: step,
-                registerMessage: message
+                message: message
             }
         );
+    }
+}
+
+const changeResetStep = (step: number, message: string) => {
+    return (dispatch: AppDispatch) => {
+        dispatch(
+            {
+                type: userTypes.CHANGE_RESET_STEP,
+                resetStep: step,
+                message: message
+            }
+        )
     }
 }
 
@@ -818,6 +854,8 @@ export const userActions = {
     getFeaturesList,
     logout,
     resetPasswordStepOne,
+    resetPasswordStepTwo,
+    resetPasswordStepThree,
     recoveryPassword,
     activationFirstStep,
     activationSecondStep,
@@ -831,5 +869,7 @@ export const userActions = {
     createAdminUser,
     changeMessage,
     changeStep,
-    register
+    register,
+    changeResetStep,
+    activationFailed
 };

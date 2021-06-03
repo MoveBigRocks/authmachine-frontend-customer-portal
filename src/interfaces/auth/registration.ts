@@ -1,3 +1,5 @@
+import {message} from "antd";
+
 interface RegistrationProps {
     isRegister: boolean,
     message: string,
@@ -14,7 +16,8 @@ interface RegistrationProps {
 interface RegistrationStepsProps {
     isRegister: boolean,
     step: number,
-    setPageTitle: (pageTitle: string) => void
+    setPageTitle: (pageTitle: string) => void,
+    changeMessage: (message: string) => void
 }
 
 interface RegisterStepOneProps {
@@ -37,7 +40,8 @@ interface RegisterStepTwoProps {
     message: string,
     id: string,
     changeMessage: (message: string) => void,
-    changeStep: (step: number, message: string) => void
+    changeStep: (step: number, message: string) => void,
+    activationFailed: (userId: string) => void
 }
 
 interface RegisterStepThreeProps {

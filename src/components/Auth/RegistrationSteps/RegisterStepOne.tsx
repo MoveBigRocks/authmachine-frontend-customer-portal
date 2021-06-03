@@ -54,9 +54,9 @@ const RegisterStepOne = ({register, isRegister, message, status}: RegisterStepOn
 }
 
 const mapStateToProps = (state: any) => {
-    const {registerMessage, isRegister,status} = state.user;
+    const {message, isRegister,status} = state.user;
     return {
-        message: registerMessage,
+        message: message,
         isRegister,
         status
     };

@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Form, Input, Typography, Button, Alert, Checkbox} from "antd";
+import {Form, Typography, Button} from "antd";
 import {RootState} from "../../../redux/reducer";
 import {userActions} from "../../../redux/actions/userActions";
 import {ResetPasswordStepOneProps} from "../../../interfaces/auth/resetPassword";
 import {mainActions} from "../../../redux/actions/mainActions";
 import FormInput from "../FormInput/FormInput";
 import {Link} from "react-router-dom";
+import MessageLabel from "../MessageLabel/MessageLabel";
 
 
-const ResetPasswordStepOne = ({status, resetPasswordStepOne, }: ResetPasswordStepOneProps) => {
+const ResetPasswordStepOne = ({status, resetPasswordStepOne, message}: ResetPasswordStepOneProps) => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => resetPasswordStepOne(values);
@@ -29,6 +30,9 @@ const ResetPasswordStepOne = ({status, resetPasswordStepOne, }: ResetPasswordSte
                 </Typography.Text>
             </Form.Item>
             <Typography.Title level={3} style={{marginBottom: 25}}>Password Recovery</Typography.Title>
+            {message !== "" ? (
+                <MessageLabel level="error" message={message}/>
+            ) : null}
             <Form.Item name="username"
                        rules={[{required: true, message: "Please input your username"}]}>
 
@@ -49,9 +53,10 @@ const ResetPasswordStepOne = ({status, resetPasswordStepOne, }: ResetPasswordSte
 }
 
 const mapStateToProps = (state: RootState) => {
-    const {operationStatus} = state.user;
+    const {operationStatus, message} = state.user;
     return {
         status: operationStatus,
+        message
     }
 };
 

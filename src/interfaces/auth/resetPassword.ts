@@ -1,22 +1,32 @@
+import {message} from "antd";
+
 interface ResetPasswordProps {
     step: number,
     setPageTitle: (pageTitle: string) => void,
+    changeMessage: (message: string) => void
 }
 
 interface ResetPasswordStepOneProps {
     status: boolean,
-    resetPasswordStepOne: (values: {username: string}) => void,
-
+    message: string,
+    resetPasswordStepOne: (values: { username: string }) => void,
 }
 
 interface ResetPasswordStepTwoProps {
     status: boolean,
-    resetPasswordStepTwo: (values: {code: string, id: string}) => void
+    message: string,
+    resetId: string,
+    resetPasswordStepTwo: (values: { code: string, resetId: string }) => void,
+    changeResetStep: (step: number, message: string) => void,
+    changeMessage: (message: string) => void
 }
 
 interface ResetPasswordStepThreeProps {
     status: boolean,
-    resetPasswordStepThree: (values: {password: string, confirmPassword: string, id: string}) => void
+    message: string,
+    resetId: string,
+    resetPasswordStepThree: (values: { password: string, confirmPassword: string, resetId: string }) => void
+    changeMessage: (message: string) => void
 }
 
 export type {ResetPasswordProps, ResetPasswordStepOneProps, ResetPasswordStepTwoProps, ResetPasswordStepThreeProps};

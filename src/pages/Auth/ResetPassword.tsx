@@ -7,14 +7,20 @@ import {mainActions} from "../../redux/actions/mainActions";
 // import BackIcon from "../../components/Icons/BackIcon/BackIcon";
 // import CrossIcon from "../../components/Icons/CrossIcon/CrossIcon";
 import Switcher from "../../components/Auth/Switcher/Switcher";
-import FormInput from "../../components/Auth/FormInput/FormInput";
 import {Link, Redirect} from "react-router-dom";
 import ResetPasswordStepOne from "../../components/Auth/ResetPassword/ResetPasswordStepOne";
+import ResetPasswordStepTwo from "../../components/Auth/ResetPassword/ResetPasswordStepTwo";
+import ResetPasswordStepThree from "../../components/Auth/ResetPassword/ResetPasswordStepThree";
+import ResetPasswordSuccess from "../../components/Auth/ResetPassword/ResetPasswordSuccess";
+import {userActions} from "../../redux/actions/userActions";
 // import SocialAccounts from "../../components/Auth/SocialAccounts";
 
-const ResetPassword = ({setPageTitle, step}: ResetPasswordProps) => {
+const ResetPassword = ({setPageTitle, step, changeMessage}: ResetPasswordProps) => {
 
-    useEffect(() => setPageTitle("Password Reset"), [setPageTitle]);
+    useEffect(() => {
+        setPageTitle("Password Reset");
+        changeMessage('');
+    }, [setPageTitle]);
 
     if (step === 3) {
         return <Redirect to={'/'}/>
@@ -22,8 +28,9 @@ const ResetPassword = ({setPageTitle, step}: ResetPasswordProps) => {
 
     const resetSteps = {
         0: <ResetPasswordStepOne/>,
-        1: 1,
-        2: 2
+        1: <ResetPasswordStepTwo/>,
+        2: <ResetPasswordStepThree/>,
+        3: <ResetPasswordSuccess/>
     }
 
     const getStep = (step: number) => {
@@ -64,6 +71,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = {
     setPageTitle: mainActions.setPageTitle,
+    changeMessage: userActions.changeMessage
 }
 
 export default connect(
