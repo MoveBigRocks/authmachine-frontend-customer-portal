@@ -68,7 +68,7 @@ const ResetPasswordStepThree = ({
 
     return (
         <>
-            <Typography.Title level={3}>New Password</Typography.Title>
+            <Typography.Title style={{marginBottom: 30}} level={3}>New Password</Typography.Title>
             {message !== "" ?
                 <Alert style={{marginTop: 20, marginBottom: 20}} message={message} type={status ? "success" : "error"}
                        showIcon/> : null}

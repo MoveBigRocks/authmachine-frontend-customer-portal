@@ -14,22 +14,15 @@ const ResetPasswordStepTwo = ({
                                   status,
                                   resetId,
                                   message,
-                                  changeResetStep,
-                                  changeMessage
+                                  changeMessage,
+                                  attempt
                               }: ResetPasswordStepTwoProps) => {
     const [form] = Form.useForm();
     const [code, setCode] = useState('      ');
-    const [attempt, setAttempt] = useState(0);
 
     const onFinish = () => {
         if (validate(code)) {
-            resetPasswordStepTwo({code: code, resetId});
-            setTimeout(() => {
-                if (!status) {
-                    if (attempt < 1) setAttempt(attempt + 1);
-                    else changeResetStep(0, "You've entered wrong password reset code twice. Please try a new password reset code.");
-                }
-            }, 1000);
+            resetPasswordStepTwo({code: code, resetId, attempt});
         } else {
             changeMessage("Activation code is incorrect!");
         }
@@ -67,7 +60,7 @@ const ResetPasswordStepTwo = ({
                 <MessageLabel level={status ? "success" : "error"} message={message}/>
             ) : <MessageLabel
                 level="info"
-                message="Please check your email for six digit reset password code"
+                message="Please check your email for six-digit code"
             />}
             <Form.Item name="code"
                        rules={[{required: true, message: "Type your code"}]}>
@@ -100,11 +93,12 @@ const ResetPasswordStepTwo = ({
 }
 
 const mapStateToProps = (state: RootState) => {
-    const {operationStatus, resetId, message} = state.user;
+    const {operationStatus, resetId, message, codeAttempt} = state.user;
     return {
         status: operationStatus,
         resetId,
-        message
+        message,
+        attempt: codeAttempt
     }
 };
 
@@ -112,7 +106,6 @@ const mapDispatchToProps = {
     resetPasswordStepTwo: userActions.resetPasswordStepTwo,
     setPageTitle: mainActions.setPageTitle,
     changeMessage: userActions.changeMessage,
-    changeResetStep: userActions.changeResetStep
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordStepTwo);

@@ -15,9 +15,9 @@ interface ResetPasswordStepTwoProps {
     status: boolean,
     message: string,
     resetId: string,
-    resetPasswordStepTwo: (values: { code: string, resetId: string }) => void,
-    changeResetStep: (step: number, message: string) => void,
-    changeMessage: (message: string) => void
+    resetPasswordStepTwo: (values: { code: string, resetId: string, attempt: number }) => void,
+    changeMessage: (message: string) => void,
+    attempt: number
 }
 
 interface ResetPasswordStepThreeProps {
