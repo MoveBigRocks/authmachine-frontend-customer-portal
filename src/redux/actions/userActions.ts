@@ -258,6 +258,8 @@ const registerStepTwo = (values: {
                 if (!success) {
                     if (attempt >= 1) {
                         // @ts-ignore
+                        dispatch(userActions.activationFailed(id));
+                        // @ts-ignore
                         dispatch(userActions.changeStep(0, 'Please try a new verification code.'));
                         // @ts-ignore
                         dispatch(userActions.changeAttempt(0));
@@ -380,7 +382,6 @@ const resetPasswordStepOne = (values: { username: string }) => {
             query,
             (result: any) => {
                 let {success, message, resetId} = result.data.resetPasswordStepOne;
-                console.log(result.data);
                 setResetStatus(success, message, resetId);
             },
             (error: any) => {
@@ -436,7 +437,7 @@ const resetPasswordStepTwo = (values: { resetId: string, code: string, attempt: 
     }
 };
 
-const resetPasswordStepThree = (values: { resetId: string, password: string, confirmPassword: string }) => {
+const resetPasswordStepThree = (values: { resetId: string, password: string, confirmPassword: string }, nextUrl: string | null) => {
     const {resetId, password, confirmPassword} = values;
     return (dispatch: AppDispatch) => {
         let query = `mutation {
@@ -445,7 +446,7 @@ const resetPasswordStepThree = (values: { resetId: string, password: string, con
             password: "${password}",
             confirmPassword: "${confirmPassword}"
           }) {
-            success, message
+            success, message, username
           }
         }`;
 
@@ -464,8 +465,14 @@ const resetPasswordStepThree = (values: { resetId: string, password: string, con
             dispatch,
             query,
             (result: any) => {
-                let {success, message} = result.data.resetPasswordStepThree;
+                let {success, message, username} = result.data.resetPasswordStepThree;
                 setResetStatus(success, message);
+                if (success) {
+                    setTimeout(() => {
+                        // @ts-ignore
+                        dispatch(userActions.login({username, password, remember: false}, nextUrl));
+                    }, 1000);
+                }
             },
             (error: any) => {
                 error = request.isServerError(error);

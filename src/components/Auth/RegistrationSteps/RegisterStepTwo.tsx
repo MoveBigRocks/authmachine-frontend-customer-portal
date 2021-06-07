@@ -84,7 +84,9 @@ const RegisterStepTwo = ({
                 </Form.Item>
 
                 <div className="form-context-q">
-                    Didn’t recieve the code? <Link to="/">Resend it</Link>
+                    Didn’t recieve the code? <Link to="/register" onClick={() => {
+                        changeStep(0, '');
+                }}>Resend it</Link>
                 </div>
 
             </Form.Item>

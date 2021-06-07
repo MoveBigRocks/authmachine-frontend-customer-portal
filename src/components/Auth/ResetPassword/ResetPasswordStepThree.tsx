@@ -30,7 +30,8 @@ const ResetPasswordStepThree = ({
         } else if (values.password !== values.confirmPassword) {
             changeMessage("The passwords entered do not match!");
         } else {
-            resetPasswordStepThree({...values, resetId});
+            let nextUrl = localStorage.getItem('nextUrl') ? localStorage.getItem('nextUrl') : null;
+            resetPasswordStepThree({...values, resetId}, nextUrl);
         }
     };
 

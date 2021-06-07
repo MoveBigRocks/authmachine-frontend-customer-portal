@@ -15,7 +15,8 @@ const ResetPasswordStepTwo = ({
                                   resetId,
                                   message,
                                   changeMessage,
-                                  attempt
+                                  attempt,
+                                  changeStep
                               }: ResetPasswordStepTwoProps) => {
     const [form] = Form.useForm();
     const [code, setCode] = useState('      ');
@@ -81,7 +82,9 @@ const ResetPasswordStepTwo = ({
                            value={code[5]}/>
                 </Form.Item>
                 <div className="form-context-q">
-                    Didn’t recieve the code? <Link to="/">Resend it</Link>
+                    Didn’t recieve the code? <Link to="/reset-password" onClick={() => {
+                    changeStep(0, '');
+                }}>Resend it</Link>
                 </div>
 
             </Form.Item>
@@ -106,6 +109,7 @@ const mapDispatchToProps = {
     resetPasswordStepTwo: userActions.resetPasswordStepTwo,
     setPageTitle: mainActions.setPageTitle,
     changeMessage: userActions.changeMessage,
+    changeStep: userActions.changeResetStep
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordStepTwo);
