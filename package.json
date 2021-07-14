@@ -19,6 +19,8 @@
     "axios": "^0.19.2",
     "check-password-strength": "^2.0.3",
     "html-react-parser": "^1.2.1",
+    "mailslurp": "0.0.1-security",
+    "mailslurp-client": "^12.4.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -35,6 +37,7 @@
     "webpack-livereload-plugin": "^2.3.0"
   },
   "devDependencies": {
+    "cypress": "^7.7.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.5.1",
     "mini-css-extract-plugin": "^0.9.0",
