@@ -118,4 +118,14 @@ describe("Sign up", () => {
   it("Test Logout", () => {
     cy.get('.ant-layout-header').find('button').click()
   })
+
+  
+it("Test SignIn", () => {
+  cy.visit("https://auth.openunited.com/")
+    cy.contains("Register");
+    cy.get('input').first().type(name).should('have.value', name)
+    cy.get('input').eq(1).type('admin12345').should('have.value', 'admin12345')
+    cy.get('button').contains('Sign in').click()
+    cy.get('.customer-portal').find("a").contains('Change Password')
+  });
   });
