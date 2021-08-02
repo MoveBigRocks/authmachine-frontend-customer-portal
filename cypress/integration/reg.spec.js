@@ -123,6 +123,7 @@ describe("Sign up", () => {
 it("Test SignIn", () => {
   cy.visit("https://auth.openunited.com/")
     cy.contains("Register");
+    cy.get('a').contains('Sign In').click()
     cy.get('input').first().type(name).should('have.value', name)
     cy.get('input').eq(1).type('admin12345').should('have.value', 'admin12345')
     cy.get('button').contains('Sign in').click()
